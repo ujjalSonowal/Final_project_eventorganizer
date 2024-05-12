@@ -1,0 +1,87 @@
+nav {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navbar-container {
+  position: relative;
+  overflow: hidden;
+  height: 70px;
+  /* You can adjust the height to fit your design */
+  background-color: #f8f9fa;
+  /* You can adjust the background color for your design */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  /* You can adjust the shadow to fit your design */
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  list-style: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  list-style: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  gap: 25px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-item {
+  margin: 0 10px;
+  /* margin-left: -100px; */
+  align-items: center;
+}
+
+.nav-link {
+  color: #333;
+  align-items: center;
+  text-decoration: none;
+  list-style: none;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link.active {
+  color: #007bff;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: end;
+  align-items: center;
+  margin-right: 4rem;
+}
+
+.profile .icon {
+  width: 30px;
+  height: 90%;
+  cursor: pointer;
+}
+
+.icons {
+  margin-inline-end: -800px;
+}

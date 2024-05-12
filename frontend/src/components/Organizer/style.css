@@ -1,0 +1,117 @@
+/* OrganizerCard.css */
+
+.organizer-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.organizer-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.organizer-card p {
+  margin: 0;
+}
+
+.organizer-card strong {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.organizer-card strong {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.details-container {
+  display: none;
+  /* Initially hide the details */
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.view-details-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.view-details-btn:hover {
+  background-color: #0056b3;
+}
+
+/* OrganizerCard.css */
+
+/* Your existing styles for the organizer card */
+
+.popup-card {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  /* width: 500px; */
+  /* height: 300px; */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #b5e8e0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.popup-overlay.active,
+.popup-card.active {
+  display: block;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+}
+
+.service-cotainer {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-evenly;
+}

@@ -1,0 +1,64 @@
+.container {
+  width: 90%;
+  margin: 0 auto;
+  /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Aspect-ratio-4x3.svg/1007px-Aspect-ratio-4x3.svg.png), linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 5%;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+form {
+  width: 300px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #12c818;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+span {
+  display: block;
+  text-align: center;
+}

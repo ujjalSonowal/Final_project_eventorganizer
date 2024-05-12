@@ -1,0 +1,143 @@
+.slider {
+  position: relative;
+  width: 100%;
+  /* max-width: 800px; */
+  /* Adjust the maximum width as needed */
+  margin: 0 auto;
+  overflow: hidden;
+  height: 600px;
+  padding: 2px;
+}
+
+.slide {
+  display: none;
+}
+
+.image-container {
+  position: relative;
+  z-index: -1;
+}
+
+.event-description {
+  position: absolute;
+  top: 240px;
+  left: 80px;
+  right: 80px;
+  color: white;
+  font-size: 20px;
+}
+
+.event-name {
+  position: absolute;
+  top: 130px;
+  left: 35%;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.event-price {
+  position: absolute;
+  top: 400px;
+  /* transform: translateY(-50%); */
+  left: 80px;
+  border: 1px solid orange;
+  font-size: 24px;
+  /* Adjust as needed */
+  color: white;
+  background-color: #45a049;
+  padding: 10px;
+  border: #45a049;
+  box-sizing: border-box;
+}
+
+.event-rating {
+  position: absolute;
+  top: 450px;
+  /* transform: translateY(-50%); */
+  left: 20%;
+  /* Adjust as needed */
+  font-size: 24px;
+  /* Adjust as needed */
+  color: white;
+}
+
+/* .content-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      Adjust as needed
+    } */
+
+.active {
+  display: block;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.star-rating {
+  color: gold;
+}
+
+/* .star-rating::before {
+      content: "★★★★★";
+      letter-spacing: 5px;
+    } */
+
+/* .star-rating::after {
+      content: "★★★★★";
+      letter-spacing: 5px;
+      color: #ccc;
+    } */
+
+.book-now {
+  position: absolute;
+  top: 450px;
+  left: 80%;
+  background-color: #4caf50;
+  /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.book-now:hover {
+  background-color: #45a049;
+  /* Darker green */
+}

@@ -1,0 +1,46 @@
+.snavbar {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: -250px;
+  background-color: rgb(123, 90, 133);
+  padding-top: 50px;
+  transition: left 11s ease;
+}
+
+.snavbar.open {
+  right: 0;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  right: 250px;
+  font-size: 24px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: rgb(0, 0, 0);
+}
+
+.snavbar-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.snavbar-links li {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.snavbar-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}
+
+.snavbar-links a:hover {
+  color: #66cdaa;
+}

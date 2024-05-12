@@ -1,0 +1,10 @@
+/* StarRating.css */
+
+.star-rating {
+  display: flex;
+  font-size: 24px;
+}
+
+.star {
+  color: #ffd700;
+}
