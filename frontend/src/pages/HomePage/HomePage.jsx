@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Events } from "../../components/Events/Events";
 import { EventSlider } from "../../components/EventSlider/EventSlider";
 import { Organizer } from "../../components/Organizer/Organizer";
-import "./home.css";
+// import "./home.css";
+import "./style.css";
 import img1 from "../../assets/images/img1.jpg";
 import img2 from "../../assets/images/img2.jpg";
 // import { Footer } from "../../components/Footer";
@@ -56,21 +57,17 @@ export const HomePage = () => {
     <div className="container">
       <div className="items">
         <div className="slider">
-          {/* {currentSlide &&
-              currentSlide.map((Event) => (
-                <EventSlider key={Event._id} event={Event} />
-              ))} */}
           <EventSlider slides={slides} />
         </div>
         <div className="evetns-items">
-          <h2>Events</h2>
+          <h2 className="e-h2">Events</h2>
           <div className="events">
             {events &&
               events.map((Event) => <Events key={Event._id} event={Event} />)}
           </div>
 
           <div className="organise">
-            <h2>Organizer</h2>
+            <h2 className="e-h2">Organizer</h2>
             <div className="organise-items">
               {organise &&
                 organise.map((organise) => (

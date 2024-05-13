@@ -1,0 +1,73 @@
+/* home.css */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.slider {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.events-items {
+  flex: 0 1 65%;
+}
+
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+}
+
+.events h2,
+.organise h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* .organise {
+  flex: 0 1 30%;
+} */
+
+.organise-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  /* grid-gap: 20px; */
+}
+
+/* Styles for EventSlider component */
+
+.slider .prev,
+.slider .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.5em;
+  z-index: 1;
+}
+
+.slider .prev {
+  left: 0;
+}
+
+.slider .next {
+  right: 0;
+}
+
+.e-h2 {
+  font-size: 30px;
+  font-weight: bold;
+}

@@ -1,12 +1,9 @@
-.items {
+/* .items {
   display: grid;
   grid-template-columns: 5fr repeat(auto, 1fr);
-  /* background: rgb(130, 130, 130); */
 }
 
-/* .evetns-items {
-    margin: 10px 10px 10px 10px;
-  } */
+
 
 .events {
   display: grid;
@@ -34,4 +31,127 @@ h2 {
   font-size: 30px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: bold;
+} */
+
+/* home.css */
+
+.container {
+  width: 100%;
+  height: fit-content;
+  /* margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto; */
 }
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.slider {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.events-items {
+  flex: 0 1 65%;
+}
+
+.events {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.organise {
+  margin-top: 40px;
+}
+
+.organise h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.organise-items {
+  display: grid;
+  /* flex-wrap: wrap;
+  justify-content: space-evenly; */
+  grid-template-rows: repeat(auto-fill, minmax(800px, 1fr, 1fr));
+  grid-gap: 20px;
+}
+
+.events {
+  display: flex;
+  /* Change from grid to flex */
+  overflow-x: auto;
+  /* Enable horizontal scrolling */
+  overflow-y: hidden;
+  /* Hide vertical scrollbar */
+  -webkit-overflow-scrolling: touch;
+  /* Enable smooth scrolling on iOS */
+  scroll-snap-type: x mandatory;
+  /* Enable snapping to each event */
+  -ms-overflow-style: none;
+  /* Hide scrollbar on Internet Explorer */
+  scrollbar-width: none;
+  /* Hide scrollbar on Firefox */
+}
+
+.events::-webkit-scrollbar {
+  display: none;
+  /* Hide scrollbar on Webkit browsers */
+}
+
+.event {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  margin-right: 20px;
+}
+
+/* Additional styles for other elements if needed */
+
+/* home.css */
+
+.slider,
+.events {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slider {
+  margin-bottom: 20px;
+}
+
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.events {
+  flex: 0 0 calc(50% - 10px);
+  /* Each event takes 50% of the container width minus some margin */
+}
+
+/* .organise {
+  flex: 0 0 calc(50% - 10px);
+} */
+
+/* 
+.events-organizer-container {
+  display: flex;
+ 
+  flex-wrap: wrap;
+  
+  justify-content: space-between;
+
+  margin-top: 20px;
+ 
+} */
+
+/* .organiser {
+  width: calc(33.33% - 10px);
+  margin-bottom: 20px;
+  box-sizing: border-box;
+} */

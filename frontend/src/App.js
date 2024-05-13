@@ -3,6 +3,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AllRouter from "./AllRouter";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
           <ToastContainer />
         </div>{" "}
       </header>{" "}
+      <footer>
+        <Footer />
+      </footer>{" "}
     </div>
   );
 }

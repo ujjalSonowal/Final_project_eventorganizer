@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./slider.css"; // You can style the slider in this CSS file
+import "./slider.css";
+// import "./style.css";
 import { Link } from "react-router-dom";
 
 export const EventSlider = ({ slides }) => {
