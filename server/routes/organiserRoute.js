@@ -6,14 +6,18 @@ const {
   getsingleorganize,
   updateone,
   deleteone,
+  getorgbyuserid,
 } = require("../controllers/organisercontroller");
 
 const router = express.Router();
 
 //get all organises
 router.get("/", getallorganise);
-//get top rating organize
-router.get("/rating", getbytoprating);
+
+//get by userId
+router.get("/myorg/:id", getorgbyuserid),
+  //get top rating organize
+  router.get("/rating", getbytoprating);
 // create organise
 router.post("/addorganise", createorganise);
 //get single organise

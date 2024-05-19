@@ -10,7 +10,7 @@ const eventmodel = new schema(
     capacity: { type: [Number] },
     price: { type: [Number] },
     rating: { type: Number },
-    image: { type: Buffer },
+    images: { type: String },
     video: { type: Buffer },
     status: { type: Boolean },
     createOn: { type: Date, default: Date.now },

@@ -22,7 +22,7 @@ const organisermodel = new mongoose.Schema(
       type: Number,
       required: "Contact phone number is required.",
     },
-    userid: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     services: [
       {
         serviceName: { type: String },

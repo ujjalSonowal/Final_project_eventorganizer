@@ -9,12 +9,10 @@ const usersmodel = new schema(
     phone: { type: Number },
     password: { type: String },
     // location: {type:String},
-    address: {
-      street: { type: String, required: false },
-      city: { type: String, required: false },
-      state: { type: String, required: false },
-      zipCode: { type: Number, required: false },
-    },
+    street: { type: String, required: false },
+    city: { type: String, required: false },
+    state: { type: String, required: false },
+    pincode: { type: Number, required: false },
   },
   { timestamps: true }
 );

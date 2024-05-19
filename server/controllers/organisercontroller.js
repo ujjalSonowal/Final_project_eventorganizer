@@ -1,25 +1,35 @@
 const mongoose = require("mongoose");
 const organise = require("../models/organisermodel");
 
-//get all organise by  top rating
+//get all organise
 const getallorganise = async (req, res) => {
   const allorganise = await organise.find({}).sort({ createdAt: 1 });
   res.status(200).json(allorganise);
 };
 //get all organize by top rating
 const getbytoprating = async (req, res) => {
-  const ratingtop = await organise.find().sort({ rating: 1 });
+  const ratingtop = await organise.find().sort({ rating: 1 }).limit(4);
   res.status(200).json(ratingtop);
+};
+
+//get organize by userId
+const getorgbyuserid = async (req, res) => {
+  const { userId } = req.params;
+  const organisation = await organise.findOne(userId);
+  if (!organisation) {
+    return res.status(404).json({ message: "Organisation not found" });
+  }
+  res.status(202).json(organisation);
 };
 
 //create a organise
 const createorganise = async (req, res) => {
   const postorganisedata = req.body;
-  const userid = req.userid;
+  const userId = req.userId;
   try {
     const postorganise = await organise.create({
       ...postorganisedata,
-      userid,
+      userId,
     });
     if (!postorganise) {
       res.status(500).json({ msg: " Server Error" });
@@ -81,4 +91,5 @@ module.exports = {
   getsingleorganize,
   updateone,
   deleteone,
+  getorgbyuserid,
 };

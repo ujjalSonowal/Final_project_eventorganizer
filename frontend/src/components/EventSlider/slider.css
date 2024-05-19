@@ -128,6 +128,7 @@
 
 .image-container {
   position: relative;
+  z-index: -1;
 }
 
 .image {
@@ -203,6 +204,7 @@
 
 .next {
   right: 0;
+  z-index: 1;
 }
 
 /* slider.css */

@@ -1,16 +1,15 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {faUser} from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from "react-router-dom";
-
 import "./sidenav.css";
 
 export const Sidenav = () => {
   const navigate = useNavigate();
-  const [usertype, setUserType] = useState("");
-  const [currentuser, setCurrentUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [currentuser, setcurrentuser] = useState("");
+  const [user, setuser] = useState("");
 
   const ref = useRef(null);
   const toggleNavbar = () => {
@@ -21,14 +20,13 @@ export const Sidenav = () => {
       setIsOpen(false);
     }
   };
-  useEffect(() => {
-    const userType = localStorage.getItem("userType");
-    setUserType(userType);
-    const currentUser = localStorage.getItem("User");
-    setCurrentUser(currentUser);
-  }, []);
+
+  const userId = localStorage.getItem("User");
 
   useEffect(() => {
+    setuser(userId);
+    const currentuser = localStorage.getItem("userType");
+    setcurrentuser(currentuser);
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
@@ -49,26 +47,36 @@ export const Sidenav = () => {
         ☰
       </button>
       <ul className="snavbar-links">
-        {/* <li>{usertype === "Organiser" && <Link to="">My States</Link>}</li> */}
-        <li>
-          {usertype === "Organiser" && (
-            <Link to="/myorganise">My Organization</Link>
-          )}
-        </li>
-        <li>
-          {usertype === "Organiser" && <Link to="/myevent">My Events</Link>}
-        </li>
-        <li>
-          {usertype === "Organiser" && (
-            <Link to="/allbooking">All Bookings</Link>
-          )}
-        </li>
+        {currentuser === "Organiser" && (
+          <li>
+            <Link to="/createorganization">Create Oranizaion</Link>
+          </li>
+        )}
+        {currentuser === "Organiser" && (
+          <li>
+            <Link to={`/myorg/${user}`}>Manage Organization</Link>
+          </li>
+        )}
 
-        <li>{usertype === "User" && <Link to="">My Profile</Link>}</li>
-        <li>{usertype === "User" && <Link to="">My Bookings</Link>}</li>
+        {currentuser === "Organiser" && (
+          <li>
+            <Link to={`/myevent/${user}`}>My Events</Link>
+          </li>
+        )}
 
+        {currentuser === "Organiser" && (
+          <li>
+            <a href="/#">All Booking</a>
+          </li>
+        )}
+
+        {currentuser === "User" && (
+          <li>
+            <Link to="/">My Bookings</Link>
+          </li>
+        )}
         <li>
-          <Link onClick={handleLogout}> Log Out</Link>
+          <Link onClick={handleLogout}> Logout</Link>
         </li>
       </ul>
     </div>

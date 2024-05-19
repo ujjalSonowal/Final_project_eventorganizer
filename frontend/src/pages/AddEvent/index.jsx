@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { Link, useNavigate } from "react-router-dom";
@@ -93,10 +94,25 @@ export const AddEvent = () => {
   // const [video, setVideo] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [images, setImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setImage(selectedFile);
+  };
 
   // const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    // formData.append("name", name);
+    // formData.append("type", type);
+    // formData.append("capacity", capacity);
+    // formData.append("status", status);
+    // formData.append("price", price);
+    // formData.append("description", description);
+    formData.append("images", images);
 
     const event = { name, type, capacity, status, price, description };
 
@@ -108,6 +124,13 @@ export const AddEvent = () => {
           "Content-type": "application/json",
         },
       });
+
+      axios
+        .post("http://localhost:5000/images/upload", formData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
 
       const json = await response.json();
 
@@ -123,6 +146,7 @@ export const AddEvent = () => {
       setPrice("");
       setCapacity("");
       setDescription("");
+      setImage(null);
       setTimeout(() => {
         setSuccessMessage("");
       }, 3000);
@@ -134,41 +158,6 @@ export const AddEvent = () => {
       alert("Failed to create event");
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   formData.append("name", name);
-  //   formData.append("type", type);
-  //   formData.append("status", status);
-  //   formData.append("capacity", capacity);
-  //   formData.append("price", price);
-  //   formData.append("description", description);
-  //   // formData.append("image", image);
-  //   // formData.append("video", video);
-
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/events/create`, {
-  //       method: "POST",
-  //       body: JSON.stringify(formData),
-  //       headers: {
-  //         "Content-type": "application/json",
-  //       },
-  //     });
-  //     // const data = await response.json();
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to create event");
-  //     }
-
-  //     // return data.data;
-  //     navigate("/myevent"); // Redirect to the dashboard after successful event creation
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert("Failed to create event");
-  //   }
-  // };
 
   return (
     <FormContainer>
@@ -265,16 +254,17 @@ export const AddEvent = () => {
               value={description}
             />
           </FormGroup>
-          {/* <FormGroup>
+          <FormGroup enctype="multipart/form-data">
             <Label>Image:</Label>
             <Input
               type="file"
-              name="image"
+              name="images"
               accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={handleImageChange}
             />
           </FormGroup>
-          <FormGroup>
+
+          {/* <FormGroup>
             <Label>Video:</Label>
             <Input
               type="file"

@@ -22,7 +22,7 @@ export const UserProfile = () => {
     }
     getuser();
     return;
-  }, []);
+  }, [current]);
 
   return (
     <>

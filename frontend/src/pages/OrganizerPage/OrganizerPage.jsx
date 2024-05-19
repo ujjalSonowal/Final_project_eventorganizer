@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Organizer } from "../../components/Organizer/Organizer";
 
 export const OrganizerPage = () => {
-  const [organise, setorganise] = useState(null);
+  const [organise, setOrganise] = useState(null);
 
   useEffect(() => {
     async function getorgranise() {
@@ -16,7 +16,7 @@ export const OrganizerPage = () => {
       }
       const organises = await response.json();
 
-      setorganise(organises);
+      setOrganise(organises);
     }
     getorgranise();
     return;

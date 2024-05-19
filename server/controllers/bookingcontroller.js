@@ -6,6 +6,8 @@ const getbookingall = async (req, res) => {
   const allbooking = await booking.find({}).sort({ createdAt: 1 });
   res.status(200).json(allbooking);
 };
+
+//get single booking by id
 const getsinglebooking = async (req, res) => {
   const { id: _id } = req.params;
 
@@ -17,6 +19,16 @@ const getsinglebooking = async (req, res) => {
     res.status(500).json({ error: " data not found" });
   }
   res.status(200).json(getdata);
+};
+
+//get booking by user id
+const getbookinguser = async (req, res) => {
+  const { userId } = req.params;
+  const bookings = await booking.findOne(userId);
+  if (!bookings) {
+    return res.status(404).json({ message: "Events not found" });
+  }
+  res.status(202).json(bookings);
 };
 
 //create a booking
@@ -75,4 +87,5 @@ module.exports = {
   getsinglebooking,
   deletebooking,
   updatebooking,
+  getbookinguser,
 };

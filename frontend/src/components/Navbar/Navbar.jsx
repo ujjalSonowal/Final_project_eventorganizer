@@ -89,7 +89,7 @@ export const Navbar = () => {
 
             <li className="nav-item">
               {usertype === "Organiser" && (
-                <Link to="/addorganization" className="nav-link">
+                <Link to="/createorganization" className="nav-link">
                   Create Organizer
                 </Link>
               )}
