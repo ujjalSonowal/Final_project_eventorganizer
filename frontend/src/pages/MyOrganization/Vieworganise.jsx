@@ -1,37 +1,29 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import "./style.css";
+import { useNavigate } from "react-router-dom";
+
 export const Vieworganise = () => {
-  const [org, setOrg] = useState("");
-  const userId = localStorage.getItem("User"); //get current logIn user
-  const current = userId;
+  const [org, setOrg] = useState({});
+  const userId = localStorage.getItem("User");
   const navigate = useNavigate();
-  //get organise details using current user id
+
   useEffect(() => {
     async function getOrg() {
-      const response = await fetch(
-        `http://localhost:5000/organise/myorg/${current}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ current }),
+      try {
+        const response = await fetch(
+          `http://localhost:5001/organise/myorg/${userId}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch organizer details");
         }
-      );
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
+        const myorg = await response.json();
+        setOrg(myorg);
+      } catch (error) {
+        console.error(error);
       }
-      const myorg = await response.json();
-      setOrg(myorg);
-      const orgId = myorg._id;
-      setorganiseid(orgId);
     }
-
     getOrg();
-    return;
-  }, [current]);
-
+  }, [userId]);
   const [organiseId, setorganiseid] = useState("");
   const [name, setname] = useState("");
   const [type, settype] = useState("");
@@ -45,7 +37,7 @@ export const Vieworganise = () => {
     e.preventDefault();
     const data = { userId, organiseId, name, type, capacity, price };
     try {
-      const response = await fetch(`http://localhost:5000/events/create`, {
+      const response = await fetch(`http://localhost:5000/events/post`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -65,25 +57,60 @@ export const Vieworganise = () => {
     }
   };
 
+  const handleDelete = async () => {
+    // Handle delete functionality here
+  };
+
+  const handleUpdate = async () => {
+    // Handle update functionality here
+  };
+
   return (
     <>
-      <div className="myorg">
-        {/* <p>{organiseid}</p> */}
-        <p>{org.companyName}</p>
-        <p>{org.contactEmail}</p>
-        <p>{org.contactPhone}</p>
-        <p>{org.address}</p>
+      <div className="organise-container">
+        <div className="organise-header">
+          <h2>Organizer Details</h2>
+          <div>
+            <button id="delete-btn" onClick={handleDelete}>
+              Delete
+            </button>
+            <button id="update-btn" onClick={handleUpdate}>
+              Update
+            </button>
+          </div>
+        </div>
+        <table className="org-table">
+          <tbody>
+            <tr>
+              <td>Company Name:</td>
+              <td>{org.companyName}</td>
+            </tr>
+            <tr>
+              <td>Contact Email:</td>
+              <td>{org.contactEmail}</td>
+            </tr>
+            <tr>
+              <td>Contact Phone:</td>
+              <td>{org.contactPhone}</td>
+            </tr>
+            <tr>
+              <td>Address:</td>
+              <td>{org.address}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <>
         {" "}
         {isFormOpen && (
-          <div className="form-popup">
-            <div className="form-container">
+          <div className="form-popup-event">
+            <div className="form-container-event">
               <form onSubmit={handlesubmit}>
                 <h2>Add Event details</h2>
                 <label>
                   <span>Event name:</span>
                   <input
+                    id="etn"
                     type="text"
                     placeholder="Event Name"
                     onChange={(e) => setname(e.target.value)}
@@ -93,6 +120,7 @@ export const Vieworganise = () => {
                 <label>
                   <span>Event Type:</span>
                   <input
+                    id="etn"
                     type="text"
                     placeholder="Type"
                     onChange={(e) => settype(e.target.value)}
@@ -102,6 +130,7 @@ export const Vieworganise = () => {
                 <label>
                   <span> Person Capacity:</span>
                   <input
+                    id="etn"
                     type="number"
                     placeholder="Capacity"
                     onChange={(e) => setcapacity(e.target.value)}
@@ -111,14 +140,17 @@ export const Vieworganise = () => {
                 <label>
                   <span>Price:</span>
                   <input
+                    id="etn"
                     type="number"
                     placeholder="price"
                     onChange={(e) => setprice(e.target.value)}
                     value={price}
                   />
                 </label>
-                <button type="submit">Save</button>
-                <button type="button" onClick={() => toggleForm()}>
+                <button id="t-btn" type="submit">
+                  Save
+                </button>
+                <button id="t-btn" type="button" onClick={() => toggleForm()}>
                   Cancel
                 </button>
               </form>
@@ -127,8 +159,10 @@ export const Vieworganise = () => {
         )}
       </>
       <div className="items">
-        <button onClick={() => toggleForm()}>Add Event</button>
-        <button>view Events</button>
+        <button id="vi-btn" onClick={() => toggleForm()}>
+          Add Event
+        </button>
+        <button id="vi-btn">view Events</button>
       </div>
     </>
   );

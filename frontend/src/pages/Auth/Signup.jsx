@@ -2,7 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import "./login.css";
+import "./style.css";
+
 export const Signup = () => {
   const options = [
     { value: "User", label: "User" },
@@ -25,7 +26,7 @@ export const Signup = () => {
 
     const auth = { name, email, password, usertype };
 
-    const response = await fetch(`http://localhost:5000/user/signup`, {
+    const response = await fetch(`http://localhost:5001/user/signup`, {
       method: "POST",
       body: JSON.stringify(auth),
       headers: {
@@ -41,7 +42,6 @@ export const Signup = () => {
       setEmail("");
       setUsertype("");
       setPassword("");
-      // Navigate to login page
       navigate("/login");
       const authToken = json.token;
       localStorage.setItem("profile", authToken);
@@ -54,37 +54,43 @@ export const Signup = () => {
       <div className="signup">
         <form onSubmit={handleSubmit}>
           {error && <p>{error}</p>}
-          <label htmlFor="name">Name</label>
+          <label htmlFor="signup-name">Name</label>
           <input
+            id="signup-name"
             type="text"
             required
             name="name"
             onChange={(e) => setName(e.target.value)}
             value={name}
           />
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="signup-email">Email Address</label>
           <input
+            id="signup-email"
             type="email"
             name="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
           <br />
-          <label htmlFor="type">Select Your type</label>
+          <label htmlFor="signup-type">Select Your Type</label>
           <Select
+            id="signup-type"
             options={options}
             value={options.find((option) => option.value === usertype)}
             onChange={(e) => setUsertype(e.value)}
           />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="signup-password">Password</label>
           <input
+            id="signup-password"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
           <br />
-          <button type="submit">Sign Up</button>
+          <button id="signup-button" type="submit">
+            Sign Up
+          </button>
         </form>
         <span>
           Already have an account? <Link to="/login">Log in</Link>

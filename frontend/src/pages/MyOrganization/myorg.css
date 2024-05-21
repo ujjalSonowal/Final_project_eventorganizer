@@ -1,49 +1,96 @@
 .form {
-  margin-top: 10px;
-}
-
-form {
-  max-width: 600px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 50%;
   margin: 0 auto;
-  display: block;
-  gap: 50px;
-  width: 70%;
 }
 
-input {
-  padding: 10px;
+#org-h1 {
+  color: #1676aa;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 40%;
+  padding: 30px;
+  text-transform: uppercase;
+}
+
+#org-h3 {
+  color: #c83131;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#org-btn {
+  width: 30%;
+  position: relative;
+  margin-left: 30%;
+}
+
+label {
+  width: 150px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  width: calc(100% - 160px);
+  padding: 8px;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+  outline: none;
+  border-color: #007bff;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  margin: 5px 0 0 0;
+.services-section {
+  margin-top: 20px;
+}
+
+.service {
+  margin-bottom: 20px;
+}
+
+.service input[type="text"] {
+  width: calc(100% - 160px);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.service input[type="text"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.service button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.service button:hover {
+  background-color: #c82333;
 }
 
 .btns {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  padding: 10px 20px;
   cursor: pointer;
-  width: 100%;
+  font-size: 16px;
 }
 
-@media (max-width: 768px) {
-  .input,
-  .button {
-    font-size: 14px;
-  }
+.btns:hover {
+  background-color: #0056b3;
 }

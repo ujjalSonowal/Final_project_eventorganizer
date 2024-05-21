@@ -3,6 +3,7 @@ import { useState } from "react";
 import StarRating from "../StarRating";
 import { Link } from "react-router-dom";
 import "./events.css";
+// import "./style.css";
 
 export const Events = ({ event }) => {
   const [showPopup, setShowPopup] = useState(false);

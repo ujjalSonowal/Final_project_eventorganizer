@@ -9,7 +9,7 @@ export const MyOrganization = () => {
 
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5000/organise`);
+      const response = await fetch(`http://localhost:5001/organise`);
       if (!response.ok) {
         console.error(`An error occurred: ${response.statusText}`);
         return;
@@ -41,7 +41,7 @@ export const MyOrganization = () => {
   const handleDelete = async (id) => {
     // Send a request to delete the event with the specified ID
     try {
-      const response = await fetch(`http://localhost:5000/organise/${id}`, {
+      const response = await fetch(`http://localhost:5001/organise/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {

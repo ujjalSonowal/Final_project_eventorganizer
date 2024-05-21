@@ -2,7 +2,8 @@
 
 /* Container Styles */
 
-.organiser-container {
+.event-container {
+  /* z-index: 1; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,10 +12,11 @@
 
 /* Card Styles */
 
-.organizer-card {
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.events-card {
+  z-index: -1;
+  background-color: #f1f7fc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 10px;
   width: 100%;
@@ -23,14 +25,20 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.organizer-card:hover {
+/* .events-card:hover {
   transform: translateY(-5px);
-}
+} */
 
-.organizer-card p {
+.events-card p {
   margin: 10px 0;
   font-family: "Roboto", sans-serif;
   color: #333;
+}
+
+.events-card .edetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .view-details-btn {
@@ -43,9 +51,9 @@
   transition: background-color 0.3s ease;
 }
 
-.view-details-btn:hover {
+/* .view-details-btn:hover {
   background-color: #0056b3;
-}
+} */
 
 /* Popup Styles */
 
@@ -67,16 +75,16 @@
   visibility: visible;
 }
 
-.popup-card {
+.event-popup .popup-card {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 600px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -106,44 +114,23 @@
   background-color: #c82333;
 }
 
-.service-container {
-  margin-top: 20px;
+.event-images img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.event-info {
+  margin: 20px 0;
   font-family: "Roboto", sans-serif;
   color: #555;
 }
 
-.service-container p {
+.event-info p {
   margin: 10px 0;
 }
 
-.p3 {
-  margin: 5px 0;
-  font-family: "Roboto", sans-serif;
-  color: #333;
-}
-
-/* Additional Aesthetic Enhancements */
-
-h2 {
-  font-family: "Roboto", sans-serif;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-strong {
-  font-family: "Roboto", sans-serif;
-  color: #007bff;
-}
-
-.box {
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #f1f1f1;
-  margin-bottom: 10px;
-}
-
-.itemlist {
-  background-color: #e9ecef;
+.list .itemlist {
+  background-color: #f8f9fa;
   border-radius: 5px;
   padding: 5px 10px;
   margin: 5px 0;
@@ -164,4 +151,14 @@ strong {
 
 .book-btn:hover {
   background-color: #218838;
+}
+
+.comment-cotainer {
+  margin-top: 20px;
+  font-family: "Roboto", sans-serif;
+  color: #555;
+}
+
+.comment-cotainer p {
+  margin: 10px 0;
 }

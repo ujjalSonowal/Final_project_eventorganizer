@@ -11,12 +11,18 @@ const bookingrouter = require("./routes/bookingRoute");
 const serviceRouter = require("./routes/postservices");
 const imageRouter = require("./routes/imageRoute");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const app = express();
 
 app.use(express.json()); // middleware
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+
 app.use("/images", express.static("public/uploades"));
 // app.use("/images", uploadMiddleware.single("image"));
 

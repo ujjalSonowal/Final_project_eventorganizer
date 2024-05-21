@@ -8,7 +8,7 @@ export const OrganizerPage = () => {
 
   useEffect(() => {
     async function getorgranise() {
-      const response = await fetch(`http://localhost:5000/organise`);
+      const response = await fetch(`http://localhost:5001/organise`);
       if (!response.ok) {
         const erromsg = `an error occurred :${response.statusText}`;
         console.error(erromsg);

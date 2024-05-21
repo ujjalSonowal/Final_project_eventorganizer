@@ -1,8 +1,6 @@
-//password: ujjal978
-
 import React from "react";
 import { useState } from "react";
-import "./login.css";
+import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
@@ -22,7 +20,7 @@ export const Login = () => {
     const auth = { email, password };
 
     try {
-      const response = await fetch(`http://localhost:5000/user/login`, {
+      const response = await fetch(`http://localhost:5001/user/login`, {
         method: "POST",
         body: JSON.stringify(auth),
         headers: {
@@ -38,7 +36,6 @@ export const Login = () => {
       // Navigate to the dashboard/profile/home page after successful login
       const authToken = json.token;
       localStorage.setItem("profile", authToken);
-      // console.log('profile')
       const userType = json.usertype;
       localStorage.setItem("userType", userType);
       const userId = json.id;
@@ -65,8 +62,9 @@ export const Login = () => {
     <div className="login-container">
       <div className="login">
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email </label>
+          <label htmlFor="login-email">Email </label>
           <input
+            id="login-email"
             type="text"
             name="email"
             onChange={(e) => setEmail(e.target.value)}
@@ -74,8 +72,9 @@ export const Login = () => {
           />
           <br />
 
-          <label htmlFor="password">Password</label>
+          <label htmlFor="login-password">Password</label>
           <input
+            id="login-password"
             type="password"
             name="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -83,7 +82,9 @@ export const Login = () => {
           />
           <br />
 
-          <button type="submit">Login</button>
+          <button id="login-button" type="submit">
+            Login
+          </button>
         </form>
         <Link to="/signup">Create an account</Link>
       </div>

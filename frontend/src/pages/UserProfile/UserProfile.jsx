@@ -11,7 +11,7 @@ export const UserProfile = () => {
   const current = id;
   useEffect(() => {
     async function getuser() {
-      const response = await fetch(`http://localhost:5000/user/${current}`);
+      const response = await fetch(`http://localhost:5001/user/${current}`);
       if (!response.ok) {
         const message = `An error has occured: ${response.statusText}`;
         window.alert(message);

@@ -56,11 +56,12 @@ button[type="submit"] {
   background-color: #4caf50;
   /* Green */
   color: white;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  width: 10%;
 }
 
 button[type="submit"]:hover {

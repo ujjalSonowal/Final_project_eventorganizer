@@ -1,0 +1,65 @@
+/* sidenav.css */
+
+.snavbar {
+  position: fixed;
+  top: 20px;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #111;
+  /* overflow-x: hidden; */
+  transition: 0.5s;
+  padding-top: 60px;
+  transform: translateX(100%);
+}
+
+.snavbar.open {
+  transform: translateX(0);
+}
+
+.snavbar .toggle-button {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1;
+  background-color: #920b0b;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+}
+
+.snavbar-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.snavbar-links li {
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.snavbar-links li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
+.snavbar-links li a:hover {
+  background-color: #575757;
+}
+
+.snavbar-links li a:active {
+  background-color: #575757;
+}
+
+@media screen and (max-height: 450px) {
+  .snavbar {
+    padding-top: 15px;
+  }
+  .snavbar-links li {
+    font-size: 18px;
+  }
+}

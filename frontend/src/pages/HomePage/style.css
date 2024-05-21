@@ -1,73 +1,217 @@
 /* home.css */
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px;
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f0f4f8;
 }
 
-.items {
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.home {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-}
-
-.slider {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.events-items {
-  flex: 0 1 65%;
-}
-
-.events {
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: space-between; */
-}
-
-.events h2,
-.organise h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-/* .organise {
-  flex: 0 1 30%;
-} */
-
-.organise-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  /* grid-gap: 20px; */
-}
-
-/* Styles for EventSlider component */
-
-.slider .prev,
-.slider .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  padding: 50px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
   color: #fff;
-  border: none;
-  cursor: pointer;
+}
+
+.home .left {
+  max-width: 500px;
+}
+
+.home .heading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.home h1 {
+  font-size: 3rem;
+  margin: 10px 0;
+}
+
+.home .para {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.home .create-account {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffb6c1;
+  color: #fff;
+  border-radius: 25px;
+  transition: background-color 0.3s;
+}
+
+.home .create-account:hover {
+  background-color: #ff69b4;
+}
+
+.home .right img {
+  max-width: 100%;
+  height: auto;
+}
+
+.notice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  background-color: #fff;
+  margin: 50px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notice .image-area img {
+  max-width: 100%;
+  height: auto;
+}
+
+.notice .text-area h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.notice .text-area p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.item-section {
+  padding: 50px;
+  background-color: #f9f9f9;
+}
+
+.item-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.event-card-container,
+.recent-card-container,
+.organisation-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.linkcard,
+.linkcardorganise {
+  display: block;
+  width: calc(33% - 20px);
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.linkcard:hover,
+.linkcardorganise:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.our-patner {
+  padding: 50px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.our-patner h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.collab {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #777;
+}
+
+.contact-us {
+  padding: 50px;
+  background-color: #6e8efb;
+  color: #fff;
+}
+
+.contact-flex-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-us-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.contact-form label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
   padding: 10px;
-  font-size: 1.5em;
-  z-index: 1;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
 }
 
-.slider .prev {
-  left: 0;
+.contact-form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffb6c1;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.slider .next {
-  right: 0;
+.contact-form button:hover {
+  background-color: #ff69b4;
 }
 
-.e-h2 {
-  font-size: 30px;
-  font-weight: bold;
+.text-contact {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.text-contact h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.text-contact p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.contact-details-quary p {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+footer {
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
 }

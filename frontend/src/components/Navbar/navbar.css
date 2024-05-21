@@ -25,12 +25,15 @@ nav {
   flex-wrap: nowrap;
   list-style: none;
   height: 100%;
-  margin: 0;
+  margin: 20px;
   padding: 0;
   width: 100%;
 }
 
 .auth {
+  position: relative;
+  top: -40px;
+  left: 1100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,9 +47,12 @@ nav {
   text-decoration: none;
 }
 
+/* #nav-li {
+  margin-top: -14px;
+} */
+
 .navbar-nav .nav-item {
   margin: 0 10px;
-  /* margin-left: -100px; */
   align-items: center;
 }
 
@@ -68,6 +74,9 @@ nav {
 }
 
 .profile {
+  position: relative;
+  top: -45px;
+  right: -1120px;
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -83,5 +92,31 @@ nav {
 }
 
 .icons {
-  margin-inline-end: -800px;
+  /* position: fixed; */
+  position: relative;
+  top: 5px;
+  /* left: 100px; */
+  right: -190px;
+  /* margin-inline-end: -800px; */
+}
+
+.nav-icon {
+  /* position: fixed; */
+  margin-right: 100px;
+}
+
+.logo-h1 {
+  font-size: 24px;
+  color: #333;
+  /* Change the color as needed */
+  margin: 0;
+  /* Remove default margin */
+  padding: 0;
+  padding-left: 10px;
+  /* Remove default padding */
+}
+
+.logo-h1:hover {
+  color: #555;
+  /* Change the color on hover as needed */
 }

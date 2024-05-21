@@ -19,7 +19,7 @@ router.get("/myorg/:id", getorgbyuserid),
   //get top rating organize
   router.get("/rating", getbytoprating);
 // create organise
-router.post("/addorganise", createorganise);
+router.post("/post", createorganise);
 //get single organise
 router.get("/:id", getsingleorganize);
 router.patch("/update/:id", updateone);

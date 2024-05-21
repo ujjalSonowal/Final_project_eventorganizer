@@ -1,0 +1,104 @@
+/* navbar.css */
+
+.navbar-container {
+  width: 100%;
+  background-color: #1c1c1c;
+  /* Darker background color for better aesthetics */
+  overflow: hidden;
+  position: sticky;
+  /* Makes the navbar sticky */
+  top: 0;
+  /* Sticks the navbar to the top */
+  z-index: 1000;
+  /* Ensures it is above other elements */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  color: white;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.navbar-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* .nav-item {
+    margin: 0 15px;
+  } */
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+}
+
+.nav-link:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+
+.icons {
+  color: white;
+  margin: 0 15px;
+  font-size: 1.5em;
+}
+
+.auth {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin-left: 10px;
+  /* Added margin to separate from other elements */
+}
+
+.icon:hover {
+  color: #ccc;
+  /* Hover effect for icons */
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  .navbar-nav {
+    flex-direction: column;
+  }
+  .nav-item {
+    margin: 10px 0;
+  }
+  .sidenav {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+  }
+  .sidenav a {
+    padding: 8px;
+    text-align: center;
+  }
+}

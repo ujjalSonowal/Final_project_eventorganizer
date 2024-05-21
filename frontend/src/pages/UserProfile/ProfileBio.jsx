@@ -18,6 +18,7 @@
 // }
 
 import React from "react";
+import "./userprofile.css";
 
 export const ProfileBio = ({ user }) => {
   return (
@@ -41,7 +42,7 @@ export const ProfileBio = ({ user }) => {
         </button>
       </div>
       <div className="update">
-        <button>Update</button>
+        <button id="ubtn">Update</button>
         <button>LogOut</button>
       </div>
     </div>

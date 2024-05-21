@@ -6,7 +6,7 @@ export const Eventpage = () => {
 
   useEffect(() => {
     async function getEventRecords() {
-      const response = await fetch(`http://localhost:5000/events`);
+      const response = await fetch(`http://localhost:5001/events`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);

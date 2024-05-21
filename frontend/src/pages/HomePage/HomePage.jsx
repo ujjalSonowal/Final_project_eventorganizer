@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // import { Home } from "../../componenets/home/home";
 // import { Booking } from "../../componenets/bookingcomp";
 import "./home.css";
+// import "./style.css";
 import { Link } from "react-router-dom";
 import image from "../../assets/homeimgae.png";
 import noticeimag from "../../assets/Biirthday.png";
@@ -15,7 +16,7 @@ export const HomePage = () => {
   const [toporg, setTopOrg] = useState(null);
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5000/events`);
+      const response = await fetch(`http://localhost:5001/events/home/event`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
@@ -25,7 +26,7 @@ export const HomePage = () => {
       setEvents(events);
     }
     async function Getlatestevents() {
-      const response = await fetch(`http://localhost:5000/events/latest`);
+      const response = await fetch(`http://localhost:5001/events/latest/event`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
@@ -35,7 +36,7 @@ export const HomePage = () => {
       setLatestEvent(latestevent);
     }
     async function gettoporg() {
-      const response = await fetch(`http://localhost:5000/organise/rating`);
+      const response = await fetch(`http://localhost:5001/organise/rating`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
@@ -87,33 +88,33 @@ export const HomePage = () => {
         <div className="top-events">
           <h2>Top Events</h2>
           <div className="event-card-container">
-            {/* {events &&
+            {events &&
               events.map((Event) => (
-                <Link to={`/event-view/${Event._id}`} className="linkcard">
+                <Link to="" className="linkcard">
                   <Events key={Event._id} event={Event} />
                 </Link>
-              ))} */}
-            <div className="linkcard">
+              ))}
+            {/* <div className="linkcard">
               {events &&
                 events.map((Event) => <Events key={Event._id} event={Event} />)}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="recent-events">
           <h2>Latest Events</h2>
           <div className="recent-card-container">
-            {/* {latestevent &&
+            {latestevent &&
               latestevent.map((Event) => (
-                <Link to={`/events/${Event._id}`} className="linkcard">
+                <Link to="" className="linkcard">
                   <Events key={Event._id} event={Event} />
                 </Link>
-              ))} */}
-            <div className="linkcard">
+              ))}
+            {/* <div className="linkcard">
               {latestevent &&
                 latestevent.map((Event) => (
                   <Events key={Event._id} event={Event} />
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -122,22 +123,19 @@ export const HomePage = () => {
         <p className="collab">We Collaborate With Several Organisation</p>
         <div className="organisation-section">
           <div className="organisation-container">
-            {/* {toporg &&
+            {toporg &&
               toporg.map((organise) => (
-                <Link
-                  to={`/oranise/${organise._id}`}
-                  className="linkcardorganise"
-                >
+                <Link to="" className="linkcardorganise">
                   {" "}
                   <Organizer key={organise._id} organise={organise} />
                 </Link>
-              ))} */}
-            <div className="linkcardorganise">
+              ))}
+            {/* <div className="linkcardorganise">
               {toporg &&
                 toporg.map((organise) => (
                   <Organizer key={organise._id} organise={organise} />
                 ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -147,14 +145,16 @@ export const HomePage = () => {
           <div className="contact-us-container">
             <form className="contact-form">
               <label htmlFor="name">Name</label>
-              <input type="text" placeholder="Your Name" required />
+              <input type="text" placeholder="Your Name" id="cnt" required />
               <label htmlFor="email">Email</label>
-              <input type="email" placeholder="Your Email" required />
+              <input type="email" placeholder="Your Email" id="cnt" required />
               <label htmlFor="massage">Massage</label>
-              <textarea row="5" required>
+              <textarea row="5" id="cnt" required>
                 {" "}
               </textarea>
-              <button type="submit">Send Message</button>
+              <button id="bnt" type="submit">
+                Send Message
+              </button>
             </form>
           </div>
           <div className="text-contact">

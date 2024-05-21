@@ -1,5 +1,6 @@
 import React from "react";
 import "./navbar.css";
+// import "./nav.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,22 +36,23 @@ export const Navbar = () => {
       <div className="navbar-container">
         <nav className="navbar">
           <div className="logo">
-            <img src="" alt="logo here" />
+            <h1 className="logo-h1">EventTora</h1>
+            {/* <img src="" alt="logo here" /> */}
           </div>
           <ul className="navbar-nav">
-            <li className="nav-item">
+            <li className="nav-item" id="nav-li">
               <Link to="/" className="nav-link">
                 Home
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" id="nav-li">
               {usertype === "User" && (
                 <Link to="/events" className="nav-link">
                   Events
                 </Link>
               )}
             </li>
-            <li className="nav-item">
+            <li className="nav-item" id="nav-li">
               {usertype === "User" && (
                 <Link to="/organise" className="nav-link">
                   Organizers
@@ -67,7 +69,7 @@ export const Navbar = () => {
                 Organizers
               </Link>
             </li> */}
-            <li className="nav-item">
+            <li className="nav-item" id="nav-li">
               <Link to="/" className="nav-link">
                 About
               </Link>
@@ -79,29 +81,37 @@ export const Navbar = () => {
                 </a>
               </li>
             )} */}
-            <li className="nav-item">
+            {/* <li className="nav-item">
               {usertype === "Organiser" && (
                 <Link to="/addevent" className="nav-link">
                   Create Events
                 </Link>
               )}
-            </li>
+            </li> */}
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               {usertype === "Organiser" && (
                 <Link to="/createorganization" className="nav-link">
                   Create Organizer
                 </Link>
               )}
-            </li>
-            <li className="nav-icon">
+            </li> */}
+            {/* <li className="nav-icon">
               {usertype === "Organiser" && (
                 <Link to="" className="icons">
                   <NotificationsIcon />
                 </Link>
               )}
-            </li>
+            </li> */}
           </ul>
+          <div className="nav-icon">
+            {usertype === "Organiser" && (
+              <Link to="" className="icons">
+                <NotificationsIcon />
+              </Link>
+            )}
+          </div>
+
           {isAuthenticated ? (
             <>
               <div className="profile">

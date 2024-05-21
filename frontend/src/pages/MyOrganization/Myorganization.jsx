@@ -41,16 +41,13 @@ export const Myoranization = () => {
       services,
     };
     try {
-      const response = await fetch(
-        `http://localhost:5000/organise/addorganise`,
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:5001/organise/post`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error("Data not submitted");
       }
@@ -66,24 +63,24 @@ export const Myoranization = () => {
   return (
     <>
       <div className="form">
+        <h1 id="org-h1">Create Organization</h1>
         <form onSubmit={handlesubmit}>
-          <div className="row">
-            <label htmlFor="name">Organize Name:</label>
-            <input
-              type="text"
-              name="companyName"
-              onChange={(e) => setCompanyName(e.target.value)}
-              value={companyName}
-            />
+          <label htmlFor="name">Organize Name:</label>
+          <input
+            type="text"
+            name="companyName"
+            onChange={(e) => setCompanyName(e.target.value)}
+            value={companyName}
+          />
 
-            <label htmlFor="email">Organize Email:</label>
-            <input
-              type="email"
-              name="contactEmail"
-              onChange={(e) => setContactEmail(e.target.value)}
-              value={contactEmail}
-            />
-          </div>
+          <label htmlFor="email">Organize Email:</label>
+          <input
+            type="email"
+            name="contactEmail"
+            onChange={(e) => setContactEmail(e.target.value)}
+            value={contactEmail}
+          />
+
           <label htmlFor="owner">Organize Owner:</label>
           <input
             type="text"
@@ -135,7 +132,7 @@ export const Myoranization = () => {
           />
 
           <div className="services-section">
-            <h3>Services</h3>
+            <h3 id="org-h3">Services:</h3>
             {services.map((service, index) => (
               <div key={index} className="service">
                 <label htmlFor={`serviceName-${index}`}>Service Name:</label>
@@ -199,7 +196,7 @@ export const Myoranization = () => {
           {/* <label htmlFor="status">Status:</label>
                 <input type="checkbox" name="status" checked={formState.status} onChange={(e) => setFormState({ ...formState, status: e.target.checked })} /> */}
 
-          <button type="submit" className="btns">
+          <button id="org-btn" type="submit" className="btns">
             Submit
           </button>
         </form>

@@ -3,12 +3,11 @@
   width: 250px;
   height: 100%;
   position: fixed;
-  top: 0;
+  top: 70px;
   right: -250px;
-  background-color: rgb(123, 90, 133);
+  background-color: rgb(133, 100, 90);
   padding-top: 50px;
   transition: left 11s ease;
-  z-index: 1;
 }
 
 .snavbar.open {
@@ -16,9 +15,13 @@
 }
 
 .toggle-button {
-  position: absolute;
-  top: 10px;
-  right: 250px;
+  /* z-index: -1; */
+  position: fixed;
+  /* position: absolute; */
+  /* position: relative; */
+  top: 7px;
+  /* top: 0; */
+  right: 10px;
   font-size: 24px;
   cursor: pointer;
   background: transparent;
@@ -29,9 +32,16 @@
 .snavbar-links {
   list-style-type: none;
   padding: 0;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  /* Set flex direction to column */
+  align-items: flex-start;
+  /* Align items to start */
 }
 
 .snavbar-links li {
+  margin-bottom: 10px;
   padding: 10px 0;
   text-align: center;
 }
@@ -40,8 +50,13 @@
   text-decoration: none;
   color: white;
   font-size: 18px;
+  /* font-weight: bold; */
 }
 
 .snavbar-links a:hover {
   color: #66cdaa;
+}
+
+.snav-icon {
+  margin-right: 6px;
 }

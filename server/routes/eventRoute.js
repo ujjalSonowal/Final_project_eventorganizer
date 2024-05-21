@@ -20,16 +20,16 @@ router.get("/", getallevent);
 router.get("/:id", singlevent);
 
 //returns user's events only
-router.get("/myevent/:id", geteventuser);
+router.get("/my/event/:id", geteventuser);
 
 //get event with limit 6
-router.get("/homeevent", getsixevent);
+router.get("/home/event", getsixevent);
 
 //get all events by top rating
 router.get("/rating");
 
 //get latest event
-router.get("/latest", LatestEvent);
+router.get("/latest/event", LatestEvent);
 
 //create a event by user/organise
 router.post("/create", createevent);

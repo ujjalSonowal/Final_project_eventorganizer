@@ -1,0 +1,140 @@
+/* CSS for the main container */
+
+.organise-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.organise-header > div {
+  display: inline-block;
+}
+
+#delete-btn,
+#update-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+#delete-btn:hover,
+#update-btn:hover {
+  background-color: #c82333;
+}
+
+.organise-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.org-table {
+  margin: 0 auto;
+  width: 50%;
+  /* Adjust as needed */
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.org-table td,
+.org-table th {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.org-table th {
+  background-color: #f4f4f4;
+}
+
+/* CSS for the form popup and container */
+
+.form-popup-event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.form-container-event {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  /* Adjust as needed */
+}
+
+.form-container-event h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.form-container-event label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.form-container-event label span {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-container-event input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#t-btn {
+  width: 100%;
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#t-btn:hover {
+  background-color: #0056b3;
+}
+
+/* CSS for the main action buttons */
+
+.items {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#vi-btn {
+  width: 10%;
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#vi-btn:hover {
+  background-color: #218838;
+}
