@@ -1,7 +1,72 @@
-import React from "react";
-import { useState } from "react";
-import "./style.css";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+// Styled components
+const LoginContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #abacba 0%, #edece6 74%);
+`;
+
+const LoginBox = styled.div`
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 1.5rem;
+  color: #333;
+`;
+
+const InputLabel = styled.label`
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+`;
+
+const InputField = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 0.75rem;
+  background: #6b73ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #000dff;
+  }
+`;
+
+const SignupLink = styled(Link)`
+  display: block;
+  margin-top: 1rem;
+  color: #6b73ff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -59,11 +124,12 @@ export const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login">
+    <LoginContainer>
+      <LoginBox>
+        <Title>Login</Title>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="login-email">Email </label>
-          <input
+          <InputLabel htmlFor="login-email">Email </InputLabel>
+          <InputField
             id="login-email"
             type="text"
             name="email"
@@ -72,8 +138,8 @@ export const Login = () => {
           />
           <br />
 
-          <label htmlFor="login-password">Password</label>
-          <input
+          <InputLabel htmlFor="login-password">Password</InputLabel>
+          <InputField
             id="login-password"
             type="password"
             name="password"
@@ -82,12 +148,12 @@ export const Login = () => {
           />
           <br />
 
-          <button id="login-button" type="submit">
+          <SubmitButton id="login-button" type="submit">
             Login
-          </button>
+          </SubmitButton>
         </form>
-        <Link to="/signup">Create an account</Link>
-      </div>
-    </div>
+        <SignupLink to="/signup">Create an account</SignupLink>
+      </LoginBox>
+    </LoginContainer>
   );
 };

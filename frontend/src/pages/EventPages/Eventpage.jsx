@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Events } from "../../components/Events/Events";
+import "./style.css";
 
 export const Eventpage = () => {
   const [events, setEvents] = useState(null);
@@ -23,6 +24,7 @@ export const Eventpage = () => {
 
   return (
     <>
+      <h1 id="ev-h1">Events</h1>
       <div className="container">
         <div className="container-items">
           <div className="evetns-items">

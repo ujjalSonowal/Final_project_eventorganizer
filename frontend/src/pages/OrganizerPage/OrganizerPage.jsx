@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import "./style.css";
 
 import { Organizer } from "../../components/Organizer/Organizer";
 
@@ -24,7 +25,7 @@ export const OrganizerPage = () => {
 
   return (
     <div className="organise">
-      <h2>organise</h2>
+      <h2 id="or-h1">Organizer</h2>
       <div className="organise-items">
         {organise &&
           organise.map((organise) => (

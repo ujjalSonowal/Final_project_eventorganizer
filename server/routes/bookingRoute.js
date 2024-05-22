@@ -4,7 +4,8 @@ const {
   getbookingall,
   getsinglebooking,
   updatebooking,
-  getbookinguser,
+  // getbookinguser,
+  getmybooking,
 } = require("../controllers/bookingcontroller");
 const router = express.Router();
 
@@ -12,7 +13,10 @@ router.get("/", getbookingall);
 router.get("/:id", getsinglebooking);
 
 //get my booking userID
-router.get("/mybooking", getbookinguser);
+// router.get("/mybooking", getbookinguser);
+
+//get booking by userId
+router.get("/mybooking/:id", getmybooking);
 
 //create booking
 router.post("/addbooking", createbooking);

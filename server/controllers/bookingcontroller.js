@@ -22,31 +22,52 @@ const getsinglebooking = async (req, res) => {
 };
 
 //get booking by user id
-const getbookinguser = async (req, res) => {
-  const { userId } = req.params;
-  const bookings = await booking.findOne(userId);
-  if (!bookings) {
-    return res.status(404).json({ message: "Events not found" });
+// const getbookinguser = async (req, res) => {
+//   const { userId } = req.params;
+//   const bookings = await booking.findOne(userId);
+//   if (!bookings) {
+//     return res.status(404).json({ message: "Events not found" });
+//   }
+//   res.status(202).json(bookings);
+// };
+
+//get booking by userId
+const getmybooking = async (req, res) => {
+  const { id: userId } = req.params;
+  const mybooking = await booking.find({ userId });
+  if (!mybooking) {
+    res.status(500).json({ error: "booking not found" });
   }
-  res.status(202).json(bookings);
+  res.status(201).json(mybooking);
 };
 
 //create a booking
+// const createbooking = async (req, res) => {
+//   const postbookingdata = req.body;
+//   const userId = req.userId;
+//   const organiseId = req.organiseId;
+//   const createbook = await booking.create({
+//     ...postbookingdata,
+//     userId,
+//     organiseId,
+//   });
+
+//   if (!createbook) {
+//     res.status(500).json({ error: "booking not create" });
+//   }
+//   res.status(201).json(createbook);
+// };
+
 const createbooking = async (req, res) => {
   const postbookingdata = req.body;
-  const userId = req.userId;
-  const organiseId = req.organiseId;
-  const createbook = await booking.create({
-    ...postbookingdata,
-    userId,
-    organiseId,
-  });
+  const createbook = await booking.create({ ...postbookingdata });
 
   if (!createbook) {
     res.status(500).json({ error: "booking not create" });
   }
   res.status(201).json(createbook);
 };
+
 //delete a booking
 const deletebooking = async (req, res) => {
   const { id: _id } = req.params;
@@ -87,5 +108,5 @@ module.exports = {
   getsinglebooking,
   deletebooking,
   updatebooking,
-  getbookinguser,
+  getmybooking,
 };

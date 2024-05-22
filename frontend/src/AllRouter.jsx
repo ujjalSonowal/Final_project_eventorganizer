@@ -7,7 +7,7 @@ import { Login } from "./pages/Auth/Login";
 import { Eventpage } from "./pages/EventPages/Eventpage";
 import { ProfileBio } from "./pages/UserProfile/ProfileBio";
 import { UserProfile } from "./pages/UserProfile/UserProfile";
-import { Booking } from "./pages/BookingPage/Booking";
+// import { Booking } from "./pages/BookingPage/Booking";
 // import { AddEvent } from "./pages/AddEvent/index";
 // import { AddOrganizer } from "./pages/AddOrganizer/index";
 // import { MyEvent } from "./pages/Dashboard/MyEvent/index";
@@ -17,12 +17,13 @@ import { Booking } from "./pages/BookingPage/Booking";
 import { Myoranization } from "./pages/MyOrganization/Myorganization";
 import { Vieworganise } from "./pages/MyOrganization/Vieworganise";
 import { MyEvent } from "./pages/MyEvents/MyEvent";
+import { MyBooking } from "./pages/MyBooking/MyBooking";
 
 const Allroutes = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/booking" element={<Booking />} />
+      {/* <Route path="/booking" element={<Booking />} /> */}
       <Route path="/organise" element={<OrganizerPage />} />
       <Route path="/events" element={<Eventpage />} />
       <Route path="/profile/:id" element={<UserProfile />} />
@@ -36,6 +37,7 @@ const Allroutes = () => {
       <Route path="/createorganization" element={<Myoranization />} />
       <Route path="/myorg/:id" element={<Vieworganise />} />
       <Route path="/myevent/:id" element={<MyEvent />} />
+      <Route path="/mybooking/:id" element={<MyBooking />} />
     </Routes>
   );
 };

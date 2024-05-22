@@ -7,6 +7,7 @@ import {
   faCalendarAlt,
   faClipboardList,
   faSignOutAlt,
+  faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -83,11 +84,17 @@ export const Sidenav = () => {
             <a href="/#">All Booking</a>
           </li>
         )}
+        {currentuser === "User" && (
+          <li>
+            <FontAwesomeIcon icon={faUserCircle} className="snav-icon" />
+            <Link to="/">Manage Profile</Link>
+          </li>
+        )}
 
         {currentuser === "User" && (
           <li>
             <FontAwesomeIcon icon={faCalendarAlt} className="snav-icon" />
-            <Link to="/">My Bookings</Link>
+            <Link to={`/mybooking/${userId}`}>My Bookings</Link>
           </li>
         )}
         <li>
