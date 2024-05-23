@@ -26,13 +26,23 @@ const EventInfo = styled.div`
   margin-top: 10px;
 `;
 
+const Button = styled.button`
+  background-color: #22ae1b;
+  padding: 10px;
+  box-shadow: 10px lightcoral;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+`;
+
 const PopupOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(145, 131, 131, 0.5);
   display: ${(props) => (props.showPopup ? "block" : "none")};
 `;
 
@@ -121,9 +131,9 @@ export const Events = ({ event }) => {
         <p>Status: {event.status}</p>
       </EventInfo>
       <StarRating rating={event.rating} />
-      <button className="view-details-btn" onClick={togglePopup}>
+      <Button className="view-details-btn" onClick={togglePopup}>
         {showPopup ? "Close Details" : "View Details"}
-      </button>
+      </Button>
 
       <PopupOverlay showPopup={showPopup} onClick={togglePopup} />
       <PopupCard showPopup={showPopup}>
@@ -155,7 +165,7 @@ export const Events = ({ event }) => {
           </p>
         </div>
         <Link to={`/booking/${event._id}`}>
-          <button className="book-btn">Book Now</button>
+          <Button className="book-btn">Book Now</Button>
         </Link>
         <CommentContainer>
           <form onSubmit={handleSubmit}>

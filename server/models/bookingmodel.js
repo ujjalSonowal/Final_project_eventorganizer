@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bookingmodel = new Schema(
   {
-    name: { type: String },
+    name: { type: String }, //user name
     userId: { type: String }, //user who is making the booking
     eventId: { type: String },
     organiseId: { type: String }, //event for which the

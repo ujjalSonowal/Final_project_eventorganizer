@@ -59,6 +59,13 @@ export const Navbar = () => {
                 </Link>
               )}
             </li>
+            <li className="nav-item" id="nav-li">
+              {usertype === "Organiser" && (
+                <Link to={`/myorg/${currentuser}`} className="nav-link">
+                  Create Event
+                </Link>
+              )}
+            </li>
             {/* <li className="nav-item">
               <Link to="/events" className="nav-link">
                 Events
@@ -74,6 +81,7 @@ export const Navbar = () => {
                 About
               </Link>
             </li>
+
             {/* {usertype === "User" && (
               <li className="nav-item">
                 <a className="nav-link" href="/about">

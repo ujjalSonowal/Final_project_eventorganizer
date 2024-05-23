@@ -80,6 +80,11 @@ const Form = styled.form`
   flex-direction: column;
   gap: 10px;
 `;
+const Select = styled.select`
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
 
 const Label = styled.label`
   font-weight: bold;
@@ -200,11 +205,13 @@ export const Vieworganise = () => {
     }
     getOrg();
   }, [userId]);
-
+  // const [organiseId, setorganiseid] = useState("");
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [capacity, setCapacity] = useState("");
   const [price, setPrice] = useState("");
+  const [status, setStatus] = useState("");
+  const [eventdesc, setEventdesc] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const toggleForm = () => {
@@ -213,9 +220,18 @@ export const Vieworganise = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { userId, name, type, capacity, price };
+    const data = {
+      userId,
+      organiseId: organise._id,
+      name,
+      type,
+      capacity,
+      price,
+      status: status === "" ? "Active" : status,
+      eventdesc,
+    };
     try {
-      const response = await fetch(`http://localhost:5000/events/post`, {
+      const response = await fetch(`http://localhost:5001/events/create`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -223,158 +239,184 @@ export const Vieworganise = () => {
         },
       });
       const json = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(json.error);
       }
       setIsFormOpen(false);
-      navigate("/");
+      navigate(`/myevent/${userId}`);
+      // navigate("/");
     } catch (error) {
       console.log("could not submit the form data");
     }
   };
 
   return (
-    <OrganiseContainer>
-      <OrganiseHeader>
-        <Title>Organizer Details</Title>
-        <ButtonGroup>
-          <Button delete onClick={handleDelete}>
-            Delete
-          </Button>
-          <Button onClick={toggleOrganiseForm}>Update</Button>
-        </ButtonGroup>
-      </OrganiseHeader>
-      <OrgTable>
-        <tbody>
-          <tr>
-            <Th>Owner Name:</Th>
-            <Td>{organise.ownerName}</Td>
-          </tr>
-          <tr>
-            <Th>Contact Email:</Th>
-            <Td>{organise.contactEmail}</Td>
-          </tr>
-          <tr>
-            <Th>Contact Phone:</Th>
-            <Td>{organise.contactPhone}</Td>
-          </tr>
-          <tr>
-            <Th>Address:</Th>
-            <Td>{organise.address}</Td>
-          </tr>
-          <tr>
-            <Th>Description:</Th>
-            <Td>{organise.description}</Td>
-          </tr>
-        </tbody>
-      </OrgTable>
-
-      {updateForm && (
-        <EditPopup>
-          <h2>Edit Organization</h2>
-          <Form onSubmit={handleOrganiseUpdate}>
-            <Label htmlFor="name">Owner Name:</Label>
-            <Input
-              type="text"
-              id="ownerName"
-              value={ownerName}
-              onChange={(e) => setOwnerName(e.target.value)}
-            />
-            <Label htmlFor="email">Contact Email:</Label>
-            <Input
-              type="email"
-              id="email"
-              value={contactEmail}
-              onChange={(e) => setContactEmail(e.target.value)}
-            />
-            <Label htmlFor="phone">Contact Phone:</Label>
-            <Input
-              type="number"
-              id="phone"
-              value={contactPhone}
-              onChange={(e) => setContactPhone(e.target.value)}
-            />
-            <Label htmlFor="address">Address:</Label>
-            <Input
-              type="text"
-              id="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <Label htmlFor="description">Description:</Label>
-            <Input
-              type="text"
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <Button type="submit">Update</Button>
-            <Button type="button" onClick={toggleOff}>
-              Cancel
+    <>
+      <OrganiseContainer>
+        <OrganiseHeader>
+          <Title>Organizer Details</Title>
+          <ButtonGroup>
+            <Button delete onClick={handleDelete}>
+              Delete
             </Button>
-          </Form>
-        </EditPopup>
-      )}
-      {isFormOpen && (
-        <FormPopupEvent>
-          <FormContainerEvent>
-            <Form onSubmit={handleSubmit}>
-              <h2>Add Event details</h2>
-              <Label>
-                Event name:
+            <Button onClick={toggleOrganiseForm}>Update</Button>
+          </ButtonGroup>
+        </OrganiseHeader>
+        <OrgTable>
+          <tbody>
+            <tr>
+              <Th>Owner Name:</Th>
+              <Td>{organise.ownerName}</Td>
+            </tr>
+            <tr>
+              <Th>Contact Email:</Th>
+              <Td>{organise.contactEmail}</Td>
+            </tr>
+            <tr>
+              <Th>Contact Phone:</Th>
+              <Td>{organise.contactPhone}</Td>
+            </tr>
+            <tr>
+              <Th>Address:</Th>
+              <Td>{organise.address}</Td>
+            </tr>
+            <tr>
+              <Th>Description:</Th>
+              <Td>{organise.description}</Td>
+            </tr>
+          </tbody>
+        </OrgTable>
+        <>
+          {updateForm && (
+            <EditPopup>
+              <h2>Edit Organization</h2>
+              <Form onSubmit={handleOrganiseUpdate}>
+                <Label htmlFor="name">Owner Name:</Label>
                 <Input
-                  id="etn"
                   type="text"
-                  placeholder="Event Name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
+                  id="ownerName"
+                  value={ownerName}
+                  onChange={(e) => setOwnerName(e.target.value)}
                 />
-              </Label>
-              <Label>
-                Event Type:
+                <Label htmlFor="email">Contact Email:</Label>
                 <Input
-                  id="etn"
+                  type="email"
+                  id="email"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                />
+                <Label htmlFor="phone">Contact Phone:</Label>
+                <Input
+                  type="number"
+                  id="phone"
+                  value={contactPhone}
+                  onChange={(e) => setContactPhone(e.target.value)}
+                />
+                <Label htmlFor="address">Address:</Label>
+                <Input
                   type="text"
-                  placeholder="Type"
-                  onChange={(e) => setType(e.target.value)}
-                  value={type}
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                 />
-              </Label>
-              <Label>
-                Person Capacity:
+                <Label htmlFor="description">Description:</Label>
                 <Input
-                  id="etn"
-                  type="number"
-                  placeholder="Capacity"
-                  onChange={(e) => setCapacity(e.target.value)}
-                  value={capacity}
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
-              </Label>
-              <Label>
-                Price:
-                <Input
-                  id="etn"
-                  type="number"
-                  placeholder="price"
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price}
-                />
-              </Label>
-              <Button type="submit">Save</Button>
-              <Button type="button" onClick={toggleForm}>
-                Cancel
-              </Button>
-            </Form>
-          </FormContainerEvent>
-        </FormPopupEvent>
-      )}
-      <Items>
-        <Button onClick={toggleForm}>Add Event</Button>
-        <Link to={`/myevent/${userId}`}>
-          <Button>View Events</Button>
-        </Link>
-      </Items>
-    </OrganiseContainer>
+                <Button type="submit">Update</Button>
+                <Button type="button" onClick={toggleOff}>
+                  Cancel
+                </Button>
+              </Form>
+            </EditPopup>
+          )}
+        </>
+        <>
+          {isFormOpen && (
+            <FormPopupEvent>
+              <FormContainerEvent>
+                <Form onSubmit={handleSubmit}>
+                  <h2>Add Event details</h2>
+                  <Label>
+                    Event name:
+                    <Input
+                      id="etn"
+                      type="text"
+                      placeholder="Event Name"
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
+                    />
+                  </Label>
+                  <Label>
+                    Event Type:
+                    <Input
+                      id="etn"
+                      type="text"
+                      placeholder="Type"
+                      onChange={(e) => setType(e.target.value)}
+                      value={type}
+                    />
+                  </Label>
+                  <Label>
+                    Person Capacity:
+                    <Input
+                      id="etn"
+                      type="number"
+                      placeholder="Capacity"
+                      onChange={(e) => setCapacity(e.target.value)}
+                      value={capacity}
+                    />
+                  </Label>
+                  <Label>
+                    Price:
+                    <Input
+                      id="etn"
+                      type="number"
+                      placeholder="price"
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
+                    />
+                  </Label>
+                  <Label htmlFor="status">Status:</Label>
+                  <Select
+                    id="status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </Select>
+                  <Label>
+                    Description:
+                    <Input
+                      id="etn"
+                      type="textarea"
+                      placeholder="description"
+                      onChange={(e) => setEventdesc(e.target.value)}
+                      value={eventdesc}
+                    />
+                  </Label>
+                  <Button type="submit">Save</Button>
+                  <Button type="button" onClick={toggleForm}>
+                    Cancel
+                  </Button>
+                </Form>
+              </FormContainerEvent>
+            </FormPopupEvent>
+          )}
+        </>
+        <Items>
+          <Button onClick={toggleForm}>Add Event</Button>
+          <Link to={`/myevent/${userId}`}>
+            <Button>View Events</Button>
+          </Link>
+        </Items>
+      </OrganiseContainer>
+    </>
   );
 };

@@ -25,6 +25,8 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: 1.5rem;
   color: #333;
+  font-size: 20px;
+  text-transform: uppercase;
 `;
 
 const Label = styled.label`

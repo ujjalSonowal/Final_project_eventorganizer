@@ -23,6 +23,8 @@ const LoginBox = styled.div`
 const Title = styled.h1`
   margin-bottom: 1.5rem;
   color: #333;
+  font-size: 20px;
+  text-transform: uppercase;
 `;
 
 const InputLabel = styled.label`

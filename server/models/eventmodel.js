@@ -12,7 +12,7 @@ const eventmodel = new schema(
     rating: { type: Number },
     images: { type: String },
     video: { type: Buffer },
-    status: { type: Boolean },
+    status: { type: String, enum: ["Active", "Inactive"] }, // active or inactive
     createOn: { type: Date, default: Date.now },
     totalbooking: { type: Number, default: 0 },
     noofcomment: { type: Number, default: 0 },
@@ -23,7 +23,7 @@ const eventmodel = new schema(
         userId: String,
       },
     ],
-    description: { type: String },
+    eventdesc: { type: String }, //description
   },
   { timestamps: true }
 );

@@ -10,8 +10,8 @@ const Container = styled.div`
 `;
 
 const TableContainer = styled.div`
-  width: 100%;
-  max-width: 1200px;
+  width: 80%;
+  max-width: 100%;
   margin: 20px 0;
 `;
 
@@ -42,6 +42,9 @@ const Tr = styled.tr`
     background-color: #f9f9f9;
   }
 `;
+// const Tr = styled.tr`
+//   background-color: #f9f9f9;
+// `;
 
 const Td = styled.td`
   padding: 10px;
