@@ -31,7 +31,7 @@ const singup = async (req, res) => {
     }
     res.status(200).json({ result: newuser, token });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ msg: "Internal server error", error });
   }
 };
 

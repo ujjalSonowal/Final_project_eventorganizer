@@ -14,7 +14,7 @@ import { UserProfile } from "./pages/UserProfile/UserProfile";
 // import { MyOrganization } from "./pages/Dashboard/MyOrganization";
 // import { AllBookings } from "./pages/Dashboard/AllBookings";
 
-import { Myoranization } from "./pages/MyOrganization/Myorganization";
+import { Myorganization } from "./pages/MyOrganization/Myorganization";
 import { Vieworganise } from "./pages/MyOrganization/Vieworganise";
 import { MyEvent } from "./pages/MyEvents/MyEvent";
 import { MyBooking } from "./pages/MyBooking/MyBooking";
@@ -34,7 +34,7 @@ const Allroutes = () => {
       {/* <Route path="/myevent" element={<MyEvent />} />
       <Route path="/myorganise" element={<MyOrganization />} /> */}
       {/* <Route path="/allbooking" element={<AllBookings />} /> */}
-      <Route path="/createorganization" element={<Myoranization />} />
+      <Route path="/createorganization" element={<Myorganization />} />
       <Route path="/myorg/:id" element={<Vieworganise />} />
       <Route path="/myevent/:id" element={<MyEvent />} />
       <Route path="/mybooking/:id" element={<MyBooking />} />

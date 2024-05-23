@@ -534,7 +534,7 @@ p { */
 
 .contact-form input,
 .contact-form textarea {
-  padding: 10px 0;
+  padding: 10px 5px;
   margin-bottom: 20px;
   border: none;
   /* border-bottom: 2px solid #ff5b5b; */
@@ -591,5 +591,8 @@ footer {
 }
 
 #bnt {
-  width: 30%;
+  width: 50%;
+  position: relative;
+  top: 3px;
+  right: -47px;
 }

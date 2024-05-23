@@ -8,6 +8,7 @@
   background-color: rgb(133, 100, 90);
   padding-top: 50px;
   transition: left 11s ease;
+  z-index: 1;
 }
 
 .snavbar.open {

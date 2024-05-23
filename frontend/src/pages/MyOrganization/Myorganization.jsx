@@ -1,13 +1,86 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import "./myorg.css";
-export const Myoranization = () => {
+import React, { useState } from "react";
+import styled from "styled-components";
+
+const FormContainer = styled.div`
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  color: #0c7890;
+  margin-bottom: 20px;
+  font-size: 20px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  margin-bottom: 10px;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: #45a049;
+  }
+`;
+
+const ServiceContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
+const ServiceTitle = styled.h3`
+  font-size: 20px;
+  color: #be0b0b;
+`;
+
+const Service = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`;
+
+const RemoveButton = styled.button`
+  width: 22%;
+  height: 45px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4d4d;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: #ff1a1a;
+  }
+`;
+
+export const Myorganization = () => {
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
-  // const [userid, setUserId] = useState("");
   const [address, setAddress] = useState("");
   const [services, setServices] = useState([
     { serviceName: "", description: "" },
@@ -31,6 +104,7 @@ export const Myoranization = () => {
   };
 
   const handlesubmit = async (e) => {
+    e.preventDefault();
     const data = {
       companyName,
       description,
@@ -61,146 +135,91 @@ export const Myoranization = () => {
   };
 
   return (
-    <>
-      <div className="form">
-        <h1 id="org-h1">Create Organization</h1>
-        <form onSubmit={handlesubmit}>
-          <label htmlFor="name">Organize Name:</label>
-          <input
-            type="text"
-            name="companyName"
-            onChange={(e) => setCompanyName(e.target.value)}
-            value={companyName}
-          />
+    <FormContainer>
+      <Title>Create Organization</Title>
+      <Form onSubmit={handlesubmit}>
+        <Label htmlFor="companyName">Organize Name:</Label>
+        <Input
+          type="text"
+          name="companyName"
+          onChange={(e) => setCompanyName(e.target.value)}
+          value={companyName}
+        />
 
-          <label htmlFor="email">Organize Email:</label>
-          <input
-            type="email"
-            name="contactEmail"
-            onChange={(e) => setContactEmail(e.target.value)}
-            value={contactEmail}
-          />
+        <Label htmlFor="contactEmail">Organize Email:</Label>
+        <Input
+          type="email"
+          name="contactEmail"
+          onChange={(e) => setContactEmail(e.target.value)}
+          value={contactEmail}
+        />
 
-          <label htmlFor="owner">Organize Owner:</label>
-          <input
-            type="text"
-            name="ownerName"
-            onChange={(e) => setOwnerName(e.target.value)}
-            value={ownerName}
-          />
+        <Label htmlFor="ownerName">Organize Owner:</Label>
+        <Input
+          type="text"
+          name="ownerName"
+          onChange={(e) => setOwnerName(e.target.value)}
+          value={ownerName}
+        />
 
-          {/* <label htmlFor="userId">User ID:</label>
-                <input type="text" name="userId" value={formState.userId} onChange={handleInputChange} /> */}
+        <Label htmlFor="contactPhone">Phone number:</Label>
+        <Input
+          type="tel"
+          name="contactPhone"
+          onChange={(e) => setContactPhone(e.target.value)}
+          value={contactPhone}
+        />
 
-          <label htmlFor="phone">Phone number:</label>
-          <input
-            type="tel"
-            name="contactPhone"
-            onChange={(e) => setContactPhone(e.target.value)}
-            value={contactPhone}
-          />
+        <Label htmlFor="address">Office Address:</Label>
+        <Input
+          type="text"
+          name="address"
+          onChange={(e) => setAddress(e.target.value)}
+          value={address}
+        />
 
-          {/* <label htmlFor="startdate">Organization From:</label>
-          <input
-            type="date"
-            name="startdate"
-            onChange={(e) => setdate(e.target.value)}
-            value={date}
-          /> */}
+        <Label htmlFor="description">Description:</Label>
+        <Input
+          type="text"
+          name="description"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
 
-          {/* <label htmlFor="location">Office location:</label>
-          <input
-            type="text"
-            name="location"
-            onChange={(e) => setlocation(e.target.value)}
-            value={location}
-          /> */}
+        <ServiceContainer>
+          <ServiceTitle>Services:</ServiceTitle>
+          {services.map((service, index) => (
+            <Service key={index}>
+              <Label htmlFor={`serviceName-${index}`}>Service Name:</Label>
+              <Input
+                type="text"
+                name="serviceName"
+                value={service.serviceName}
+                onChange={(e) => handleServiceChange(index, e)}
+              />
+              <Label htmlFor={`serviceDescription-${index}`}>
+                Description:
+              </Label>
+              <Input
+                type="text"
+                name="description"
+                value={service.description}
+                onChange={(e) => handleServiceChange(index, e)}
+              />
+              <RemoveButton type="button" onClick={() => removeService(index)}>
+                Remove
+              </RemoveButton>
+            </Service>
+          ))}
+          <Button type="button" onClick={addService}>
+            Add Service
+          </Button>
+        </ServiceContainer>
 
-          <label htmlFor="address"> Office Address:</label>
-          <input
-            type="text"
-            name="address"
-            onChange={(e) => setAddress(e.target.value)}
-            value={address}
-          />
-          <label htmlFor="description"> Description:</label>
-          <input
-            type="text"
-            name="description"
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-          />
-
-          <div className="services-section">
-            <h3 id="org-h3">Services:</h3>
-            {services.map((service, index) => (
-              <div key={index} className="service">
-                <label htmlFor={`serviceName-${index}`}>Service Name:</label>
-                <input
-                  type="text"
-                  name="serviceName"
-                  value={service.serviceName}
-                  onChange={(e) => handleServiceChange(index, e)}
-                />
-                <label htmlFor={`serviceDescription-${index}`}>
-                  Description:
-                </label>
-                <input
-                  type="text"
-                  name="description"
-                  value={service.description}
-                  onChange={(e) => handleServiceChange(index, e)}
-                />
-                <button type="button" onClick={() => removeService(index)}>
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={addService}>
-              Add Service
-            </button>
-          </div>
-
-          {/* <label htmlFor="pin">Pin:</label>
-          <input
-            type="number"
-            name="pin"
-            onChange={(e) => setpin(e.target.value)}
-            value={pin}
-          /> */}
-
-          {/* <label htmlFor="postoffice">Post Office:</label>
-          <input
-            type="text"
-            name="postoffice"
-            onChange={(e) => setpostoffice(e.target.value)}
-            value={postoffice}
-          /> */}
-
-          {/* <label htmlFor="state">State:</label>
-          <input
-            type="text"
-            name="state"
-            onChange={(e) => setmstate(e.target.value)}
-            value={mstate}
-          /> */}
-
-          {/* <label htmlFor="service">Service:</label>
-          <input
-            type="text"
-            name="service"
-            onChange={(e) => setservice(e.target.value)}
-            value={service}
-          /> */}
-
-          {/* <label htmlFor="status">Status:</label>
-                <input type="checkbox" name="status" checked={formState.status} onChange={(e) => setFormState({ ...formState, status: e.target.checked })} /> */}
-
-          <button id="org-btn" type="submit" className="btns">
-            Submit
-          </button>
-        </form>
-      </div>
-    </>
+        <Button type="submit">Submit</Button>
+      </Form>
+    </FormContainer>
   );
 };
+
+// export default Myorganization;

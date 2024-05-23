@@ -15,7 +15,7 @@ const getbytoprating = async (req, res) => {
 //get organize by userId
 const getorgbyuserid = async (req, res) => {
   const { userId } = req.params;
-  const organisation = await organise.find(userId);
+  const organisation = await organise.findOne(userId);
   if (!organisation) {
     return res.status(404).json({ message: "Organisation not found" });
   }
