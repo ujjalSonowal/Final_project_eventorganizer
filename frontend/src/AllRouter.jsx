@@ -18,6 +18,7 @@ import { Myorganization } from "./pages/MyOrganization/Myorganization";
 import { Vieworganise } from "./pages/MyOrganization/Vieworganise";
 import { MyEvent } from "./pages/MyEvents/MyEvent";
 import { MyBooking } from "./pages/MyBooking/MyBooking";
+import { CreateBook } from "./pages/MyBooking/CreateBook";
 
 const Allroutes = () => {
   return (
@@ -38,6 +39,7 @@ const Allroutes = () => {
       <Route path="/myorg/:id" element={<Vieworganise />} />
       <Route path="/myevent/:id" element={<MyEvent />} />
       <Route path="/mybooking/:id" element={<MyBooking />} />
+      <Route path="/createbook" element={<CreateBook />} />
     </Routes>
   );
 };

@@ -14,6 +14,9 @@ const EventCard = styled.div`
   margin-bottom: 20px;
   /* Allow event cards to grow to fill the container */
   margin-right: 2rem; /* Add margin-right for gap between event cards */
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const EventTitle = styled.p`
@@ -121,75 +124,77 @@ export const Events = ({ event }) => {
   };
 
   return (
-    <EventCard>
-      <EventTitle>
-        Event Name: <strong>{event.name.toUpperCase()}</strong>
-      </EventTitle>
-      <p>Event Created: {event.createOn}</p>
-      <EventInfo>
-        <p>Event type: {event.type}</p>
-        <p>Status: {event.status}</p>
-      </EventInfo>
-      <StarRating rating={event.rating} />
-      <Button className="view-details-btn" onClick={togglePopup}>
-        {showPopup ? "Close Details" : "View Details"}
-      </Button>
+    <div>
+      <EventCard>
+        <EventTitle>
+          Event Name: <strong>{event.name.toUpperCase()}</strong>
+        </EventTitle>
+        <p>Event Created: {event.createOn}</p>
+        <EventInfo>
+          <p>Event type: {event.type}</p>
+          <p>Status: {event.status}</p>
+        </EventInfo>
+        <StarRating rating={event.rating} />
+        <Button className="view-details-btn" onClick={togglePopup}>
+          {showPopup ? "Close Details" : "View Details"}
+        </Button>
 
-      <PopupOverlay showPopup={showPopup} onClick={togglePopup} />
-      <PopupCard showPopup={showPopup}>
-        <CloseButton onClick={togglePopup}>Close</CloseButton>
-        <h2>{event.name.toUpperCase()}</h2>
-        <EventImage src={event.image} alt="Event" />
-        <div>
-          <p>
-            <strong>Created date:</strong> {event.createOn}
-          </p>
-          <p>
-            <strong>Total Booking:</strong> {event.totalbooking}
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Capacity:</strong>{" "}
-            {event.capacity &&
-              event.capacity.map((capacity, index) => (
-                <span key={index}>{capacity}</span>
+        <PopupOverlay showPopup={showPopup} onClick={togglePopup} />
+        <PopupCard showPopup={showPopup}>
+          <CloseButton onClick={togglePopup}>Close</CloseButton>
+          <h2>{event.name.toUpperCase()}</h2>
+          <EventImage src={event.image} alt="Event" />
+          <div>
+            <p>
+              <strong>Created date:</strong> {event.createOn}
+            </p>
+            <p>
+              <strong>Total Booking:</strong> {event.totalbooking}
+            </p>
+          </div>
+          <div>
+            <p>
+              <strong>Capacity:</strong>{" "}
+              {event.capacity &&
+                event.capacity.map((capacity, index) => (
+                  <span key={index}>{capacity}</span>
+                ))}
+            </p>
+            <p>
+              <strong>Price:</strong>{" "}
+              {event.price &&
+                event.price.map((price, index) => (
+                  <span key={index}>{price}</span>
+                ))}
+            </p>
+          </div>
+          <Link to="/createbook">
+            <Button className="book-btn">Book Now</Button>
+          </Link>
+          <CommentContainer>
+            <form onSubmit={handleSubmit}>
+              <CommentTextArea
+                value={comment}
+                onChange={handleCommentChange}
+                placeholder="Write your comment..."
+              ></CommentTextArea>
+              <StarRating rating={rating} onRatingChange={handleRatingChange} />
+              <SubmitButton type="submit">Submit</SubmitButton>
+            </form>
+          </CommentContainer>
+          <div>
+            {event.comment &&
+              event.comment.map((comment, index) => (
+                <div key={index}>
+                  <p>
+                    <strong>Comment Body: {comment.commentBody}</strong>
+                  </p>
+                  <p>Comment On: {comment.commentDate}</p>
+                </div>
               ))}
-          </p>
-          <p>
-            <strong>Price:</strong>{" "}
-            {event.price &&
-              event.price.map((price, index) => (
-                <span key={index}>{price}</span>
-              ))}
-          </p>
-        </div>
-        <Link to={`/booking/${event._id}`}>
-          <Button className="book-btn">Book Now</Button>
-        </Link>
-        <CommentContainer>
-          <form onSubmit={handleSubmit}>
-            <CommentTextArea
-              value={comment}
-              onChange={handleCommentChange}
-              placeholder="Write your comment..."
-            ></CommentTextArea>
-            <StarRating rating={rating} onRatingChange={handleRatingChange} />
-            <SubmitButton type="submit">Submit</SubmitButton>
-          </form>
-        </CommentContainer>
-        <div>
-          {event.comment &&
-            event.comment.map((comment, index) => (
-              <div key={index}>
-                <p>
-                  <strong>Comment Body: {comment.commentBody}</strong>
-                </p>
-                <p>Comment On: {comment.commentDate}</p>
-              </div>
-            ))}
-        </div>
-      </PopupCard>
-    </EventCard>
+          </div>
+        </PopupCard>
+      </EventCard>
+    </div>
   );
 };

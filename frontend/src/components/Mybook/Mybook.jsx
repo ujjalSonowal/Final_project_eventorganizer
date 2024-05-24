@@ -1,8 +1,122 @@
-import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-import "./mybook.css";
+const BookingContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+`;
+
+const BookingCard = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  /* width: 100%; */
+  /* width: calc(100% - 20px); */
+  /* @media (min-width: 576px) {
+    width: calc(50% - 20px);
+  }
+  @media (min-width: 768px) {
+    width: calc(33.33% - 20px);
+  } */
+`;
+
+const Title = styled.h2`
+  color: #333;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  margin-bottom: 20px;
+`;
+
+const BookingDetails = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  p {
+    margin: 10px 20px 10px 0;
+    font-size: 16px;
+    color: #555;
+  }
+`;
+
+const BtnSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  a {
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .cancel-btn {
+    background-color: #dc3545;
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+`;
+
+const FormUpdate = styled.div`
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 20px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 5px;
+  }
+
+  input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  button {
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #218838;
+    }
+
+    &.cancelupdate {
+      background-color: #ffc107;
+      &:hover {
+        background-color: #e0a800;
+      }
+    }
+  }
+`;
+
 export const Mybook = ({ booking }) => {
   const [updateform, setupdateform] = useState(false);
   const navigate = useNavigate();
@@ -15,6 +129,7 @@ export const Mybook = ({ booking }) => {
   const [email, setemail] = useState(booking.email);
   const [district, setdistrict] = useState(booking.district);
   const [contact, setcontact] = useState(booking.contact);
+  const [eventtype, setEventType] = useState(booking.eventtype);
 
   const bookingId = booking._id;
 
@@ -28,7 +143,16 @@ export const Mybook = ({ booking }) => {
 
   const handleupdate = async (e) => {
     e.preventDefault();
-    const data = { name, bookingDate, location, pin, email, district, contact };
+    const data = {
+      name,
+      bookingDate,
+      location,
+      pin,
+      email,
+      district,
+      contact,
+      eventtype,
+    };
     try {
       const response = await fetch(
         `http://localhost:5001/booking/update/${bookingId}`,
@@ -62,7 +186,6 @@ export const Mybook = ({ booking }) => {
       if (!response.ok) {
         throw new Error("Failed to delete");
       }
-      // Redirect to another page or perform any other actions after deletion
       navigate(`/mybooking/${userId}`);
       window.location.reload();
     } catch (error) {
@@ -72,72 +195,68 @@ export const Mybook = ({ booking }) => {
 
   return (
     <>
-      <div className="booking-card">
-        <h2>Booked Event : {booking.eventname}</h2>
-        <div className="booking-details">
-          <p>
-            <strong>Name:</strong> {booking.name}
-          </p>
-          {/* <p><strong>User ID:</strong> {booking.userId}</p>
-                <p><strong>Event ID:</strong> {booking.eventId}</p>
-                <p><strong>Organise ID:</strong> {booking.organiseId}</p> */}
-          <p>
-            <strong>Event Date:</strong> {booking.bookingDate}
-          </p>
-          <p>
-            <strong>Booking Date:</strong> {booking.createdAt}
-          </p>
-          <p>
-            <strong>Number of Days:</strong> {booking.noofday}
-          </p>
-          <p>
-            <strong>Location:</strong> {booking.location}
-          </p>
-          <p>
-            <strong>Pin:</strong> {booking.pin}
-          </p>
-          <p>
-            <strong>District:</strong> {booking.district}
-          </p>
-          <p>
-            <strong>Contact:</strong> {booking.contact}
-          </p>
-          <p>
-            <strong>Email:</strong> {booking.email}
-          </p>
-          <p>
-            <strong>PAN No:</strong> {booking.panno}
-          </p>
-          <p>
-            <strong>Booking Status:</strong>{" "}
-            {booking.bookingstatus ? "Confirmed" : "Pending"}
-          </p>
-          <p>
-            <strong>Status:</strong> {booking.Status}
-          </p>
-          <p>
-            <strong>Price:</strong>₹- {booking.price}
-          </p>
-          <p>
-            <strong>Payment Status:</strong> {booking.paymentstatus}
-          </p>
-          <p>
-            <strong>Event Type:</strong> {booking.eventtype}
-          </p>
-        </div>
-        <div className="btn-section">
-          <Link className="cancel-btn" onClick={() => handleDelete()}>
-            {" "}
-            Cancel Booking
-          </Link>
-          <Link className="update-btn" onClick={() => toggleform()}>
-            Update Details
-          </Link>
-        </div>
-        <>
+      <BookingContainer>
+        <BookingCard>
+          <Title>Booked Event : {booking.eventname}</Title>
+          <BookingDetails>
+            <p>
+              <strong>Name:</strong> {booking.name}
+            </p>
+            <p>
+              <strong>Event Date:</strong> {booking.bookingDate}
+            </p>
+            <p>
+              <strong>Booking Date:</strong> {booking.createdAt}
+            </p>
+            <p>
+              <strong>Number of Days:</strong> {booking.noofday}
+            </p>
+            <p>
+              <strong>Location:</strong> {booking.location}
+            </p>
+            <p>
+              <strong>Pin:</strong> {booking.pin}
+            </p>
+            <p>
+              <strong>District:</strong> {booking.district}
+            </p>
+            <p>
+              <strong>Contact:</strong> {booking.contact}
+            </p>
+            <p>
+              <strong>Email:</strong> {booking.email}
+            </p>
+            <p>
+              <strong>PAN No:</strong> {booking.panno}
+            </p>
+            <p>
+              <strong>Booking Status:</strong>{" "}
+              {booking.bookingstatus ? "Confirmed" : "Pending"}
+            </p>
+            <p>
+              <strong>Status:</strong> {booking.Status}
+            </p>
+            <p>
+              <strong>Price:</strong>₹- {booking.price}
+            </p>
+            <p>
+              <strong>Payment Status:</strong> {booking.paymentstatus}
+            </p>
+            <p>
+              <strong>Event Type:</strong> {booking.eventtype}
+            </p>
+          </BookingDetails>
+          <BtnSection>
+            <Link className="cancel-btn" onClick={() => handleDelete()}>
+              Cancel Booking
+            </Link>
+            <Link className="update-btn" onClick={() => toggleform()}>
+              Update Details
+            </Link>
+          </BtnSection>
           {updateform && (
-            <div className="formupdate">
-              <form onSubmit={handleupdate}>
+            <FormUpdate>
+              <Form onSubmit={handleupdate}>
                 <label htmlFor="name">Name</label>
                 <input
                   type="text"
@@ -150,29 +269,17 @@ export const Mybook = ({ booking }) => {
                   onChange={(e) => setbookingDate(e.target.value)}
                   value={bookingDate}
                 />
-                <label htmlFor="location">location</label>
+                <label htmlFor="location">Location</label>
                 <input
                   type="text"
                   onChange={(e) => setlocation(e.target.value)}
                   value={location}
                 />
-                <label htmlFor="pin">pin</label>
+                <label htmlFor="pin">Pin</label>
                 <input
                   type="number"
                   onChange={(e) => setpin(e.target.value)}
                   value={pin}
-                />
-                <label htmlFor="district">District</label>
-                <input
-                  type="text"
-                  onChange={(e) => setdistrict(e.target.value)}
-                  value={district}
-                />
-                <label htmlFor="contact">Contact</label>
-                <input
-                  type="tel"
-                  onChange={(e) => setcontact(e.target.value)}
-                  value={contact}
                 />
                 <label htmlFor="email">Email</label>
                 <input
@@ -180,15 +287,37 @@ export const Mybook = ({ booking }) => {
                   onChange={(e) => setemail(e.target.value)}
                   value={email}
                 />
-                <button type="submit">submit</button>
-                <button className="cancelupdate" onClick={() => toggleoff()}>
-                  Cancel Updation
+                <label htmlFor="district">District</label>
+                <input
+                  type="text"
+                  onChange={(e) => setdistrict(e.target.value)}
+                  value={district}
+                />
+                <label htmlFor="eventtype">Event Type</label>
+                <input
+                  type="text"
+                  onChange={(e) => setEventType(e.target.value)}
+                  value={eventtype}
+                />
+                <label htmlFor="contact">Contact</label>
+                <input
+                  type="text"
+                  onChange={(e) => setcontact(e.target.value)}
+                  value={contact}
+                />
+                <button type="submit">Update</button>
+                <button
+                  type="button"
+                  className="cancelupdate"
+                  onClick={() => toggleoff()}
+                >
+                  Cancel
                 </button>
-              </form>
-            </div>
+              </Form>
+            </FormUpdate>
           )}
-        </>
-      </div>
+        </BookingCard>
+      </BookingContainer>
     </>
   );
 };

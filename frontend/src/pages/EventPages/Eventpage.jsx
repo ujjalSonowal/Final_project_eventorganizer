@@ -4,6 +4,7 @@ import "./style.css";
 
 export const Eventpage = () => {
   const [events, setEvents] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function getEventRecords() {
@@ -18,16 +19,31 @@ export const Eventpage = () => {
     }
 
     getEventRecords();
-
-    return;
   }, []);
+
+  const handleSearch = () => {
+    console.log("Searching for:", searchTerm);
+    // You can add search functionality here
+  };
 
   return (
     <>
       <h1 id="ev-h1">Events</h1>
       <div className="container">
+        <div className="search-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className="search-button" onClick={handleSearch}>
+            Search
+          </button>
+        </div>
         <div className="container-items">
-          <div className="evetns-items">
+          <div className="evetns-items" id="event-it">
             <div className="events">
               {events &&
                 events.map((Event) => <Events key={Event._id} event={Event} />)}

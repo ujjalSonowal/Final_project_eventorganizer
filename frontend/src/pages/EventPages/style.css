@@ -8,4 +8,40 @@
   left: 40%;
   padding: 20px;
   font-size: 30px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* style.css */
+
+.container {
+  position: relative;
+}
+
+.search-container {
+  position: absolute;
+  top: -50px;
+  right: 50px;
+}
+
+.search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.search-button {
+  background-color: #22ae1b;
+  padding: 8px 12px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#event-it {
+  position: absolute;
+  top: 30px;
+  left: 100px;
 }

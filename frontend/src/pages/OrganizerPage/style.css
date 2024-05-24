@@ -1,5 +1,14 @@
 #or-h1 {
-  font-size: 30px;
-  font-weight: 400;
+  position: relative;
+  /* top: 10px; */
+  left: 40%;
   padding: 20px;
+  font-size: 30px;
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+
+.organise-items {
+  position: absolute;
+  left: 20px;
 }
