@@ -41,6 +41,15 @@ const getmybooking = async (req, res) => {
   res.status(201).json(mybooking);
 };
 
+const getallbooking = async (req, res) => {
+  const { id: organiseId } = req.params;
+  const allbooking = await booking.find({ organiseId });
+  if (!allbooking) {
+    res.status(500).json({ error: "booking not found" });
+  }
+  res.status(201).json(allbooking);
+};
+
 //create a booking
 // const createbooking = async (req, res) => {
 //   const postbookingdata = req.body;
@@ -109,4 +118,5 @@ module.exports = {
   deletebooking,
   updatebooking,
   getmybooking,
+  getallbooking,
 };

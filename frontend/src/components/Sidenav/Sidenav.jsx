@@ -81,7 +81,7 @@ export const Sidenav = () => {
         {currentuser === "Organiser" && (
           <li>
             <FontAwesomeIcon icon={faClipboardList} className="snav-icon" />
-            <a href="/#">All Booking</a>
+            <a href={`/allbooking/${user}`}>All Booking</a>
           </li>
         )}
         {currentuser === "User" && (

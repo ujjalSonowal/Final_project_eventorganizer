@@ -12,7 +12,7 @@ import { UserProfile } from "./pages/UserProfile/UserProfile";
 // import { AddOrganizer } from "./pages/AddOrganizer/index";
 // import { MyEvent } from "./pages/Dashboard/MyEvent/index";
 // import { MyOrganization } from "./pages/Dashboard/MyOrganization";
-// import { AllBookings } from "./pages/Dashboard/AllBookings";
+import { AllBookings } from "./pages/Dashboard/AllBookings/AllBookings";
 
 import { Myorganization } from "./pages/MyOrganization/Myorganization";
 import { Vieworganise } from "./pages/MyOrganization/Vieworganise";
@@ -34,7 +34,7 @@ const Allroutes = () => {
       <Route path="/addorganization" element={<AddOrganizer />} /> */}
       {/* <Route path="/myevent" element={<MyEvent />} />
       <Route path="/myorganise" element={<MyOrganization />} /> */}
-      {/* <Route path="/allbooking" element={<AllBookings />} /> */}
+      <Route path="/allbooking/:id" element={<AllBookings />} />
       <Route path="/createorganization" element={<Myorganization />} />
       <Route path="/myorg/:id" element={<Vieworganise />} />
       <Route path="/myevent/:id" element={<MyEvent />} />

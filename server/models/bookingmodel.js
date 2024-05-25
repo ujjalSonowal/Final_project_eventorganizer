@@ -19,7 +19,7 @@ const bookingmodel = new Schema(
     bookingstatus: { type: Boolean },
     Status: {
       type: String,
-      enum: ["Pending", "Accepted", "Rejected"],
+      enum: ["Pending", "Accepted", "Rejected"], //status automatically updated when organizer accept or reject..for now its default
       default: "Pending",
     },
     price: { type: Number },
