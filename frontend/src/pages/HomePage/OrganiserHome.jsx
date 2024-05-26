@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useParams } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Events } from "../../components/Events/Events";
 
 export const OrganiserHome = () => {
-  //   const [events, setEvents] = useState([]);
-  const [latestevent, setLatestEvent] = useState(null);
+  const [events, setEvents] = useState([]);
+  // const [latestevent, setLatestEvent] = useState(null);
   //   const [organiser, setOrganiser] = useState([]);
   //   const [user, setUser] = useState([]);
   //   const [notifications, setNotifications] = useState([]);
@@ -13,16 +14,18 @@ export const OrganiserHome = () => {
   //   const current = id;
 
   useEffect(() => {
-    async function Getlatestevents() {
-      const response = await fetch(`http://localhost:5001/events/latest/event`);
+    async function getRecords() {
+      const response = await fetch(`http://localhost:5001/events/home/event`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
         return;
       }
-      const latestevent = await response.json();
-      setLatestEvent(latestevent);
+      const events = await response.json();
+      setEvents(events);
     }
+
+    getRecords();
 
     //   const userResponse = await fetch("http://localhost:5001/user/:_id");
     //   const userData = await userResponse.json();
@@ -58,7 +61,7 @@ export const OrganiserHome = () => {
     //   setTasks(data);
     // }
 
-    Getlatestevents();
+    // Getlatestevents()
     // fetchOrganisers();
     // fetchNotifications();
     // fetchTasks();
@@ -76,7 +79,7 @@ export const OrganiserHome = () => {
           <h2>Overview</h2>
           <CardContainer>
             <Card>
-              <h3>Upcoming Events</h3>
+              <h3>Total No. Events</h3>
               <p>
                 {/* {
                   latestevent.filter((event) => new Date(event.date) > new Date())
@@ -85,7 +88,7 @@ export const OrganiserHome = () => {
               </p>
             </Card>
             <Card>
-              <h3>Past Events</h3>
+              <h3>Number of Users</h3>
               <p>
                 {/* {
                   latestevent.filter((event) => new Date(event.date) <= new Date())
@@ -94,7 +97,7 @@ export const OrganiserHome = () => {
               </p>
             </Card>
             <Card>
-              <h3>Latest Event</h3>
+              <h3>Total No. of Bookings</h3>
             </Card>
           </CardContainer>
         </Section>
@@ -109,7 +112,7 @@ export const OrganiserHome = () => {
         </Section>
 
         <Section>
-          <h2>Tasks</h2>
+          <h2>Organization</h2>
           <List>
             {/* {tasks.map(task => (
               <li key={task.id}>
@@ -125,10 +128,17 @@ export const OrganiserHome = () => {
         <ButtonPrimary to="/create-event">Create New Event</ButtonPrimary>
         <ButtonSecondary to="/manage-events">Manage Events</ButtonSecondary>
       </Actions>
-
-      <Footer>
-        <p>&copy; 2024 Event Organizer. All Rights Reserved.</p>
-      </Footer>
+      <Section>
+        <Title>Top Events</Title>
+        <TopEvent>
+          {events &&
+            events.map((Event) => (
+              <Link to="" className="linkcard">
+                <Events key={Event._id} event={Event} />
+              </Link>
+            ))}
+        </TopEvent>
+      </Section>
     </Container>
   );
 };
@@ -165,6 +175,7 @@ const Dashboard = styled.div`
 `;
 
 const Section = styled.div`
+  /* display: flex; */
   flex: 1;
   min-width: 300px;
   background: #fff;
@@ -238,4 +249,17 @@ const Footer = styled.footer`
   bottom: 0;
   width: 100%;
   margin: 0 10px;
+`;
+
+const TopEvent = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+`;
+
+const Title = styled.h2`
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  color: #0d4271;
 `;

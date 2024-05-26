@@ -17,7 +17,7 @@ const getsixevent = async (req, res) => {
 //latest create date
 const LatestEvent = async (req, res) => {
   try {
-    const latestevent = await Event.find().sort({ createdAt: -1 }).limit(3);
+    const latestevent = await Event.find().sort({ createdAt: -1 }).limit(6);
     if (!latestevent) {
       res.status(400).json({ error: "nothing to show" });
     }
