@@ -44,6 +44,7 @@ const Select = styled.select`
 
 const Button = styled.button`
   padding: 10px 20px;
+  margin: 10px;
   border: none;
   border-radius: 5px;
   background-color: #4caf50;
@@ -259,6 +260,7 @@ export const CreateBook = () => {
 
         <Button type="submit">Submit</Button>
       </Form>
+      <Button onClick={() => navigate(-1)}>Cancel</Button>
     </FormContainer>
   );
 };

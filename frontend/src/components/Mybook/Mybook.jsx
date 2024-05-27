@@ -247,7 +247,7 @@ export const Mybook = ({ booking }) => {
             </p>
           </BookingDetails>
           <BtnSection>
-            <Link className="cancel-btn" onClick={() => handleDelete()}>
+            <Link className="cancel-btn" onClick={handleDelete}>
               Cancel Booking
             </Link>
             <Link className="update-btn" onClick={() => toggleform()}>

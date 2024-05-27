@@ -50,15 +50,19 @@ const PopupOverlay = styled.div`
 `;
 
 const PopupCard = styled.div`
+  /* position: absolute; */
+  margin-top: 40px;
   position: fixed;
   top: 50%;
   left: 50%;
+  height: auto;
   transform: translate(-50%, -50%);
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 20px;
-  width: 400px;
+  width: 80%;
+  /* height: fit-content; */
   z-index: 1;
   display: ${(props) => (props.showPopup ? "block" : "none")};
 `;
@@ -72,19 +76,25 @@ const CloseButton = styled.button`
 `;
 
 const EventImage = styled.img`
-  width: 100%;
-  height: auto;
+  position: absolute;
+  width: 50%;
+  height: 350px;
   margin-bottom: 20px;
+  border: 1px solid red;
+  margin: 20px;
 `;
 
 const CommentContainer = styled.div`
-  margin-top: 20px;
+  margin: 30px;
+  /* position: absolute; */
+  margin-top: 200px;
 `;
 
 const CommentTextArea = styled.textarea`
   width: 100%;
   height: 100px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  margin-top: 200px;
 `;
 
 const SubmitButton = styled.button`
@@ -94,6 +104,33 @@ const SubmitButton = styled.button`
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+`;
+const PopContent = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  align-items: flex-start;
+  margin: 20px;
+  margin-left: 700px;
+  /* margin-right: 200px; */
+`;
+
+const P = styled.p`
+  display: flex;
+  align-items: flex-start;
+  text-align: start;
+  margin: 10px 0;
+  display: inline;
+`;
+
+const CommentBody = styled.div`
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid red;
+  /* margin-left: 0; */
+  margin: 20px;
 `;
 
 export const Events = ({ event }) => {
@@ -135,42 +172,47 @@ export const Events = ({ event }) => {
           <p>Status: {event.status}</p>
         </EventInfo>
         <StarRating rating={event.rating} />
-        <Button className="view-details-btn" onClick={togglePopup}>
+        <Link to={`/eventdetails/${event._id}`}>
+          <Button>View Details</Button>
+        </Link>
+        {/* <Button className="view-details-btn" onClick={togglePopup}>
           {showPopup ? "Close Details" : "View Details"}
-        </Button>
+        </Button> */}
 
-        <PopupOverlay showPopup={showPopup} onClick={togglePopup} />
-        <PopupCard showPopup={showPopup}>
+        {/* <PopupOverlay showPopup={showPopup} onClick={togglePopup} /> */}
+        {/* <PopupCard showPopup={showPopup}>
           <CloseButton onClick={togglePopup}>Close</CloseButton>
           <h2>{event.name.toUpperCase()}</h2>
           <EventImage src={event.image} alt="Event" />
-          <div>
-            <p>
-              <strong>Created date:</strong> {event.createOn}
-            </p>
-            <p>
+          <PopContent>
+            <P>Description: {event.eventdesc}</P>
+
+            <P>
               <strong>Total Booking:</strong> {event.totalbooking}
-            </p>
-          </div>
-          <div>
-            <p>
+            </P>
+            <P>
               <strong>Capacity:</strong>{" "}
               {event.capacity &&
                 event.capacity.map((capacity, index) => (
                   <span key={index}>{capacity}</span>
                 ))}
-            </p>
-            <p>
+            </P>
+            <P>
               <strong>Price:</strong>{" "}
               {event.price &&
                 event.price.map((price, index) => (
                   <span key={index}>{price}</span>
                 ))}
-            </p>
-          </div>
-          <Link to="/createbook">
-            <Button className="book-btn">Book Now</Button>
-          </Link>
+            </P>
+            <P>
+              <StarRating rating={event.rating} />
+            </P>
+
+            <Link to="/createbook">
+              <Button className="book-btn">Book Now</Button>
+            </Link>
+          </PopContent>
+
           <CommentContainer>
             <form onSubmit={handleSubmit}>
               <CommentTextArea
@@ -178,11 +220,11 @@ export const Events = ({ event }) => {
                 onChange={handleCommentChange}
                 placeholder="Write your comment..."
               ></CommentTextArea>
-              <StarRating rating={rating} onRatingChange={handleRatingChange} />
+              <StarRating rating={rating} onRatingChange={handleRatingChange} />{" "}
               <SubmitButton type="submit">Submit</SubmitButton>
             </form>
           </CommentContainer>
-          <div>
+          <CommentBody>
             {event.comment &&
               event.comment.map((comment, index) => (
                 <div key={index}>
@@ -192,8 +234,8 @@ export const Events = ({ event }) => {
                   <p>Comment On: {comment.commentDate}</p>
                 </div>
               ))}
-          </div>
-        </PopupCard>
+          </CommentBody>
+        </PopupCard> */}
       </EventCard>
     </div>
   );

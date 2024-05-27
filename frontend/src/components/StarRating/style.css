@@ -1,7 +1,8 @@
 /* StarRating.css */
 
 .star-rating {
-  display: flex;
+  /* display: flex; */
+  padding-bottom: 20px;
   font-size: 24px;
 }
 

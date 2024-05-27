@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Events } from "../../components/Events/Events";
+// import { EventTable } from "../../components/Events/EventTable";
 import "./style.css";
 
 export const Eventpage = () => {
@@ -28,25 +29,29 @@ export const Eventpage = () => {
 
   return (
     <>
-      <h1 id="ev-h1">Events</h1>
-      <div className="container">
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className="search-button" onClick={handleSearch}>
-            Search
-          </button>
-        </div>
-        <div className="container-items">
-          <div className="evetns-items" id="event-it">
-            <div className="events">
-              {events &&
-                events.map((Event) => <Events key={Event._id} event={Event} />)}
+      <div className="event-page-conatiner">
+        <h1 id="ev-h1">Events</h1>
+        <div className="container">
+          <div className="search-container">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="search-button" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+          <div className="container-items">
+            <div className="evetns-items" id="event-it">
+              <div className="events">
+                {events &&
+                  events.map((Event) => (
+                    <Events key={Event._id} event={Event} />
+                  ))}
+              </div>
             </div>
           </div>
         </div>

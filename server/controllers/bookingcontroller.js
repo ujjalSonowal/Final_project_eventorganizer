@@ -80,13 +80,14 @@ const createbooking = async (req, res) => {
 //delete a booking
 const deletebooking = async (req, res) => {
   const { id: _id } = req.params;
+  const userId = req.userId;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     res.status(404).json("booking not found");
   }
   const removeData = await booking.findOneAndDelete({
     _id,
-    userId: req.userId,
+    userId,
   });
   if (!removeData) {
     return res.status(404).json({ error: "Booking not found" });
