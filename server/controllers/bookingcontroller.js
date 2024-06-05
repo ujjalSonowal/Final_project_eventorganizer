@@ -112,6 +112,25 @@ const updatebooking = async (req, res) => {
   res.status(201).json(bookingData);
 };
 
+//recent booking for organiser
+const recentbooking = async (req, res) => {
+  const { id: eventId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    return res.status(404).json({ error: "Booking details not found" });
+  }
+
+  try {
+    const bookingData = await booking.find({ eventId });
+    if (!bookingData) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    return res.status(200).json(bookingData); // Changed to 200 OK as this is a successful data retrieval
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getbookingall,
   createbooking,
@@ -120,4 +139,5 @@ module.exports = {
   updatebooking,
   getmybooking,
   getallbooking,
+  recentbooking,
 };

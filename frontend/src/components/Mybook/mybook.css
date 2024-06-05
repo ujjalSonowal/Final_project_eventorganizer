@@ -24,10 +24,95 @@
 .booking-card .booking-details {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .booking-card .booking-details p {
   flex: 1 1 100%;
+}
+
+.organiser-details-card {
+  display: flex;
+  justify-content: center;
+}
+
+.organizer-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.organizer-details h4 {
+  text-align: center;
+}
+
+.organise-details-view {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.organise-details-view p {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.viewmorebtn {
+  display: flex;
+  justify-content: center;
+  margin: 17px;
+}
+
+.viewmorebtn button {
+  border: none;
+  background: none;
+  font-size: 17px;
+  color: #009dff;
+  transition: 1s;
+}
+
+.viewmorebtn button:hover {
+  color: #000000;
+}
+
+.all-details-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+  text-align: left;
+  position: relative;
+}
+
+.popup-content p {
+  color: black;
+  margin: 10px;
+  font-weight: bold;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000000;
 }
 
 /* Responsive adjustments */

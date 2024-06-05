@@ -1,266 +1,195 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled.div`
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  color: #0c7890;
-  margin-bottom: 20px;
-  font-size: 20px;
-`;
-
-const Form = styled.form`
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
 `;
 
-const Label = styled.label`
+const FormField = styled.div`
   margin-bottom: 10px;
-  font-weight: bold;
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Select = styled.select`
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
+const SubmitButton = styled.button`
+  background-color: #28a745;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #45a049;
+    background-color: #218838;
   }
 `;
 
 export const CreateBook = () => {
-  const [name, setName] = useState("");
-  //   const [userId, setUserId] = useState(localStorage.getItem("User") || "");
-  //   const [eventId, setEventId] = useState("");
-  //   const [organiseId, setOrganiseId] = useState("");
-  const [bookingDate, setBookingDate] = useState("");
-  const [noOfDay, setNoOfDay] = useState("");
-  const [location, setLocation] = useState("");
-  const [pin, setPin] = useState("");
-  const [district, setDistrict] = useState("");
-  const [contact, setContact] = useState("");
-  const [email, setEmail] = useState("");
-  const [panno, setPanno] = useState("");
-  const [price, setPrice] = useState("");
-  //   const [status, setStatus] = useState("Pending");
-  //   const [paymentStatus, setPaymentStatus] = useState("Pending");
-  const [eventName, setEventName] = useState("");
-  const [eventType, setEventType] = useState("");
-
-  const userId = localStorage.getItem("User");
+  const { eventId } = useParams();
+  const [name, setname] = useState("");
+  const [bookingDate, setbookingDate] = useState("");
+  const [noofday, setnoofday] = useState("");
+  const [location, setlocation] = useState("");
+  const [pin, setpin] = useState("");
+  const [district, setdistrict] = useState("");
+  const [contact, setcontact] = useState("");
+  const [email, setemail] = useState("");
+  const [panno, setpanno] = useState("");
   const navigate = useNavigate();
+  const userId = localStorage.getItem("User");
 
-  const handleSubmit = async (e) => {
+  const Createbooking = async (e) => {
     e.preventDefault();
     const data = {
       name,
       userId,
-      //   eventId: event._id,
-      //   organiseId: organiseId._id,
+      eventId,
       bookingDate,
-      noOfDay,
+      noofday,
       location,
       pin,
       district,
       contact,
       email,
       panno,
-      //   bookingstatus: false,
-      //   Status: status,
-      price,
-      //   paymentstatus: paymentStatus,
-      eventname: eventName,
-      eventtype: eventType,
     };
     try {
       const response = await fetch(`http://localhost:5001/booking/addbooking`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
-          "Content-type": "application/json",
+          "Content-Type": "application/json",
         },
       });
       if (!response.ok) {
-        throw new Error("Data not submitted");
+        throw new Error("Data not submitted ");
       }
-      const result = await response.json();
-      console.log(result);
-      alert("Data submitted successfully!");
-      navigate("/");
+      const mybooking = await response.json();
+      console.log(mybooking);
+      window.alert(`Booking Submitted`);
+      navigate(`/mybooking/${userId}`);
     } catch (error) {
       console.error(error);
-      alert("Error submitting data: " + error.message);
     }
   };
 
   return (
     <FormContainer>
-      <Title>Create Booking</Title>
-      <Form onSubmit={handleSubmit}>
-        <Label htmlFor="name">Name:</Label>
-        <Input
-          type="text"
-          name="name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-
-        {/* <Label htmlFor="eventId">Event ID:</Label>
-        <Input
-          type="text"
-          name="eventId"
-          onChange={(e) => setEventId(e.target.value)}
-          value={eventId}
-        /> */}
-
-        {/* <Label htmlFor="organiseId">Organiser ID:</Label>
-        <Input
-          type="text"
-          name="organiseId"
-          onChange={(e) => setOrganiseId(e.target.value)}
-          value={organiseId}
-        /> */}
-
-        <Label htmlFor="bookingDate">Event Date:</Label>
-        <Input
-          type="date"
-          name="bookingDate"
-          onChange={(e) => setBookingDate(e.target.value)}
-          value={bookingDate}
-        />
-
-        <Label htmlFor="noOfDay">Number of Days:</Label>
-        <Input
-          type="number"
-          name="noOfDay"
-          onChange={(e) => setNoOfDay(e.target.value)}
-          value={noOfDay}
-        />
-
-        <Label htmlFor="location">Location:</Label>
-        <Input
-          type="text"
-          name="location"
-          onChange={(e) => setLocation(e.target.value)}
-          value={location}
-        />
-
-        <Label htmlFor="pin">Pin Code:</Label>
-        <Input
-          type="number"
-          name="pin"
-          onChange={(e) => setPin(e.target.value)}
-          value={pin}
-        />
-
-        <Label htmlFor="district">District:</Label>
-        <Input
-          type="text"
-          name="district"
-          onChange={(e) => setDistrict(e.target.value)}
-          value={district}
-        />
-
-        <Label htmlFor="contact">Contact Number:</Label>
-        <Input
-          type="tel"
-          name="contact"
-          onChange={(e) => setContact(e.target.value)}
-          value={contact}
-        />
-
-        <Label htmlFor="email">Email:</Label>
-        <Input
-          type="email"
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-
-        <Label htmlFor="panno">PAN Number:</Label>
-        <Input
-          type="text"
-          name="panno"
-          onChange={(e) => setPanno(e.target.value)}
-          value={panno}
-        />
-
-        <Label htmlFor="price">Price:</Label>
-        <Input
-          type="number"
-          name="price"
-          onChange={(e) => setPrice(e.target.value)}
-          value={price}
-        />
-
-        {/* <Label htmlFor="status">Status:</Label>
-        <Select
-          name="status"
-          onChange={(e) => setStatus(e.target.value)}
-          value={status}
-        >
-          <option value="Pending">Pending</option>
-          <option value="Accepted">Accepted</option>
-          <option value="Rejected">Rejected</option>
-        </Select> */}
-
-        {/* <Label htmlFor="paymentStatus">Payment Status:</Label>
-        <Select
-          name="paymentStatus"
-          onChange={(e) => setPaymentStatus(e.target.value)}
-          value={paymentStatus}
-        >
-          <option value="Pending">Pending</option>
-          <option value="Unpaid">Unpaid</option>
-          <option value="Paid">Paid</option>
-        </Select> */}
-
-        <Label htmlFor="eventName">Event Name:</Label>
-        <Input
-          type="text"
-          name="eventName"
-          onChange={(e) => setEventName(e.target.value)}
-          value={eventName}
-        />
-
-        <Label htmlFor="eventType">Event Type:</Label>
-        <Input
-          type="text"
-          name="eventType"
-          onChange={(e) => setEventType(e.target.value)}
-          value={eventType}
-        />
-
-        <Button type="submit">Submit</Button>
-      </Form>
-      <Button onClick={() => navigate(-1)}>Cancel</Button>
+      <h2>Book Event</h2>
+      <form onSubmit={Createbooking}>
+        <FormField>
+          <label htmlFor="name">Your Name</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            required
+            onChange={(e) => setname(e.target.value)}
+            value={name}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="date">Pick a date</label>
+          <input
+            type="date"
+            required
+            onChange={(e) => setbookingDate(e.target.value)}
+            value={bookingDate}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="duration">Number of Days</label>
+          <input
+            type="number"
+            placeholder="No of days"
+            required
+            onChange={(e) => setnoofday(e.target.value)}
+            value={noofday}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="location">Location</label>
+          <input
+            type="text"
+            placeholder="Event location"
+            required
+            onChange={(e) => setlocation(e.target.value)}
+            value={location}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="pin">Pin Number</label>
+          <input
+            type="number"
+            placeholder="Pin number"
+            required
+            onChange={(e) => setpin(e.target.value)}
+            value={pin}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="district">District</label>
+          <input
+            type="text"
+            placeholder="District"
+            required
+            onChange={(e) => setdistrict(e.target.value)}
+            value={district}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="contect no">Contact-No</label>
+          <input
+            type="tel"
+            placeholder="Your Contact Number"
+            required
+            onChange={(e) => setcontact(e.target.value)}
+            value={contact}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="email">Email Id</label>
+          <input
+            type="email"
+            placeholder="Email Id"
+            required
+            onChange={(e) => setemail(e.target.value)}
+            value={email}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="pan no">Pan Number</label>
+          <input
+            type="text"
+            required
+            placeholder="Pan card no"
+            onChange={(e) => setpanno(e.target.value)}
+            value={panno}
+          />
+        </FormField>
+        <div className="btn-section-book">
+          <SubmitButton type="submit">Book</SubmitButton>
+          <button onClick={() => navigate(-1)}>Close</button>
+        </div>
+      </form>
     </FormContainer>
   );
 };
+
+// export default BookingForm;

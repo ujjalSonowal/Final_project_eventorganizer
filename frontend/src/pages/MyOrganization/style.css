@@ -1,140 +1,92 @@
-/* CSS for the main container */
+/* General styles */
 
-.organise-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.organise-header > div {
-  display: inline-block;
-}
-
-#delete-btn,
-#update-btn {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  margin: 0 10px;
-}
-
-#delete-btn:hover,
-#update-btn:hover {
-  background-color: #c82333;
-}
-
-.organise-container {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.org-table {
-  margin: 0 auto;
-  width: 50%;
-  /* Adjust as needed */
-  border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.org-table td,
-.org-table th {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.org-table th {
-  background-color: #f4f4f4;
-}
-
-/* CSS for the form popup and container */
-
-.form-popup-event {
+.org-outer-section {
+  height: 100%;
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
 }
 
-.form-container-event {
+.org-section {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+}
+
+.myorg p {
+  margin: 5px 0;
+  color: black;
+}
+
+.heading-org {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.heading-org p {
+  font-size: 20px;
+}
+
+/* Form styles */
+
+.form-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 70%;
   background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  width: 400px;
-  /* Adjust as needed */
 }
 
-.form-container-event h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
+.form-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.form-container-event label {
-  display: block;
-  margin-bottom: 15px;
+.form-container label {
+  margin-bottom: 10px;
 }
 
-.form-container-event label span {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+.form-container input {
+  padding: 8px;
+  margin-top: 5px;
 }
 
-.form-container-event input {
-  width: calc(100% - 20px);
+.form-container button {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  margin-top: 10px;
 }
 
-#t-btn {
-  width: 100%;
-  display: inline-block;
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-#t-btn:hover {
-  background-color: #0056b3;
-}
-
-/* CSS for the main action buttons */
+/* Button styles */
 
 .items {
-  text-align: center;
   margin-top: 20px;
 }
 
-#vi-btn {
-  width: 10%;
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+.items button {
+  padding: 10px;
+  margin-right: 10px;
   cursor: pointer;
-  font-size: 16px;
 }
 
-#vi-btn:hover {
-  background-color: #218838;
+/* Responsive design */
+
+@media (max-width: 600px) {
+  .form-popup {
+    width: 50%;
+    padding: 80px;
+    margin: 20px;
+  }
+  .items button {
+    /* width: 30%; */
+    margin-bottom: 10px;
+  }
+  .items button:last-child {
+    margin-bottom: 0;
+  }
 }

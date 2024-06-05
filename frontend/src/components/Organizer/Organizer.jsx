@@ -1,213 +1,151 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
+import styled from "styled-components";
 
-const OrganizerContainer = styled.div`
-  .organizer-card {
-    width: 400px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    &:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+const OrganiseContainer = styled.div`
+  /* display: flex; */
+  /* flex-direction: row; */
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* max-width: 600px; */
+  margin: 20px auto;
+  max-width: 100%;
+`;
+const OrgCon = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+const OrganiseCard = styled.div`
+  max-width: 100%;
+  text-align: left;
+`;
+
+const StrongText = styled.strong`
+  display: block;
+  margin-bottom: 10px;
+`;
+
+const Details = styled.div`
+  margin: 10px 0;
+`;
+
+const MoreButton = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 10px;
+`;
+
+const Button = styled.button`
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
   }
 
-  .popup-overlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
-    display: none;
-  }
-
-  .popup-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    display: none;
-    max-width: 600px;
-    width: 90%;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    &:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  .active {
-    display: block;
-  }
-
-  .close-btn,
-  .view-details-btn,
-  .feedback-btn {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  .close-btn {
-    background-color: #dc3545;
-  }
-
-  .feedback-container {
-    margin-top: 20px;
-  }
-
-  h2 {
-    margin-top: 0;
-    font-size: 24px;
-    font-weight: bold;
-    color: #28a745;
-  }
-
-  p {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-
-  strong {
-    font-weight: bold;
-  }
-
-  .service-container {
-    margin-top: 20px;
-  }
-
-  .service-item {
-    margin-bottom: 10px;
-  }
-
-  textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-    resize: vertical;
-  }
-
-  .rating-container {
-    margin-top: 10px;
+  a {
+    color: white;
+    text-decoration: none;
   }
 `;
 
-export function Organizer({ organise }) {
-  const [showPopup, setShowPopup] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [rating, setRating] = useState(0);
+const DetailsView = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
+const PopupContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  overflow: auto;
+  max-height: 80vh;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 130px;
+  right: 380px;
+  background: #ff5b5b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Organizer = ({ organise }) => {
+  const [details, setDetails] = useState(false);
+
+  const viewDetails = () => {
+    setDetails(!details);
   };
 
-  const handleFeedbackChange = (event) => {
-    setFeedback(event.target.value);
-  };
-
-  const handleRatingChange = (value) => {
-    setRating(value);
-  };
-
-  const submitFeedback = () => {
-    // Here you can implement the logic to submit feedback
-    console.log("Feedback:", feedback);
-    console.log("Rating:", rating);
-    // Reset feedback and rating after submission
-    setFeedback("");
-    setRating(0);
-    // Close the popup
-    setShowPopup(false);
+  const toggleViewOff = () => {
+    setDetails(false);
   };
 
   return (
-    <OrganizerContainer>
-      <div className="organizer-container">
-        <div className="organizer-card">
-          <h2>{organise.companyName}</h2>
-          <p>
-            <strong>Owner:</strong> {organise.ownerName}
-          </p>
-          <p>{organise.description}</p>
+    <OrganiseContainer>
+      <OrgCon>
+        <OrganiseCard>
+          <StrongText>
+            <p>Organise Name: {organise.name}</p>
+          </StrongText>
+          <p>Email Id: {organise.email}</p>
+          <Details>
+            <p>Services: {organise.service}</p>
+          </Details>
           <StarRating rating={organise.rating} />
-
-          <div
-            className={`popup-overlay ${showPopup ? "active" : ""}`}
-            onClick={togglePopup}
-          ></div>
-          <div className={`popup-card ${showPopup ? "active" : ""}`}>
-            <button className="close-btn" onClick={togglePopup}>
-              Close
-            </button>
-            <h2>{organise.companyName}</h2>
-            <p>
-              <strong>Owner:</strong> {organise.ownerName}
-            </p>
-            <p>{organise.description}</p>
-            <p>
-              <strong>Email:</strong> {organise.contactEmail}
-            </p>
-            <p>
-              <strong>Phone:</strong> {organise.contactPhone}
-            </p>
-            <div className="service-container">
-              <h3>Services</h3>
-              {organise.services &&
-                organise.services.map((service, index) => (
-                  <div key={index} className="service-item">
-                    <p>
-                      <strong>Service Name:</strong> {service.serviceName}
-                    </p>
-                    <p>{service.description}</p>
-                  </div>
-                ))}
-            </div>
-            <div className="feedback-container">
-              <h3>Feedback</h3>
-              <textarea
-                placeholder="Write your feedback here..."
-                value={feedback}
-                onChange={handleFeedbackChange}
-              />
-              <div className="rating-container">
-                <StarRating
-                  rating={rating}
-                  onRatingChange={handleRatingChange}
-                />
-              </div>
-              <button className="feedback-btn" onClick={submitFeedback}>
-                Submit Feedback
-              </button>
-            </div>
-          </div>
-
-          <button className="view-details-btn" onClick={togglePopup}>
-            {showPopup ? "Close Details" : "View Details"}
-          </button>
-        </div>
-      </div>
-    </OrganizerContainer>
+          <MoreButton>
+            <Button onClick={viewDetails}>View More</Button>
+            <Button>
+              <Link to={`/organise/events/${organise._id}`}>View Events</Link>
+            </Button>
+          </MoreButton>
+        </OrganiseCard>
+      </OrgCon>
+      {details && (
+        <DetailsView>
+          <PopupContent>
+            <CloseButton onClick={toggleViewOff}>X</CloseButton>
+            <p>Owner: {organise.owner}</p>
+            <p>Contact No: {organise.phone}</p>
+            <p>Address: {organise.address}</p>
+            <p>Pin: {organise.pin}</p>
+            <p>State: {organise.state}</p>
+            <p>Office Location: {organise.location}</p>
+            <p>Post Office Address: {organise.postoffice}</p>
+            <p>Total Booking: {organise.totalboking}</p>
+            <p>Organise Created On: {organise.createdAt}</p>
+          </PopupContent>
+        </DetailsView>
+      )}
+    </OrganiseContainer>
   );
-}
-
-// export default Organizer;
+};

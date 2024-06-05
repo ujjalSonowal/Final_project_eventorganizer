@@ -1,242 +1,515 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import StarRating from "../StarRating";
-import { Link } from "react-router-dom";
 
-const EventCard = styled.div`
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  /* padding-left: 100px; */
-  width: 400px;
-  text-align: center;
-  margin-bottom: 20px;
-  /* Allow event cards to grow to fill the container */
-  margin-right: 2rem; /* Add margin-right for gap between event cards */
-  &:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+const EventContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const EventsCard = styled.div`
+  background-color: #e7f4ff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
+  width: 300px;
+  /* height: 250px; */
+
+  p {
+    margin: 0.5rem 0;
+    color: black;
   }
 `;
 
-const EventTitle = styled.p`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+const OrganiserDetails = styled.div`
+  /* display: flex; */
+  p {
+    background-color: #1ed3ca;
+    padding: 8px;
+    border-radius: 4px;
+  }
+
+  /* justify-content: space-around; */
 `;
 
-const EventInfo = styled.div`
-  margin-top: 10px;
-`;
-
-const Button = styled.button`
-  background-color: #22ae1b;
-  padding: 10px;
-  box-shadow: 10px lightcoral;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
+const ViewDetailsBtn = styled.button`
+  background-color: #4caf50;
   border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #3e8e41;
+  }
 `;
 
 const PopupOverlay = styled.div`
-  position: fixed;
-  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(145, 131, 131, 0.5);
-  display: ${(props) => (props.showPopup ? "block" : "none")};
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  display: ${({ show }) => (show ? "block" : "none")};
 `;
 
 const PopupCard = styled.div`
-  /* position: absolute; */
-  margin-top: 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  left: 50%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1rem;
   position: fixed;
   top: 50%;
-  left: 50%;
-  height: auto;
   transform: translate(-50%, -50%);
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  width: 80%;
-  /* height: fit-content; */
-  z-index: 1;
-  display: ${(props) => (props.showPopup ? "block" : "none")};
-`;
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+  width: 600px;
+  z-index: 1000;
+  display: ${({ show }) => (show ? "block" : "none")};
 `;
 
-const EventImage = styled.img`
+const CloseBtn = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 1.1rem;
   position: absolute;
-  width: 50%;
-  height: 350px;
-  margin-bottom: 20px;
-  border: 1px solid red;
-  margin: 20px;
+  right: 1rem;
+  top: 1rem;
+`;
+
+const EventImages = styled.div`
+  margin-bottom: 1rem;
+
+  img {
+    border-radius: 5px;
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+`;
+
+const EventInfo = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  p {
+    color: #333;
+  }
+`;
+
+const P1 = styled.div`
+  background-color: #2389b1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  /* padding-left: 19px; */
+  border-radius: 4px;
+`;
+
+const BookBtn = styled.button`
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #3e8e41;
+  }
 `;
 
 const CommentContainer = styled.div`
-  margin: 30px;
-  /* position: absolute; */
-  margin-top: 200px;
+  border-top: 1px solid #ddd;
+  margin-top: 1rem;
+  padding-top: 1rem;
 `;
 
-const CommentTextArea = styled.textarea`
-  width: 100%;
-  height: 100px;
-  /* margin-bottom: 10px; */
-  margin-top: 200px;
-`;
-
-const SubmitButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-const PopContent = styled.div`
-  position: absolute;
+const CommentForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: end;
-  align-items: end;
-  align-items: flex-start;
-  margin: 20px;
-  margin-left: 700px;
-  /* margin-right: 200px; */
+  margin-bottom: 1rem;
+
+  textarea {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+  }
+
+  button {
+    align-self: flex-end;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #3e8e41;
+    }
+  }
 `;
 
-const P = styled.p`
+const CommentList = styled.div`
+  /* max-height: 200px;
+  overflow-y: auto; */
+
+  .comment-item {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    p {
+      margin: 0.5rem 0;
+      color: #333;
+    }
+  }
+`;
+
+const BtnSectionBook = styled.div`
+  padding: 10px;
   display: flex;
-  align-items: flex-start;
-  text-align: start;
-  margin: 10px 0;
-  display: inline;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  .submit-btn {
+    background-color: #695e69;
+    width: 50%;
+    padding: 10px;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 19px;
+  }
 `;
 
-const CommentBody = styled.div`
-  display: flex;
-  align-items: flex-start;
-  border: 1px solid red;
-  /* margin-left: 0; */
-  margin: 20px;
+const H2 = styled.h2`
+  position: absolute;
+  left: 40%;
+  top: 20px;
 `;
 
-export const Events = ({ event }) => {
+const ContainerCreateBooking = styled.div`
+  p {
+    color: blueviolet;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-top: 10px;
+    }
+
+    input {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    input[type="number"] {
+      margin-bottom: 10px;
+      width: 100%;
+      border: 1px solid black;
+      padding: 7px;
+      border-radius: 4px;
+    }
+  }
+`;
+
+export const Events = ({ event, organizer }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
+  const [showbookingform, setshowbookingform] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("User");
+
+  const [name, setname] = useState("");
+  const [bookingDate, setbookingDate] = useState("");
+  const [noofday, setnoofday] = useState("");
+  const [location, setlocation] = useState("");
+  const [pin, setpin] = useState("");
+  const [district, setdistrict] = useState("");
+  const [contact, setcontact] = useState("");
+  const [email, setemail] = useState("");
+  const [panno, setpanno] = useState("");
+
+  const organiseId = event.organiseId;
+  const eventId = event._id;
+  const eventname = event.name;
+  const eventtype = event.type;
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
+  const togglebooking = () => {
+    setshowbookingform(!showbookingform);
   };
 
-  const handleRatingChange = (value) => {
-    setRating(value);
+  const toggleOff = () => {
+    setshowbookingform(false);
   };
 
-  const handleSubmit = (e) => {
+  const Createbooking = async (e) => {
     e.preventDefault();
-    // Here you can handle the submission of comment and rating, for example, by calling an API
-    console.log("Comment:", comment);
-    console.log("Rating:", rating);
-    // Clear the comment and rating fields after submission
-    setComment("");
-    setRating(0);
+    const data = {
+      name,
+      userId,
+      organiseId,
+      eventId,
+      bookingDate,
+      noofday,
+      location,
+      pin,
+      district,
+      contact,
+      email,
+      panno,
+      eventname,
+      eventtype,
+    };
+    try {
+      const response = await fetch(`http://localhost:5001/booking/addbooking`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Data not submitted");
+      }
+      const mybooking = await response.json();
+      console.log(mybooking);
+      window.alert(`Booking Created`);
+      navigate(`/mybooking/${userId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    // Here you would add the logic to post the new comment to your backend
+    // For now, let's just log it to the console
+    console.log("New comment:", newComment);
+    setNewComment("");
   };
 
   return (
-    <div>
-      <EventCard>
-        <EventTitle>
+    <EventContainer>
+      <EventsCard>
+        <p>
           Event Name: <strong>{event.name.toUpperCase()}</strong>
-        </EventTitle>
+        </p>
+        {organizer ? (
+          <OrganiserDetails>
+            <p>
+              <strong>Organizer Name:</strong>
+              {organizer.name}
+            </p>
+            <p>
+              <strong>Email:</strong>
+              {organizer.email}
+            </p>
+          </OrganiserDetails>
+        ) : (
+          <p>Loading organizer details...</p>
+        )}
         <p>Event Created: {event.createOn}</p>
-        <EventInfo>
+        <div className="edetails">
           <p>Event type: {event.type}</p>
           <p>Status: {event.status}</p>
-        </EventInfo>
-        <StarRating rating={event.rating} />
-        <Link to={`/eventdetails/${event._id}`}>
-          <Button>View Details</Button>
-        </Link>
-        {/* <Button className="view-details-btn" onClick={togglePopup}>
+          <StarRating rating={event.rating} />
+        </div>
+
+        {/* Popup Card */}
+        <PopupOverlay show={showPopup} onClick={togglePopup}></PopupOverlay>
+        <ViewDetailsBtn onClick={togglePopup}>
           {showPopup ? "Close Details" : "View Details"}
-        </Button> */}
+        </ViewDetailsBtn>
+      </EventsCard>
+      <PopupCard show={showPopup}>
+        <CloseBtn onClick={togglePopup}>Close</CloseBtn>
+        <EventImages>
+          <img alt="Event Images" />
+        </EventImages>
 
-        {/* <PopupOverlay showPopup={showPopup} onClick={togglePopup} /> */}
-        {/* <PopupCard showPopup={showPopup}>
-          <CloseButton onClick={togglePopup}>Close</CloseButton>
-          <h2>{event.name.toUpperCase()}</h2>
-          <EventImage src={event.image} alt="Event" />
-          <PopContent>
-            <P>Description: {event.eventdesc}</P>
+        <H2>{event.name.toUpperCase()}</H2>
 
-            <P>
-              <strong>Total Booking:</strong> {event.totalbooking}
-            </P>
-            <P>
-              <strong>Capacity:</strong>{" "}
-              {event.capacity &&
-                event.capacity.map((capacity, index) => (
-                  <span key={index}>{capacity}</span>
-                ))}
-            </P>
-            <P>
-              <strong>Price:</strong>{" "}
-              {event.price &&
-                event.price.map((price, index) => (
-                  <span key={index}>{price}</span>
-                ))}
-            </P>
-            <P>
-              <StarRating rating={event.rating} />
-            </P>
-
-            <Link to="/createbook">
-              <Button className="book-btn">Book Now</Button>
-            </Link>
-          </PopContent>
-
-          <CommentContainer>
-            <form onSubmit={handleSubmit}>
-              <CommentTextArea
-                value={comment}
-                onChange={handleCommentChange}
-                placeholder="Write your comment..."
-              ></CommentTextArea>
-              <StarRating rating={rating} onRatingChange={handleRatingChange} />{" "}
-              <SubmitButton type="submit">Submit</SubmitButton>
-            </form>
-          </CommentContainer>
-          <CommentBody>
-            {event.comment &&
-              event.comment.map((comment, index) => (
+        <EventInfo>
+          <p>
+            <strong>Created date:</strong> {event.createOn}
+          </p>
+          <p>
+            <strong>Total Booking:</strong> {event.totalbooking}
+          </p>
+        </EventInfo>
+        <EventInfo>
+          <p className="list">
+            <strong>Capacity:</strong>
+            {event.capacity &&
+              event.capacity.map((capacity, index) => (
                 <div key={index}>
-                  <p>
-                    <strong>Comment Body: {comment.commentBody}</strong>
-                  </p>
-                  <p>Comment On: {comment.commentDate}</p>
+                  <P1 className="itemlist">{capacity}</P1>
                 </div>
               ))}
-          </CommentBody>
-        </PopupCard> */}
-      </EventCard>
-    </div>
+          </p>
+          <p className="list">
+            <strong>Price:</strong>
+            {event.price &&
+              event.price.map((price, index) => (
+                <div key={index}>
+                  <P1 className="itemlist">{price}</P1>
+                </div>
+              ))}
+          </p>
+        </EventInfo>
+
+        <BookBtn onClick={() => togglebooking()}>Book Now</BookBtn>
+
+        {showbookingform && (
+          <ContainerCreateBooking>
+            <p>
+              Notes: Payment Status/Booking Status will be updated by Event
+              manager later. Sometimes prices will increase depending on the
+              number of days...
+            </p>
+            <form onSubmit={Createbooking}>
+              <div>
+                <label htmlFor="name">Your Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  required
+                  onChange={(e) => setname(e.target.value)}
+                  value={name}
+                />
+                <label htmlFor="date">Pick a date</label>
+                <input
+                  type="date"
+                  required
+                  onChange={(e) => setbookingDate(e.target.value)}
+                  value={bookingDate}
+                />
+                <label htmlFor="duration">Number of Days</label>
+                <input
+                  type="number"
+                  placeholder="No of days"
+                  required
+                  onChange={(e) => setnoofday(e.target.value)}
+                  value={noofday}
+                />
+                <label htmlFor="location">Location</label>
+                <input
+                  type="text"
+                  placeholder="Event location"
+                  required
+                  onChange={(e) => setlocation(e.target.value)}
+                  value={location}
+                />
+                <label htmlFor="pin">Pin Number</label>
+                <input
+                  type="number"
+                  placeholder="Pin number"
+                  required
+                  onChange={(e) => setpin(e.target.value)}
+                  value={pin}
+                />
+                <label htmlFor="district">District</label>
+                <input
+                  type="text"
+                  placeholder="District"
+                  required
+                  onChange={(e) => setdistrict(e.target.value)}
+                  value={district}
+                />
+                <label htmlFor="contact">Contact-No</label>
+                <input
+                  type="tel"
+                  placeholder="Your Contact Number"
+                  required
+                  onChange={(e) => setcontact(e.target.value)}
+                  value={contact}
+                />
+                <label htmlFor="email">Email Id</label>
+                <input
+                  type="email"
+                  placeholder="Email Id"
+                  required
+                  onChange={(e) => setemail(e.target.value)}
+                  value={email}
+                />
+                <label htmlFor="panno">Pan Number</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Pan card no"
+                  onChange={(e) => setpanno(e.target.value)}
+                  value={panno}
+                />
+              </div>
+              <BtnSectionBook>
+                <button className="submit-btn" type="submit">
+                  Booked
+                </button>
+                <button onClick={() => toggleOff()}>Close</button>
+              </BtnSectionBook>
+            </form>
+          </ContainerCreateBooking>
+        )}
+
+        {!showbookingform && (
+          <CommentContainer>
+            <CommentForm onSubmit={handleAddComment}>
+              <textarea
+                placeholder="Add a comment..."
+                rows="4"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              ></textarea>
+              <button type="submit">Add Comment</button>
+            </CommentForm>
+            <CommentList>
+              {event.comment &&
+                event.comment.map((comment, index) => (
+                  <div key={index} className="comment-item">
+                    <p>
+                      <strong>{comment.userName}</strong> -{" "}
+                      {comment.commentBody}
+                    </p>
+                    <p>Comment On: {comment.commentDate}</p>
+                  </div>
+                ))}
+            </CommentList>
+          </CommentContainer>
+        )}
+      </PopupCard>
+    </EventContainer>
   );
 };

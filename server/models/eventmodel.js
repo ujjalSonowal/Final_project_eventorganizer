@@ -3,13 +3,23 @@ const schema = mongoose.Schema;
 
 const eventmodel = new schema(
   {
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "user",
+    // },
+    // organiseId: { type: mongoose.Schema.Types.ObjectId, ref: "organise" },
     userId: { type: String },
-    organiseId: { type: mongoose.Schema.Types.ObjectId, ref: "Organiser" },
+    organiseId: { type: String },
     name: { type: String, require: "Please provide an Event Name" },
     type: { type: String },
     capacity: { type: [Number] },
     price: { type: [Number] },
-    rating: { type: Number },
+    // reviews: [reviewSchema],
+    rating: { type: Number, default: 0 },
+    // numofReviews: {
+    //   type: Number,
+    //   default: 0,
+    // },
     images: { type: String },
     video: { type: Buffer },
     status: { type: String, enum: ["Active", "Inactive"] }, // active or inactive
@@ -19,6 +29,7 @@ const eventmodel = new schema(
     comment: [
       {
         commentBody: String,
+        // rating: Number,
         commentDate: { type: Date, default: Date.now() },
         userId: String,
       },

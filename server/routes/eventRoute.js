@@ -10,6 +10,7 @@ const {
   geteventuser,
   getsixevent,
   LatestEvent,
+  geteventbyorgid,
 } = require("../controllers/eventcontroller");
 
 const router = express.Router();
@@ -43,5 +44,7 @@ router.delete("/delete/:id", deletevent);
 router.patch("/update/price/:id", updateprice);
 //update capacity
 router.patch("/update/capacity/:id", updatecapacity);
+//get events by organise Id
+router.get("/organise/events/:id", geteventbyorgid);
 
 module.exports = router;

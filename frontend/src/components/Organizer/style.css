@@ -1,167 +1,37 @@
-/* style.css */
-
-/* Container Styles */
-
-.organiser-container {
+.organise-container {
   display: flex;
-  /* flex-direction: column;
-  align-items: center; */
-  margin: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1rem;
 }
 
-/* Card Styles */
-
-.organizer-card {
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  width: 100%;
-  max-width: 400px;
-  text-align: left;
-  transition: transform 0.3s ease-in-out;
+.organise-card {
+  background-color: #e7f4ff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
+  width: 300px;
 }
 
-.organizer-card:hover {
-  transform: translateY(-5px);
+.organise-card p {
+  margin: 0.5rem 0;
+  color: black;
 }
 
-.organizer-card p {
-  margin: 10px 0;
-  font-family: "Roboto", sans-serif;
-  color: #333;
+.edetails {
+  display: flex;
+  justify-content: space-around;
 }
 
-.view-details-btn {
-  background-color: #007bff;
-  color: #fff;
+.more-btn-organise button {
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  background: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.view-details-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Popup Styles */
-
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 999;
-}
-
-.popup-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.popup-card {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 600px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1000;
-  padding: 20px;
-}
-
-.popup-card.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.close-btn {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.close-btn:hover {
-  background-color: #c82333;
-}
-
-.service-container {
-  margin-top: 20px;
-  font-family: "Roboto", sans-serif;
-  color: #555;
-}
-
-.service-container p {
-  margin: 10px 0;
-}
-
-.p3 {
-  margin: 5px 0;
-  font-family: "Roboto", sans-serif;
-  color: #333;
-}
-
-/* Additional Aesthetic Enhancements */
-
-h2 {
-  font-family: "Roboto", sans-serif;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-strong {
-  font-family: "Roboto", sans-serif;
-  color: #007bff;
-}
-
-.box {
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #f1f1f1;
-  margin-bottom: 10px;
-}
-
-.itemlist {
-  background-color: #e9ecef;
-  border-radius: 5px;
-  padding: 5px 10px;
-  margin: 5px 0;
-}
-
-.book-btn {
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: block;
-  width: 100%;
-  text-align: center;
-}
-
-.book-btn:hover {
-  background-color: #218838;
+  color: blueviolet;
+  margin: 18px;
+  font-size: 15px;
 }

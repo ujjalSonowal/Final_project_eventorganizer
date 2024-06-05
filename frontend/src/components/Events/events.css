@@ -14,10 +14,12 @@
   margin: 1rem;
   padding: 1rem;
   width: 300px;
+  height: 250px;
 }
 
 .events-card p {
   margin: 0.5rem 0;
+  color: black;
 }
 
 .edetails {
@@ -49,6 +51,7 @@
   top: 0;
   z-index: 999;
   display: none;
+  color: #333;
 }
 
 .popup-card {
@@ -99,6 +102,10 @@
   justify-content: space-around;
 }
 
+.event-info p {
+  color: #333;
+}
+
 h2 {
   margin: 0 0 0.5rem;
   text-align: center;
@@ -140,4 +147,26 @@ h2 {
   background: #489aff57;
   padding: 2px 4px 4px 5px;
   border-radius: 3px;
+}
+
+.btn-section-book {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.btn-section-book > .submit-btn {
+  background-color: #695e69;
+  width: 50%;
+}
+
+.btn-section-book button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 19px;
+}
+
+.container-create-booking p {
+  color: blueviolet;
 }

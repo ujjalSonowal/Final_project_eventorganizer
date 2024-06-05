@@ -1,235 +1,54 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-
-const OrganiseContainer = styled.div`
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-`;
-
-const OrganiseHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  color: #333;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: ${(props) => (props.delete ? "#ff4d4d" : "#4CAF50")};
-  color: white;
-  cursor: pointer;
-  &:hover {
-    background-color: ${(props) => (props.delete ? "#ff1a1a" : "#45a049")};
-  }
-`;
-
-const OrgTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const Th = styled.th`
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: right;
-`;
-
-const Td = styled.td`
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-`;
-
-const FormPopupEvent = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: #fff;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
-const FormContainerEvent = styled.div`
-  max-width: 400px;
-  margin: 0 auto;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-const Select = styled.select`
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Label = styled.label`
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Items = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-`;
-const EditPopup = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: #fff;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-`;
-
+import React from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./style.css";
 export const Vieworganise = () => {
-  const [organise, setOrganise] = useState({});
-  const userId = localStorage.getItem("User");
+  const [org, setorg] = useState("");
+  const userId = localStorage.getItem("User"); //get current logIn user
+  // const current = userId;
   const navigate = useNavigate();
-  const [updateForm, setUpdateForm] = useState(false);
-  const [ownerName, setOwnerName] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [description, setDescription] = useState("");
-
-  const toggleOrganiseForm = () => {
-    setUpdateForm(!updateForm);
-    setOwnerName(organise.ownerName);
-    setContactEmail(organise.contactEmail);
-    setContactPhone(organise.contactPhone);
-    setAddress(organise.address);
-    setDescription(organise.description);
-  };
-
-  const toggleOff = () => {
-    setUpdateForm(false);
-  };
-
-  const handleOrganiseUpdate = async (e) => {
-    e.preventDefault();
-    const data = {
-      ownerName,
-      contactEmail,
-      contactPhone,
-      address,
-      description,
-    };
-    try {
+  //get organise details using current user id
+  useEffect(() => {
+    async function getOrg() {
       const response = await fetch(
-        `http://localhost:5001/organise/update/${organise._id}`,
+        `http://localhost:5001/organise/myorg/${userId}`,
         {
-          method: "PATCH",
+          method: "GET",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
-      if (!response) {
-        console.log("error");
-      }
-      const updated = await response.json();
-      console.log(updated);
-      navigate(`/myorg/${userId}`);
-      setUpdateForm(false);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5001/events/delete/${organise._id}`,
-        {
-          method: "DELETE",
+          // body: JSON.stringify({ current })
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to delete");
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
       }
-      navigate(`/myorg/${userId}`);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      const myorg = await response.json();
+      setorg(myorg);
+      const orgId = myorg._id;
+      setorganiseid(orgId);
 
-  useEffect(() => {
-    async function getOrg() {
-      try {
-        const response = await fetch(
-          `http://localhost:5001/organise/myorg/${userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch organizer details");
-        }
-        const myorg = await response.json();
-        setOrganise(myorg);
-      } catch (error) {
-        console.error(error);
-      }
+      //  localStorage.setItem('OrganiseId',orgId);
     }
-    getOrg();
+    if (userId) {
+      getOrg(); // Only fetch if userId is available
+    }
+
+    // getOrg();
+    return;
   }, [userId]);
-  // const [organiseId, setorganiseid] = useState("");
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [price, setPrice] = useState("");
-  const [status, setStatus] = useState("");
-  const [eventdesc, setEventdesc] = useState("");
+  const [organiseId, setorganiseid] = useState("");
+  const [name, setname] = useState("");
+  const [type, settype] = useState("");
+  const [capacity, setcapacity] = useState("");
+  const [price, setprice] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
-
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
-
-  const handleSubmit = async (e) => {
+  const handlesubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      userId,
-      organiseId: organise._id,
-      name,
-      type,
-      capacity,
-      price,
-      status: status === "" ? "Active" : status,
-      eventdesc,
-    };
+    const data = { userId, organiseId, name, type, capacity, price };
     try {
       const response = await fetch(`http://localhost:5001/events/create`, {
         method: "POST",
@@ -239,184 +58,115 @@ export const Vieworganise = () => {
         },
       });
       const json = await response.json();
-      console.log(data);
 
       if (!response.ok) {
         throw new Error(json.error);
       }
       setIsFormOpen(false);
+      // setReloadComponent(!reloadComponent);
       navigate(`/myevent/${userId}`);
-      // navigate("/");
     } catch (error) {
       console.log("could not submit the form data");
     }
   };
+  if (!org) return <div> Create Your Organise</div>;
 
   return (
-    <>
-      <OrganiseContainer>
-        <OrganiseHeader>
-          <Title>Organizer Details</Title>
-          <ButtonGroup>
-            <Button delete onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button onClick={toggleOrganiseForm}>Update</Button>
-          </ButtonGroup>
-        </OrganiseHeader>
-        <OrgTable>
-          <tbody>
-            <tr>
-              <Th>Owner Name:</Th>
-              <Td>{organise.ownerName}</Td>
-            </tr>
-            <tr>
-              <Th>Contact Email:</Th>
-              <Td>{organise.contactEmail}</Td>
-            </tr>
-            <tr>
-              <Th>Contact Phone:</Th>
-              <Td>{organise.contactPhone}</Td>
-            </tr>
-            <tr>
-              <Th>Address:</Th>
-              <Td>{organise.address}</Td>
-            </tr>
-            <tr>
-              <Th>Description:</Th>
-              <Td>{organise.description}</Td>
-            </tr>
-          </tbody>
-        </OrgTable>
+    <div className="org-outer-section">
+      <div className="org-section">
+        <div className="myorg">
+          <h1>My Organisations</h1>
+          <div className="heading-org">
+            <p>
+              {" "}
+              <strong>Organization Name:</strong> {org.name}
+            </p>
+            <p>
+              {" "}
+              <strong>Email:</strong> {org.email}
+            </p>
+          </div>
+          <div className="heading-org">
+            <p>
+              {" "}
+              <strong>Owner Name:</strong> {org.owner}
+            </p>
+            <p>
+              {" "}
+              <strong>Contact Number: </strong> {org.phone}
+            </p>
+          </div>
+
+          <div className="org-details">
+            <p>{org.startdate}</p>
+            <p>{org.location}</p>
+            <p>{org.address}</p>
+            <p>{org.pin}</p>
+            <p>{org.postoffice}</p>
+            <p>{org.state}</p>
+            <p>{org.service}</p>
+            <p>{org.status}</p>
+            <p>{org.rating}</p>
+          </div>
+        </div>
         <>
-          {updateForm && (
-            <EditPopup>
-              <h2>Edit Organization</h2>
-              <Form onSubmit={handleOrganiseUpdate}>
-                <Label htmlFor="name">Owner Name:</Label>
-                <Input
-                  type="text"
-                  id="ownerName"
-                  value={ownerName}
-                  onChange={(e) => setOwnerName(e.target.value)}
-                />
-                <Label htmlFor="email">Contact Email:</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                />
-                <Label htmlFor="phone">Contact Phone:</Label>
-                <Input
-                  type="number"
-                  id="phone"
-                  value={contactPhone}
-                  onChange={(e) => setContactPhone(e.target.value)}
-                />
-                <Label htmlFor="address">Address:</Label>
-                <Input
-                  type="text"
-                  id="address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-                <Label htmlFor="description">Description:</Label>
-                <Input
-                  type="text"
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <Button type="submit">Update</Button>
-                <Button type="button" onClick={toggleOff}>
-                  Cancel
-                </Button>
-              </Form>
-            </EditPopup>
-          )}
-        </>
-        <>
+          {" "}
           {isFormOpen && (
-            <FormPopupEvent>
-              <FormContainerEvent>
-                <Form onSubmit={handleSubmit}>
+            <div className="form-popup">
+              <div className="form-container">
+                <form onSubmit={handlesubmit}>
                   <h2>Add Event details</h2>
-                  <Label>
-                    Event name:
-                    <Input
-                      id="etn"
+                  <label>
+                    <span>Event name:</span>
+                    <input
                       type="text"
                       placeholder="Event Name"
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => setname(e.target.value)}
                       value={name}
                     />
-                  </Label>
-                  <Label>
-                    Event Type:
-                    <Input
-                      id="etn"
+                  </label>
+                  <label>
+                    <span>Event Type:</span>
+                    <input
                       type="text"
                       placeholder="Type"
-                      onChange={(e) => setType(e.target.value)}
+                      onChange={(e) => settype(e.target.value)}
                       value={type}
                     />
-                  </Label>
-                  <Label>
-                    Person Capacity:
-                    <Input
-                      id="etn"
+                  </label>
+                  <label>
+                    <span> Person Capacity:</span>
+                    <input
                       type="number"
                       placeholder="Capacity"
-                      onChange={(e) => setCapacity(e.target.value)}
+                      onChange={(e) => setcapacity(e.target.value)}
                       value={capacity}
                     />
-                  </Label>
-                  <Label>
-                    Price:
-                    <Input
-                      id="etn"
+                  </label>
+                  <label>
+                    <span>Price:</span>
+                    <input
                       type="number"
                       placeholder="price"
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => setprice(e.target.value)}
                       value={price}
                     />
-                  </Label>
-                  <Label htmlFor="status">Status:</Label>
-                  <Select
-                    id="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </Select>
-                  <Label>
-                    Description:
-                    <Input
-                      id="etn"
-                      type="textarea"
-                      placeholder="description"
-                      onChange={(e) => setEventdesc(e.target.value)}
-                      value={eventdesc}
-                    />
-                  </Label>
-                  <Button type="submit">Save</Button>
-                  <Button type="button" onClick={toggleForm}>
+                  </label>
+                  <button type="submit">Save</button>
+                  <button type="button" onClick={() => toggleForm()}>
                     Cancel
-                  </Button>
-                </Form>
-              </FormContainerEvent>
-            </FormPopupEvent>
+                  </button>
+                </form>
+              </div>
+            </div>
           )}
         </>
-        <Items>
-          <Button onClick={toggleForm}>Add Event</Button>
-          <Link to={`/myevent/${userId}`}>
-            <Button>View Events</Button>
-          </Link>
-        </Items>
-      </OrganiseContainer>
-    </>
+        <div className="items">
+          <button onClick={() => toggleForm()}>Add Event</button>
+          <button>view Events</button>
+          <button>Update Org Details</button>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -18,8 +18,10 @@ import { Myorganization } from "./pages/MyOrganization/Myorganization";
 import { Vieworganise } from "./pages/MyOrganization/Vieworganise";
 import { MyEvent } from "./pages/MyEvents/MyEvent";
 import { MyBooking } from "./pages/MyBooking/MyBooking";
-import { CreateBook } from "./pages/MyBooking/CreateBook";
-import { EventDetailsPage } from "./pages/EventPages/EventDetailsPage";
+// import { CreateBook } from "./pages/MyBooking/CreateBook";
+// import { EventDetailsPage } from "./pages/EventPages/EventDetailsPage";
+import { EventsOrganise } from "./pages/EventPages/EventsOrganise";
+import { RecentBooking } from "./pages/MyBooking/RecentBooking";
 
 const Allroutes = () => {
   return (
@@ -40,39 +42,11 @@ const Allroutes = () => {
       <Route path="/myorg/:id" element={<Vieworganise />} />
       <Route path="/myevent/:id" element={<MyEvent />} />
       <Route path="/mybooking/:id" element={<MyBooking />} />
-      <Route path="/createbook" element={<CreateBook />} />
-      <Route path="/eventdetails/:id" element={<EventDetailsPage />} />
+      {/* <Route path="/createbook/:eventId" element={<CreateBook />} /> */}
+      {/* <Route path="/eventdetails/:id" element={<EventDetailsPage />} /> */}
+      <Route path="/organise/events/:id" element={<EventsOrganise />} />
+      <Route path="/viewbooking/:id" element={<RecentBooking />} />
     </Routes>
   );
 };
 export default Allroutes;
-
-// import React from 'react'
-// import { Routes,Route } from "react-router-dom"
-// import { Hoempage } from "./pages/homepage/Hoempage";
-// import { Organisepage } from "./pages/organisepage/Organisepage";
-// import { Signup } from './pages/auth/Signup';
-// import { Login } from './pages/auth/Login';
-// import { Eventpage } from './pages/EventPages/Eventpage';
-// import { ProfileBio } from './pages/UserProfile/ProfileBio';
-// import { UserProfile } from './pages/UserProfile/UserProfile';
-// import { Myoranization } from './pages/Oranization/Myoranization';
-// import { Vieworganise } from './pages/Oranization/Vieworganise';
-// import Events from './pages/Myevents/Events';
-
-// const Allroutes = () => {
-//   return (
-//           <Routes>
-//                     <Route path="/" element={<Hoempage /> } />
-//                     <Route path="/organise" element={<Organisepage /> } />
-//                     <Route path="/events" element={<Eventpage/>}/>
-//                     <Route path='/profile/:id' element={<UserProfile/>}/>
-//                     <Route path="/signup" element={ <Signup />}/>
-//                     <Route path="/login" element={<Login />}/>
-//                     <Route path='/createorganization' element ={<Myoranization/>}/>
-//                     <Route path='/myorg/:id' element={<Vieworganise/>}/>
-//                     <Route path='/myevent/:id' element={<Events /> }/>
-//          </Routes>
-//   )
-// }
-// export default Allroutes

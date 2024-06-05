@@ -11,6 +11,7 @@ const eventsrouter = require("./routes/eventRoute");
 const commentrouter = require("./routes/postcomment");
 const bookingrouter = require("./routes/bookingRoute");
 const serviceRouter = require("./routes/postservices");
+
 // const imageRouter = require("./routes/imageRoute");
 
 const port = process.env.PORT || 5001;
@@ -59,6 +60,7 @@ app.use("/events", eventsrouter);
 app.use("/comment", commentrouter);
 app.use("/service", serviceRouter);
 app.use("/booking", bookingrouter);
+
 // app.use("/images", imageRouter);
 
 // const url =

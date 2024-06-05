@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const Event = require("../models/eventmodel");
 // const uploadMiddleware = require("../middleware/MulterMiddleware");
 
@@ -42,8 +43,21 @@ const singlevent = async (req, res) => {
 
 //get event by user id
 const geteventuser = async (req, res) => {
-  const { userId } = req.params;
-  const events = await Event.find(userId);
+  const { id: userId } = req.params;
+  const events = await Event.find({ userId: userId });
+  if (!events) {
+    return res.status(404).json({ message: "Events not found" });
+  }
+  res.status(202).json(events);
+};
+
+//get events by organise id
+const geteventbyorgid = async (req, res) => {
+  const { id: organiseId } = req.params;
+  // if(!mongoose.Types.ObjectId.isValid(organiseId)){
+  //     return res.status(404).json('organise not found')
+  // }
+  const events = await Event.find({ _id: organiseId });
   if (!events) {
     return res.status(404).json({ message: "Events not found" });
   }
@@ -53,13 +67,13 @@ const geteventuser = async (req, res) => {
 //create one
 const createevent = async (req, res) => {
   const posteventdata = req.body;
-  const userId = req.userId;
-  const { organiseId } = req.body;
+  // const userId = req.userId;
+  // const { organiseId } = req.body;
   try {
     const postevent = await Event.create({
       ...posteventdata,
-      userId,
-      organiseId,
+      // userId,
+      // organiseId,
     });
     if (!postevent) {
       res.status(500).json({ msg: " Server Error" });
@@ -189,4 +203,5 @@ module.exports = {
   getsixevent,
   geteventuser,
   LatestEvent,
+  geteventbyorgid,
 };
