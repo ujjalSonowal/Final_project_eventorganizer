@@ -1,13 +1,27 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "./style.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  OuterSection,
+  OrgSection,
+  MyOrg,
+  Title,
+  HeadingOrg,
+  Detail,
+  OrgDetails,
+  ServicesContainer,
+  ServiceBox,
+  FormPopup,
+  FormContainer,
+  Button,
+  Items,
+} from "./viewOrgStyle";
+
 export const Vieworganise = () => {
-  const [org, setorg] = useState("");
-  const userId = localStorage.getItem("User"); //get current logIn user
-  // const current = userId;
+  const [org, setOrg] = useState("");
+  const [status, setStatus] = useState(""); // State variable for status
+  const userId = localStorage.getItem("User");
   const navigate = useNavigate();
-  //get organise details using current user id
+
   useEffect(() => {
     async function getOrg() {
       const response = await fetch(
@@ -15,7 +29,6 @@ export const Vieworganise = () => {
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
-          // body: JSON.stringify({ current })
         }
       );
       if (!response.ok) {
@@ -23,30 +36,36 @@ export const Vieworganise = () => {
         console.error(message);
         return;
       }
-      const myorg = await response.json();
-      setorg(myorg);
-      const orgId = myorg._id;
-      setorganiseid(orgId);
-
-      //  localStorage.setItem('OrganiseId',orgId);
+      const myOrg = await response.json();
+      setOrg(myOrg);
+      const orgId = myOrg._id;
+      setOrganiseId(orgId);
     }
+
     if (userId) {
-      getOrg(); // Only fetch if userId is available
+      getOrg();
     }
 
-    // getOrg();
     return;
   }, [userId]);
-  const [organiseId, setorganiseid] = useState("");
-  const [name, setname] = useState("");
-  const [type, settype] = useState("");
-  const [capacity, setcapacity] = useState("");
-  const [price, setprice] = useState("");
+
+  const [organiseId, setOrganiseId] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [price, setPrice] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
+
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
-  const handlesubmit = async (e) => {
+
+  const toggleUpdateForm = () => {
+    setIsUpdateFormOpen(!isUpdateFormOpen);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { userId, organiseId, name, type, capacity, price };
     try {
@@ -63,65 +82,101 @@ export const Vieworganise = () => {
         throw new Error(json.error);
       }
       setIsFormOpen(false);
-      // setReloadComponent(!reloadComponent);
       navigate(`/myevent/${userId}`);
     } catch (error) {
-      console.log("could not submit the form data");
+      console.log("Could not submit the form data");
     }
   };
-  if (!org) return <div> Create Your Organise</div>;
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: org.name,
+      email: org.email,
+      phone: org.phone,
+      location: org.location,
+      status: status, // Include status in the data object
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:5001/organise/update/${organiseId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.error);
+      }
+      setIsUpdateFormOpen(false);
+      setOrg(json);
+    } catch (error) {
+      console.log("Could not update the organisation data");
+    }
+  };
+
+  if (!org) return <div>Create Your Organisation</div>;
 
   return (
-    <div className="org-outer-section">
-      <div className="org-section">
-        <div className="myorg">
-          <h1>My Organisations</h1>
-          <div className="heading-org">
-            <p>
-              {" "}
+    <OuterSection>
+      <OrgSection>
+        <MyOrg>
+          <Title>My Organisations</Title>
+          <HeadingOrg>
+            <Detail>
               <strong>Organization Name:</strong> {org.name}
-            </p>
-            <p>
-              {" "}
+            </Detail>
+            <Detail>
               <strong>Email:</strong> {org.email}
-            </p>
-          </div>
-          <div className="heading-org">
-            <p>
-              {" "}
+            </Detail>
+          </HeadingOrg>
+          <HeadingOrg>
+            <Detail>
               <strong>Owner Name:</strong> {org.owner}
-            </p>
-            <p>
-              {" "}
-              <strong>Contact Number: </strong> {org.phone}
-            </p>
-          </div>
+            </Detail>
+            <Detail>
+              <strong>Contact Number:</strong> {org.phone}
+            </Detail>
+          </HeadingOrg>
 
-          <div className="org-details">
-            <p>{org.startdate}</p>
-            <p>{org.location}</p>
-            <p>{org.address}</p>
-            <p>{org.pin}</p>
-            <p>{org.postoffice}</p>
-            <p>{org.state}</p>
-            <p>{org.service}</p>
-            <p>{org.status}</p>
-            <p>{org.rating}</p>
-          </div>
-        </div>
+          <OrgDetails>
+            <Detail>
+              <strong>Organization Created: </strong>
+              {org.startdate}
+            </Detail>
+            <Detail>{org.location}</Detail>
+            <Detail>{org.address}</Detail>
+            <Detail>{org.pin}</Detail>
+            <Detail>{org.postoffice}</Detail>
+            <Detail>{org.state}</Detail>
+
+            <ServicesContainer>
+              <p>Services:</p>
+              {org.services?.map((service, index) => (
+                <ServiceBox key={index}>{service}</ServiceBox>
+              ))}
+            </ServicesContainer>
+            <Detail>{org.status}</Detail>
+            <Detail>{org.rating}</Detail>
+          </OrgDetails>
+        </MyOrg>
         <>
-          {" "}
           {isFormOpen && (
-            <div className="form-popup">
-              <div className="form-container">
-                <form onSubmit={handlesubmit}>
-                  <h2>Add Event details</h2>
+            <FormPopup>
+              <FormContainer>
+                <form onSubmit={handleSubmit}>
+                  <h2>Add Event Details</h2>
                   <label>
-                    <span>Event name:</span>
+                    <span>Event Name:</span>
                     <input
                       type="text"
                       placeholder="Event Name"
-                      onChange={(e) => setname(e.target.value)}
+                      onChange={(e) => setName(e.target.value)}
                       value={name}
                     />
                   </label>
@@ -130,16 +185,16 @@ export const Vieworganise = () => {
                     <input
                       type="text"
                       placeholder="Type"
-                      onChange={(e) => settype(e.target.value)}
+                      onChange={(e) => setType(e.target.value)}
                       value={type}
                     />
                   </label>
                   <label>
-                    <span> Person Capacity:</span>
+                    <span>Person Capacity:</span>
                     <input
                       type="number"
                       placeholder="Capacity"
-                      onChange={(e) => setcapacity(e.target.value)}
+                      onChange={(e) => setCapacity(e.target.value)}
                       value={capacity}
                     />
                   </label>
@@ -147,26 +202,101 @@ export const Vieworganise = () => {
                     <span>Price:</span>
                     <input
                       type="number"
-                      placeholder="price"
-                      onChange={(e) => setprice(e.target.value)}
+                      placeholder="Price"
+                      onChange={(e) => setPrice(e.target.value)}
                       value={price}
                     />
                   </label>
-                  <button type="submit">Save</button>
-                  <button type="button" onClick={() => toggleForm()}>
+                  <Button type="submit">Save</Button>
+                  <Button type="button" onClick={() => toggleForm()}>
                     Cancel
-                  </button>
+                  </Button>
                 </form>
-              </div>
-            </div>
+              </FormContainer>
+            </FormPopup>
           )}
         </>
-        <div className="items">
-          <button onClick={() => toggleForm()}>Add Event</button>
-          <button>view Events</button>
-          <button>Update Org Details</button>
-        </div>
-      </div>
-    </div>
+        <>
+          {isUpdateFormOpen && (
+            <FormPopup>
+              <FormContainer>
+                <form onSubmit={handleUpdateSubmit}>
+                  <h2>Update Organisation Details</h2>
+                  <label>
+                    <span>Organisation Name:</span>
+                    <input
+                      type="text"
+                      placeholder="Organisation Name"
+                      onChange={(e) => setOrg({ ...org, name: e.target.value })}
+                      value={org.name}
+                    />
+                  </label>
+                  <label>
+                    <span>Email:</span>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      onChange={(e) =>
+                        setOrg({ ...org, email: e.target.value })
+                      }
+                      value={org.email}
+                    />
+                  </label>
+                  <label>
+                    <span>Phone:</span>
+                    <input
+                      type="text"
+                      placeholder="Phone"
+                      onChange={(e) =>
+                        setOrg({ ...org, phone: e.target.value })
+                      }
+                      value={org.phone}
+                    />
+                  </label>
+                  <label>
+                    <span>Location:</span>
+                    <input
+                      type="text"
+                      placeholder="Location"
+                      onChange={(e) =>
+                        setOrg({ ...org, location: e.target.value })
+                      }
+                      value={org.location}
+                    />
+                  </label>
+                  <label>
+                    <span>Status:</span>
+                    <select
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)} // Update the status state directly
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </label>
+
+                  <Button type="submit">Save</Button>
+                  <Button type="button" onClick={() => toggleUpdateForm()}>
+                    Cancel
+                  </Button>
+                </form>
+              </FormContainer>
+            </FormPopup>
+          )}
+        </>
+        <Items>
+          <Button onClick={() => toggleForm()}>Add Event</Button>
+          <Link to={`/myevent/${organiseId}`}>
+            <Button>View Events</Button>
+          </Link>
+          <Button onClick={() => toggleUpdateForm()}>
+            Update Organization Details
+          </Button>
+          <Button>Delete</Button>
+        </Items>
+      </OrgSection>
+    </OuterSection>
   );
 };
+
+export default Vieworganise;

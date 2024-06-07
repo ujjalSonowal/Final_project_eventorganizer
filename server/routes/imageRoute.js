@@ -1,22 +1,24 @@
 // imageRoute.js
 const express = require("express");
 const router = express.Router();
-const uploadMiddleware = require("../middleware/MulterMiddleware");
-const eventmodel = require("../models/eventmodel");
 
-// Handle image uploads
-router.post("/upload", uploadMiddleware.single("image"), (req, res) => {
-  const images = req.file.filename;
-  console.log(images);
+const imageController = require("../controllers/imageController");
 
-  eventmodel
-    .create({ images })
-    .then((data) => {
-      console.log("Image added to database");
-      console.log(data);
-      res.send(data);
-    })
-    .catch((err) => console.log(err));
-});
+router.post(
+  "/post",
+  imageController.upload.single("images"),
+  imageController.uploadFile
+);
+
+router.get("/images", imageController.getAllImages);
+router.get("/images/user/:userId", imageController.getImagesByUserId);
+router.delete("/delete/:id", imageController.deleteImage);
+
+router.get(
+  "/images/user/:userId/event/:eventId",
+  imageController.getImagesByEventIdAndUserId
+);
+
+router.get("/images/event/:eventId", imageController.getImageByEventId);
 
 module.exports = router;

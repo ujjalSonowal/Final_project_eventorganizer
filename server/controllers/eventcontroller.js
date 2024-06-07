@@ -11,7 +11,7 @@ const getallevent = async (req, res) => {
 
 //get events with limit 6 for home
 const getsixevent = async (req, res) => {
-  const sixevent = await Event.find({}).sort({ createdAt: 1 }).limit(6);
+  const sixevent = await Event.find({}).sort({ createdAt: 1 }).limit(4);
   res.status(200).json(sixevent);
 };
 
@@ -67,11 +67,13 @@ const geteventbyorgid = async (req, res) => {
 //create one
 const createevent = async (req, res) => {
   const posteventdata = req.body;
+  // const images = req.body;
   // const userId = req.userId;
   // const { organiseId } = req.body;
   try {
     const postevent = await Event.create({
       ...posteventdata,
+      // images: req.files.map((file) => `/uploads/images/${file.filename}`),
       // userId,
       // organiseId,
     });
@@ -88,17 +90,31 @@ const createevent = async (req, res) => {
 const updateevent = async (req, res) => {
   const updatesdata = req.body;
   const { id: _id } = req.params;
-
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    res.status(404).json({ error: " not found" });
+    res.status(404).json({ error: "Event not found" });
   }
-  const update = await Event.findByIdAndUpdate(_id, {
-    $set: { ...updatesdata },
-  });
-  if (!update) {
-    res.status(500).json({ error: " fail to update" });
+  try {
+    const event = await Event.findById(_id);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+    // Check if any files were uploaded
+    if (req.files && req.files.length > 0) {
+      // Map uploaded files to their URLs and push them to the existing images array
+      updatesdata.images = event.images.concat(
+        req.files.map((file) => `/uploads/images/${file.filename}`)
+      );
+    }
+    const update = await Event.findByIdAndUpdate(_id, {
+      $set: { ...updatesdata },
+    });
+    if (!update) {
+      res.status(500).json({ error: "Fail to update" });
+    }
+    res.status(201).json(update);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(201).json(update);
 };
 
 //update total no of comment

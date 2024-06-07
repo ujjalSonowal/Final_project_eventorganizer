@@ -1,34 +1,53 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./myorg.css";
+
 export const Myorganization = () => {
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [owner, setowner] = useState("");
-  const [phone, setphone] = useState("");
-  const [date, setdate] = useState("");
-  const [location, setlocation] = useState("");
-  const [address, setaddress] = useState("");
-  const [pin, setpin] = useState("");
-  const [postoffice, setpostoffice] = useState("");
-  const [mstate, setmstate] = useState("");
-  const [service, setservice] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [owner, setOwner] = useState("");
+  const [phone, setPhone] = useState("");
+  const [startdate, setDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
+  const [pin, setPin] = useState("");
+  const [postoffice, setPostoffice] = useState("");
+  const [state, setMstate] = useState("");
+  const [services, setServices] = useState([""]);
+  const [status, setStatus] = useState("Active");
 
   const userId = localStorage.getItem("User");
-  const handlesubmit = async (e) => {
+
+  const handleServiceChange = (index, value) => {
+    const newServices = [...services];
+    newServices[index] = value;
+    setServices(newServices);
+  };
+
+  const addService = () => {
+    setServices([...services, ""]);
+  };
+
+  const removeService = (index) => {
+    const newServices = services.filter((_, i) => i !== index);
+    setServices(newServices);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const data = {
       name,
       email,
       owner,
       userId,
       phone,
-      date,
+      startdate,
       location,
       address,
       pin,
       postoffice,
-      mstate,
-      service,
+      state,
+      status,
+      services, // Ensure services is included in the data
     };
     try {
       const response = await fetch(`http://localhost:5001/organise/post`, {
@@ -46,6 +65,20 @@ export const Myorganization = () => {
       alert("Data submitted successfully!");
       const organiseId = result.id;
       localStorage.setItem("OrganiseId", organiseId);
+
+      // Reset the form fields
+      setName("");
+      setEmail("");
+      setOwner("");
+      setPhone("");
+      setDate("");
+      setLocation("");
+      setAddress("");
+      setPin("");
+      setPostoffice("");
+      setMstate("");
+      setServices([""]);
+      setStatus("");
     } catch (error) {
       console.error(error);
       alert("Error submitting data: " + error.message);
@@ -55,13 +88,13 @@ export const Myorganization = () => {
   return (
     <>
       <div className="form">
-        <form onSubmit={handlesubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <label htmlFor="name">Organize Name:</label>
             <input
               type="text"
               name="name"
-              onChange={(e) => setname(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               value={name}
             />
 
@@ -69,7 +102,7 @@ export const Myorganization = () => {
             <input
               type="email"
               name="email"
-              onChange={(e) => setemail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
           </div>
@@ -77,18 +110,15 @@ export const Myorganization = () => {
           <input
             type="text"
             name="owner"
-            onChange={(e) => setowner(e.target.value)}
+            onChange={(e) => setOwner(e.target.value)}
             value={owner}
           />
-
-          {/* <label htmlFor="userId">User ID:</label>
-                <input type="text" name="userId" value={formState.userId} onChange={handleInputChange} /> */}
 
           <label htmlFor="phone">Phone number:</label>
           <input
             type="tel"
             name="phone"
-            onChange={(e) => setphone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value)}
             value={phone}
           />
 
@@ -96,15 +126,15 @@ export const Myorganization = () => {
           <input
             type="date"
             name="startdate"
-            onChange={(e) => setdate(e.target.value)}
-            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            value={startdate}
           />
 
           <label htmlFor="location">Office location:</label>
           <input
             type="text"
             name="location"
-            onChange={(e) => setlocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value)}
             value={location}
           />
 
@@ -112,7 +142,7 @@ export const Myorganization = () => {
           <input
             type="text"
             name="address"
-            onChange={(e) => setaddress(e.target.value)}
+            onChange={(e) => setAddress(e.target.value)}
             value={address}
           />
 
@@ -120,7 +150,7 @@ export const Myorganization = () => {
           <input
             type="number"
             name="pin"
-            onChange={(e) => setpin(e.target.value)}
+            onChange={(e) => setPin(e.target.value)}
             value={pin}
           />
 
@@ -128,7 +158,7 @@ export const Myorganization = () => {
           <input
             type="text"
             name="postoffice"
-            onChange={(e) => setpostoffice(e.target.value)}
+            onChange={(e) => setPostoffice(e.target.value)}
             value={postoffice}
           />
 
@@ -136,20 +166,37 @@ export const Myorganization = () => {
           <input
             type="text"
             name="state"
-            onChange={(e) => setmstate(e.target.value)}
-            value={mstate}
+            onChange={(e) => setMstate(e.target.value)}
+            value={state}
           />
+          <label htmlFor="status">Status:</label>
+          <select
+            name="status"
+            onChange={(e) => setStatus(e.target.value)}
+            value={status}
+          >
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
 
-          <label htmlFor="service">Service:</label>
-          <input
-            type="text"
-            name="service"
-            onChange={(e) => setservice(e.target.value)}
-            value={service}
-          />
-
-          {/* <label htmlFor="status">Status:</label>
-                <input type="checkbox" name="status" checked={formState.status} onChange={(e) => setFormState({ ...formState, status: e.target.checked })} /> */}
+          <div className="services-section">
+            <label htmlFor="services">Services:</label>
+            {services.map((service, index) => (
+              <div key={index} className="service">
+                <input
+                  type="text"
+                  value={service}
+                  onChange={(e) => handleServiceChange(index, e.target.value)}
+                />
+                <button type="button" onClick={() => removeService(index)}>
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={addService} className="btns">
+              Add Service
+            </button>
+          </div>
 
           <button type="submit" className="btns">
             Submit

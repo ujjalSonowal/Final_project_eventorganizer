@@ -73,15 +73,26 @@ const updateone = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    res.status(404).json({ error: " not found" });
+    return res.status(400).json({ error: "Invalid organisation ID" });
   }
-  const update = await organise.findByIdAndUpdate(_id, {
-    $set: { ...updatesdata },
-  });
-  if (!update) {
-    res.status(500).json({ error: " fail to update" });
+
+  try {
+    const update = await organise.findByIdAndUpdate(
+      _id,
+      {
+        $set: { ...updatesdata },
+      },
+      {
+        new: true,
+      }
+    );
+    if (!update) {
+      return res.status(404).json({ error: "Organisation not found" });
+    }
+    res.status(200).json(update);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  res.status(201).json(update);
 };
 
 const deleteone = async (req, res) => {

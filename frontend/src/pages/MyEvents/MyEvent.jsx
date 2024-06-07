@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import MyEvents from "../../components/Events/MyEvents";
-// import "./myevent.css";
+import "./myevent.css";
 export const MyEvent = () => {
   const [events, setEvents] = useState([]);
   const currentuser = localStorage.getItem("User");

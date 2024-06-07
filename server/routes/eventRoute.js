@@ -24,7 +24,7 @@ router.get("/:id", singlevent);
 router.get("/my/event/:id", geteventuser);
 
 //get event with limit 6
-router.get("/home/event", getsixevent);
+router.get("/home", getsixevent);
 
 //get all events by top rating
 router.get("/rating");

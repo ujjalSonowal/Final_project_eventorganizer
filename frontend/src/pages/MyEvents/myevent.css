@@ -1,0 +1,8 @@
+/* .myevents-container {
+  display: flex;
+  flex-direction: row;
+} */
+
+.component-section {
+  display: flex;
+}

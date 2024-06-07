@@ -170,10 +170,7 @@ export const HomePage = () => {
             <OrgSec className="organisation-container">
               {topOrg &&
                 topOrg.map((organise) => (
-                  <LinkOrg
-                    to={`/oranise-view/${organise._id}`}
-                    className="linkcardorganise"
-                  >
+                  <LinkOrg to="" className="linkcardorganise">
                     <OrgView>
                       {" "}
                       <Organizer key={organise._id} organise={organise} />

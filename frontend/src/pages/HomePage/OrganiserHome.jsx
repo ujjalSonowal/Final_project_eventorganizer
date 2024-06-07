@@ -15,7 +15,7 @@ export const OrganiserHome = () => {
 
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5001/events/home/event`);
+      const response = await fetch(`http://localhost:5001/events`);
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
@@ -253,8 +253,16 @@ const Footer = styled.footer`
 
 const TopEvent = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
   margin-top: 50px;
+
+  .linkcard {
+    flex: 1 1 calc(25% - 20px); /* 4 items per row, minus the gap */
+    max-width: calc(25% - 20px);
+    box-sizing: border-box;
+  }
 `;
 
 const Title = styled.h2`

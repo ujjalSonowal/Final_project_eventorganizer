@@ -1,16 +1,19 @@
 .card {
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 20px;
   overflow: hidden;
-  transition: transform 0.2s;
+  /* transition: transform 0.2s; */
 }
 
-.card:hover {
+/* .card:hover {
   transform: scale(1.05);
-}
+} */
 
 .card img {
   width: 100%;
@@ -59,4 +62,129 @@
 
 .comment small {
   color: #999;
+}
+
+.image-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.image-box img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  z-index: 1000;
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.large-image {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.image-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.image-slider img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Keep existing styles */
+
+/* Remove hover effect for image */
+
+/* .image-box img:hover {
+  transform: none;
+} */
+
+/* Adjust the size of the large image */
+
+/* Keep existing styles */
+
+/* Remove big image size when clicked */
+
+.large-image {
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+/* Add style for the delete button in the image modal */
+
+.delete-button-modal {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  /* Adjusting the position */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 5px;
+  /* Adjusting border radius */
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Add style for the cancel button in the image modal */
+
+.cancel-button-modal {
+  position: absolute;
+  top: 10px;
+  right: 130px;
+  /* Adjusting the position */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 5px;
+  /* Adjusting border radius */
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
 }
