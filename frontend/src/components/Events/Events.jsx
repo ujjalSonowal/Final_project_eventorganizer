@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import StarRating from "../StarRating";
+import { ImageSlider } from "../ImageSlider/ImageSlider";
 // import "./slider.css";
-import Slider from "react-slick"; // Import Slider component for image slider
 
 const EventContainer = styled.div`
   display: flex;
@@ -11,43 +11,22 @@ const EventContainer = styled.div`
   justify-content: center;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-// const EventImages = styled.div`
-//   margin-bottom: 1rem;
-
-//   img {
-//     border-radius: 5px;
-//     height: 200px;
-//     object-fit: cover;
-//     width: 100%;
-//   }
-// `;
-
-// const EventContainer = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-// `;
-
 const EventsCard = styled.div`
-  background-color: #e7f4ff;
+  background-color: #f5f5f5;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   margin: 1rem;
   padding: 1rem;
-  width: 300px;
-  /* height: 250px; */
+  width: 600px;
+  height: auto;
 
   p {
     margin: 0.5rem 0;
     color: black;
+    font-family: Serif;
+    font-size: 16px;
   }
 `;
 
@@ -95,6 +74,7 @@ const PopupCard = styled.div`
   left: 50%;
   max-height: 80vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1rem;
   position: fixed;
   top: 50%;
@@ -102,6 +82,7 @@ const PopupCard = styled.div`
   width: 70%;
   z-index: 1000;
   display: ${({ show }) => (show ? "block" : "none")};
+  padding-left: 20px;
 `;
 
 const CloseBtn = styled.button`
@@ -110,7 +91,7 @@ const CloseBtn = styled.button`
   color: #333;
   cursor: pointer;
   font-size: 1.1rem;
-  position: absolute;
+  /* position: absolute; */
   right: 1rem;
   top: 1rem;
 `;
@@ -126,13 +107,34 @@ const CloseBtn = styled.button`
 //   }
 // `;
 
+const EventInfoOne = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
 const EventInfo = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  flex-direction: column;
+  /* padding-top: 50px; */
+  /* margin-top: 40px; */
 
   p {
     color: #333;
   }
+  padding-bottom: 20px;
+`;
+const SecOne = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 60px;
+  padding-bottom: 20px;
+`;
+const SecTwo = styled.div`
+  justify-content: space-evenly;
+  display: flex;
 `;
 
 const P1 = styled.div`
@@ -144,6 +146,7 @@ const P1 = styled.div`
   padding: 7px;
   /* padding-left: 19px; */
   border-radius: 4px;
+  width: 80px;
 `;
 
 const BookBtn = styled.button`
@@ -240,9 +243,10 @@ const BtnSectionBook = styled.div`
 `;
 
 const H2 = styled.h2`
-  position: absolute;
+  font-weight: bold;
+  /* position: absolute;
   left: 40%;
-  top: 20px;
+  top: 20px; */
 `;
 
 const ContainerCreateBooking = styled.div`
@@ -275,12 +279,13 @@ const ContainerCreateBooking = styled.div`
 export const Events = ({ event, organizer }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showbookingform, setshowbookingform] = useState(false);
-  const [newComment, setNewComment] = useState("");
-  const [images, setImages] = useState([]);
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
   const userId = localStorage.getItem("User");
 
-  const [showImage, setShowImage] = useState(null);
+  // const [showImage, setShowImage] = useState(null);
   // const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const [name, setname] = useState("");
@@ -299,9 +304,13 @@ export const Events = ({ event, organizer }) => {
   const eventtype = event.type;
 
   const togglePopup = () => {
+    console.log("Toggle Popup called");
     setShowPopup(!showPopup);
   };
 
+  // const toggleClose = () => {
+  //   setShowPopup(false);
+  // };
   const togglebooking = () => {
     setshowbookingform(!showbookingform);
   };
@@ -348,41 +357,32 @@ export const Events = ({ event, organizer }) => {
     }
   };
 
-  const handleAddComment = (e) => {
-    e.preventDefault();
-    // Here you would add the logic to post the new comment to your backend
-    // For now, let's just log it to the console
-    console.log("New comment:", newComment);
-    setNewComment("");
-  };
-  useEffect(() => {
-    // Fetch images by event ID when the component mounts
-    const fetchImages = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5001/file/images/event/${event._id}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch images");
-        }
-        const data = await response.json();
-        setImages(data);
-        console.log("Images:", data); // Log the images data
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // const handleAddComment = (e) => {
+  //   e.preventDefault();
 
-    fetchImages();
-  }, [event._id]);
-  const handleImageClose = () => {
-    setShowImage(null);
-  };
+  //   console.log("New comment:", newComment);
+  //   setNewComment("");
+  // };
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:5001/file/images/event/${event._id}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch images");
+  //       }
+  //       const data = await response.json();
+  //       setImages(data);
+  //       console.log("Images:", data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-  const handleImageClick = (image, index) => {
-    setShowImage(image);
-    // setSelectedImageIndex(index);
-  };
+  //   fetchImages();
+  // }, [event._id]);
+
   return (
     <EventContainer>
       <EventsCard>
@@ -403,8 +403,9 @@ export const Events = ({ event, organizer }) => {
         ) : (
           <p>Loading organizer details...</p>
         )}
-        <p>Event Created: {event.createOn}</p>
+
         <div className="edetails">
+          <p>Event Created: {event.createOn}</p>
           <p>Event type: {event.type}</p>
           <p>Status: {event.status}</p>
           <StarRating rating={event.rating} />
@@ -417,53 +418,51 @@ export const Events = ({ event, organizer }) => {
         </ViewDetailsBtn>
       </EventsCard>
       <PopupCard show={showPopup}>
-        <CloseBtn onClick={togglePopup}>Close</CloseBtn>
-        <ImageContainer className="image-container">
-          {/* Initialize the Slider component with its configuration */}
-          <ImageSlider className="image-slider">
-            {/* Map through the images and display each image within a slider */}
-            {images.map((image, index) => (
-              <div key={index} className="slider-image">
-                <img
-                  src={`http://localhost:5001/uploads/${image.images}`}
-                  alt={`Event ${index}`}
-                  onClick={() => handleImageClick(image, index)}
-                />
-              </div>
-            ))}
-          </ImageSlider>
-        </ImageContainer>
+        <CloseBtn onClick={() => togglePopup()}>Close</CloseBtn>
 
-        <H2>{event.name.toUpperCase()}</H2>
+        <ImageSlider eventId={event._id} />
+        {/* <H2>{event.name.toUpperCase()}</H2> */}
 
         <EventInfo>
-          <p>
-            <strong>Created date:</strong> {event.createOn}
-          </p>
-          <p>
-            <strong>Total Booking:</strong> {event.totalbooking}
-          </p>
+          <SecOne>
+            <H2>{event.name.toUpperCase()}</H2>
+            <p>{event.eventdesc}</p>
+          </SecOne>
+          <SecTwo>
+            <p>
+              <strong>Created date:</strong> {event.createOn}
+            </p>
+            <p>
+              <strong>Total Booking:</strong> {event.totalbooking}
+            </p>
+          </SecTwo>
         </EventInfo>
-        <EventInfo>
-          <p className="list">
-            <strong>Capacity:</strong>
-            {event.capacity &&
-              event.capacity.map((capacity, index) => (
-                <div key={index}>
-                  <P1 className="itemlist">{capacity}</P1>
-                </div>
-              ))}
-          </p>
-          <p className="list">
-            <strong>Price:</strong>
-            {event.price &&
-              event.price.map((price, index) => (
-                <div key={index}>
-                  <P1 className="itemlist">{price}</P1>
-                </div>
-              ))}
-          </p>
-        </EventInfo>
+        <EventInfoOne>
+          <EventInfo>
+            <p className="list">
+              <strong>Capacity:</strong>
+              {event.capacity &&
+                event.capacity.map((capacity, index) => (
+                  <div key={index}>
+                    <P1 className="itemlist">{capacity}</P1>
+                  </div>
+                ))}
+            </p>
+            <p className="list">
+              <strong>Price:</strong>
+              {event.price &&
+                event.price.map((price, index) => (
+                  <div key={index}>
+                    <P1 className="itemlist">{price}</P1>
+                  </div>
+                ))}
+            </p>
+          </EventInfo>
+          <EventInfo>
+            <p>Event Type: {event.type}</p>
+            <StarRating rating={event.rating} />
+          </EventInfo>
+        </EventInfoOne>
 
         <BookBtn onClick={() => togglebooking()}>Book Now</BookBtn>
 
@@ -558,7 +557,7 @@ export const Events = ({ event, organizer }) => {
           </ContainerCreateBooking>
         )}
 
-        {!showbookingform && (
+        {/* {!showbookingform && (
           <CommentContainer>
             <CommentForm onSubmit={handleAddComment}>
               <textarea
@@ -582,89 +581,11 @@ export const Events = ({ event, organizer }) => {
                 ))}
             </CommentList>
           </CommentContainer>
-        )}
-
-        {showImage && (
-          <ImageModal className="image-modal">
-            <ImageContent className="image-modal-content">
-              <CloseButton
-                className="cancel-button-modal"
-                onClick={handleImageClose}
-              >
-                Cancel
-              </CloseButton>
-              <img
-                src={`http://localhost:5001/uploads/${showImage.images}`}
-                alt="Event"
-                className="large-image"
-              />
-            </ImageContent>
-          </ImageModal>
-        )}
+        )} */}
       </PopupCard>
     </EventContainer>
   );
 };
-
-const CloseButton = styled.button`
-  position: absolute;
-  right: 70px;
-  top: 40px;
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 30px;
-  padding-bottom: 60px;
-`;
-
-const ImageSlider = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  border: 1px solid red;
-  width: 800px;
-  height: 400px;
-  justify-content: center;
-
-  img {
-    width: 200px;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-`;
-
-const ImageModal = styled.div`
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-
-  /* width: 100%;
-  padding-top: 50px; */
-  /* padding-bottom: 50px; */
-`;
-
-const ImageContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  left: 30px;
-  width: 100%;
-  object-fit: cover;
-  /* padding: 70px; */
-`;
 
 const BookBotton = styled.button`
   /* background-color: green; */

@@ -11,6 +11,7 @@ const {
   getsixevent,
   LatestEvent,
   geteventbyorgid,
+  getEventWithReviews,
 } = require("../controllers/eventcontroller");
 
 const router = express.Router();
@@ -46,5 +47,8 @@ router.patch("/update/price/:id", updateprice);
 router.patch("/update/capacity/:id", updatecapacity);
 //get events by organise Id
 router.get("/organise/events/:id", geteventbyorgid);
+
+//get an event with its reviews and average rating
+router.get("/event/review/:eventId", getEventWithReviews);
 
 module.exports = router;

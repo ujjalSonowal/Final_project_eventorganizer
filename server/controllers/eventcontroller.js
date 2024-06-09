@@ -208,6 +208,19 @@ const updatecapacity = async (req, res) => {
   }
 };
 
+// Get an event with its reviews by ID
+const getEventWithReviews = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.eventId).populate("reviews");
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getallevent,
   deletevent,
@@ -220,4 +233,5 @@ module.exports = {
   geteventuser,
   LatestEvent,
   geteventbyorgid,
+  getEventWithReviews,
 };
