@@ -164,7 +164,7 @@ const MyEvents = ({ myev }) => {
           </div>
         )}
         <button onClick={toggleForm}>Update</button>
-        <div className="comments">
+        {/* <div className="comments">
           <h3>Comments:</h3>
           <div className="comment">
             {myev.comment &&
@@ -177,7 +177,7 @@ const MyEvents = ({ myev }) => {
                 </div>
               ))}
           </div>
-        </div>
+        </div> */}
         {showForm && (
           <div className="form-popup">
             <form onSubmit={handleUpdate}>

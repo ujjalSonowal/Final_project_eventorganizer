@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./usersmodel");
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -14,7 +15,7 @@ const reviewSchema = new mongoose.Schema(
     },
 
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, //<h3>{review.userId.name}</h3> to show name on frontend
       ref: "User",
       required: true,
     },

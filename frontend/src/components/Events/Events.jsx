@@ -3,32 +3,62 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import StarRating from "../StarRating";
 import { ImageSlider } from "../ImageSlider/ImageSlider";
+import { Review } from "../ReviewComponent/Review";
 // import "./slider.css";
 
 const EventContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* flex-wrap: wrap; */
+  /* flex-direction: row; */
+  /* justify-content: center; */
+  max-width: 100%;
 `;
 
 const EventsCard = styled.div`
-  background-color: #f5f5f5;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
+  /* background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
   margin: 1rem;
-  padding: 1rem;
-  width: 600px;
-  height: auto;
+  width: 400px;
+  max-width: 100%;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
 
   p {
     margin: 0.5rem 0;
-    color: black;
-    font-family: Serif;
+    color: #333333;
+    font-family: "Arial", sans-serif;
     font-size: 16px;
   }
+
+  .edetails {
+    margin-top: 1rem;
+  } */
 `;
+
+// const EventsCard = styled.div`
+//   background-color: #f5f5f5;
+//   border-radius: 5px;
+//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+//   display: flex;
+//   flex-direction: column;
+//   margin: 1rem;
+//   padding: 1rem;
+//   width: 400px;
+//   height: auto;
+
+//   p {
+//     margin: 0.5rem 0;
+//     color: black;
+//     font-family: Serif;
+//     font-size: 16px;
+//   }
+// `;
 
 const OrganiserDetails = styled.div`
   /* display: flex; */
@@ -96,17 +126,6 @@ const CloseBtn = styled.button`
   top: 1rem;
 `;
 
-// const EventImages = styled.div`
-//   margin-bottom: 1rem;
-
-//   img {
-//     border-radius: 5px;
-//     height: 200px;
-//     object-fit: cover;
-//     width: 100%;
-//   }
-// `;
-
 const EventInfoOne = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -161,58 +180,6 @@ const BookBtn = styled.button`
 
   &:hover {
     background-color: #3e8e41;
-  }
-`;
-
-const CommentContainer = styled.div`
-  border-top: 1px solid #ddd;
-  margin-top: 1rem;
-  padding-top: 1rem;
-`;
-
-const CommentForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-
-  textarea {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    resize: none;
-  }
-
-  button {
-    align-self: flex-end;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0.5rem;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #3e8e41;
-    }
-  }
-`;
-
-const CommentList = styled.div`
-  /* max-height: 200px;
-  overflow-y: auto; */
-
-  .comment-item {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.5rem;
-
-    p {
-      margin: 0.5rem 0;
-      color: #333;
-    }
   }
 `;
 
@@ -279,14 +246,9 @@ const ContainerCreateBooking = styled.div`
 export const Events = ({ event, organizer }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showbookingform, setshowbookingform] = useState(false);
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
-  const [reviews, setReviews] = useState([]);
+
   const navigate = useNavigate();
   const userId = localStorage.getItem("User");
-
-  // const [showImage, setShowImage] = useState(null);
-  // const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const [name, setname] = useState("");
   const [bookingDate, setbookingDate] = useState("");
@@ -357,66 +319,42 @@ export const Events = ({ event, organizer }) => {
     }
   };
 
-  // const handleAddComment = (e) => {
-  //   e.preventDefault();
-
-  //   console.log("New comment:", newComment);
-  //   setNewComment("");
-  // };
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://localhost:5001/file/images/event/${event._id}`
-  //       );
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch images");
-  //       }
-  //       const data = await response.json();
-  //       setImages(data);
-  //       console.log("Images:", data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchImages();
-  // }, [event._id]);
-
   return (
     <EventContainer>
-      <EventsCard>
-        <p>
-          Event Name: <strong>{event.name.toUpperCase()}</strong>
-        </p>
-        {organizer ? (
-          <OrganiserDetails>
-            <p>
-              <strong>Organizer Name:</strong>
-              {organizer.name}
-            </p>
-            <p>
-              <strong>Email:</strong>
-              {organizer.email}
-            </p>
-          </OrganiserDetails>
-        ) : (
-          <p>Loading organizer details...</p>
-        )}
+      <div>
+        <EventsCard>
+          <p>
+            Event Name: <strong>{event.name.toUpperCase()}</strong>
+          </p>
+          {organizer ? (
+            <OrganiserDetails>
+              <p>
+                <strong>Organizer Name:</strong>
+                {organizer.name}
+              </p>
+              <p>
+                <strong>Email:</strong>
+                {organizer.email}
+              </p>
+            </OrganiserDetails>
+          ) : (
+            <p>Loading organizer details...</p>
+          )}
 
-        <div className="edetails">
-          <p>Event Created: {event.createOn}</p>
-          <p>Event type: {event.type}</p>
-          <p>Status: {event.status}</p>
-          <StarRating rating={event.rating} />
-        </div>
+          <div className="edetails">
+            <p>Event Created: {event.createOn}</p>
+            <p>Event type: {event.type}</p>
+            <p>Status: {event.status}</p>
+            <StarRating rating={event.averageRating} />
+          </div>
 
-        {/* Popup Card */}
-        <PopupOverlay show={showPopup} onClick={togglePopup}></PopupOverlay>
-        <ViewDetailsBtn onClick={togglePopup}>
-          {showPopup ? "Close Details" : "View Details"}
-        </ViewDetailsBtn>
-      </EventsCard>
+          {/* Popup Card */}
+          <PopupOverlay show={showPopup} onClick={togglePopup}></PopupOverlay>
+          <ViewDetailsBtn onClick={togglePopup}>
+            {showPopup ? "Close Details" : "View Details"}
+          </ViewDetailsBtn>
+        </EventsCard>
+      </div>
       <PopupCard show={showPopup}>
         <CloseBtn onClick={() => togglePopup()}>Close</CloseBtn>
 
@@ -460,7 +398,7 @@ export const Events = ({ event, organizer }) => {
           </EventInfo>
           <EventInfo>
             <p>Event Type: {event.type}</p>
-            <StarRating rating={event.rating} />
+            <StarRating rating={event.averageRating} />
           </EventInfo>
         </EventInfoOne>
 
@@ -557,31 +495,11 @@ export const Events = ({ event, organizer }) => {
           </ContainerCreateBooking>
         )}
 
-        {/* {!showbookingform && (
-          <CommentContainer>
-            <CommentForm onSubmit={handleAddComment}>
-              <textarea
-                placeholder="Add a comment..."
-                rows="4"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              ></textarea>
-              <button type="submit">Add Comment</button>
-            </CommentForm>
-            <CommentList>
-              {event.comment &&
-                event.comment.map((comment, index) => (
-                  <div key={index} className="comment-item">
-                    <p>
-                      <strong>{comment.userName}</strong> -{" "}
-                      {comment.commentBody}
-                    </p>
-                    <p>Comment On: {comment.commentDate}</p>
-                  </div>
-                ))}
-            </CommentList>
-          </CommentContainer>
-        )} */}
+        {!showbookingform && (
+          <div>
+            <Review eventId={event._id} />
+          </div>
+        )}
       </PopupCard>
     </EventContainer>
   );

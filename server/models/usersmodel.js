@@ -17,4 +17,4 @@ const usersmodel = new schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("user", usersmodel);
+module.exports = mongoose.model("User", usersmodel);

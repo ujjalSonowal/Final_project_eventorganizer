@@ -9,12 +9,17 @@ router.get("/", reviewController.getAllReviews);
 router.get("/event/:eventId", reviewController.getAllReviewsByEventId);
 
 // Create a review
-router.post("/post/:eventId", reviewController.createReview);
+router.post("/post", reviewController.createReview);
 
 // Update a review
 router.put("/update/:id", reviewController.updateReview);
 
 // Delete a review
 router.delete("/delete/:id", reviewController.deleteReview);
+// Like a review
+router.put("/like/:reviewId", reviewController.likeReview);
+
+// Dislike a review
+router.put("/dislike/:reviewId", reviewController.dislikeReview);
 
 module.exports = router;

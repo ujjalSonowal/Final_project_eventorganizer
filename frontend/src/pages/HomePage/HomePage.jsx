@@ -94,7 +94,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <HomeWrapper>
+      <div>
         <Home className="home">
           <Left className="left">
             <Heading>All in One Event Management Software</Heading>
@@ -129,37 +129,37 @@ export const HomePage = () => {
           </NoticeLeft>
         </NoticeSection>
 
-        <ItemSection>
-          <TopEvents>
+        <div className="item-section">
+          <div className="top-event">
             <SectionHeading>Top Events</SectionHeading>
-            <EventCardContainer>
+            <div>
               {events &&
                 events.map((event) => (
-                  <EventLink to="" className="linkcard" key={event._id}>
+                  <Link to="" className="linkcard" key={event._id}>
                     <Events
                       event={event}
                       organizer={organizers[event.organiseId]}
                     />
-                  </EventLink>
+                  </Link>
                 ))}
-            </EventCardContainer>
-          </TopEvents>
+            </div>
+          </div>
 
-          <RecentEvents>
+          <div className="latest-event">
             <SectionHeading>Latest Events</SectionHeading>
-            <EventCardContainer>
+            <div>
               {latestEvent &&
                 latestEvent.map((event) => (
-                  <EventLink to="" className="linkcard" key={event._id}>
+                  <Link to="" className="linkcard" key={event._id}>
                     <Events
                       event={event}
                       organizer={organizers[event.organiseId]}
                     />
-                  </EventLink>
+                  </Link>
                 ))}
-            </EventCardContainer>
-          </RecentEvents>
-        </ItemSection>
+            </div>
+          </div>
+        </div>
 
         <OurPartnar className="our-patner">
           <PartnerHeading>Our Patner</PartnerHeading>
@@ -214,7 +214,7 @@ export const HomePage = () => {
         <Footer>
           <p>&copy; 2024 Event Organizer. All Rights Reserved.</p>
         </Footer>
-      </HomeWrapper>
+      </div>
     </>
   );
 };
@@ -334,7 +334,7 @@ const NoticePara = styled.p`
 `;
 
 const ItemSection = styled.div`
-  width: 100%;
+  /* width: 100%; */
   margin: 0;
   padding: 0;
   overflow: hidden;

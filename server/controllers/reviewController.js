@@ -36,8 +36,7 @@ exports.getAllReviews = async (req, res) => {
 exports.getAllReviewsByEventId = async (req, res) => {
   try {
     const reviews = await Review.find({ eventId: req.params.eventId }).populate(
-      "userId",
-      "name"
+      "userId"
     );
     res.status(200).json(reviews);
   } catch (error) {
@@ -48,8 +47,8 @@ exports.getAllReviewsByEventId = async (req, res) => {
 // Create a review
 exports.createReview = async (req, res) => {
   try {
-    const { eventId } = req.params;
-    const review = new Review({ ...req.body, eventId });
+    const { rating, comment, userId, eventId } = req.body;
+    const review = new Review({ rating, comment, userId, eventId });
     await review.save();
 
     // Update the associated event with the new review
@@ -101,5 +100,41 @@ exports.deleteReview = async (req, res) => {
     res.status(200).json({ message: "Review deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+// Like a review
+exports.likeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const userId = req.user; // Assuming you have middleware to extract user information
+
+    const review = await Review.findByIdAndUpdate(
+      reviewId,
+      { $addToSet: { likes: userId } }, // Add user to likes array if not already present
+      { new: true }
+    );
+
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Dislike a review
+exports.dislikeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const userId = req.user; // Assuming you have middleware to extract user information
+
+    const review = await Review.findByIdAndUpdate(
+      reviewId,
+      { $addToSet: { dislikes: userId } }, // Add user to dislikes array if not already present
+      { new: true }
+    );
+
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

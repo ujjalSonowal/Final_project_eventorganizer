@@ -1,10 +1,38 @@
-/* StarRating.css */
-
-.star-rating {
+.star-rating-container {
   display: flex;
-  font-size: 24px;
+  align-items: center;
 }
 
 .star {
-  color: #ffd700;
+  cursor: pointer;
+  font-size: 2em;
+  position: relative;
+}
+
+.star.full {
+  color: #ffc107;
+  /* Gold color for full stars */
+}
+
+.star.half::before {
+  content: "\2605";
+  /* Unicode for star */
+  color: #ffc107;
+  /* Gold color for half stars */
+  position: absolute;
+  overflow: hidden;
+  width: 50%;
+  /* Half the width */
+}
+
+.star.empty {
+  color: #e4e5e9;
+  /* Grey color for empty stars */
+}
+
+.rating-number {
+  font-size: 1.5em;
+  margin-left: 0.5em;
+  color: #000;
+  /* Change color as needed */
 }
