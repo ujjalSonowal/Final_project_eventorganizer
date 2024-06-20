@@ -48,7 +48,7 @@ export const Eventpage = () => {
       <div className="container">
         <div className="container-items">
           <div className="evetns-items">
-            <h2>Events</h2>
+            <h2 id="h1">Events</h2>
             <div className="events">
               {events &&
                 events.map((Event) => (

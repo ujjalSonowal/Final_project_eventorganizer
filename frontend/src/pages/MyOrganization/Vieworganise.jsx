@@ -14,6 +14,7 @@ import {
   FormContainer,
   Button,
   Items,
+  AddButton,
 } from "./viewOrgStyle";
 
 export const Vieworganise = () => {
@@ -125,7 +126,7 @@ export const Vieworganise = () => {
   return (
     <OuterSection>
       <OrgSection>
-        <MyOrg>
+        <MyOrg isFormOpen={isFormOpen}>
           <Title>My Organisations</Title>
           <HeadingOrg>
             <Detail>
@@ -284,8 +285,8 @@ export const Vieworganise = () => {
             </FormPopup>
           )}
         </>
-        <Items>
-          <Button onClick={() => toggleForm()}>Add Event</Button>
+
+        <Items isFormOpen={isFormOpen}>
           <Link to={`/myevent/${organiseId}`}>
             <Button>View Events</Button>
           </Link>
@@ -295,6 +296,7 @@ export const Vieworganise = () => {
           <Button>Delete</Button>
         </Items>
       </OrgSection>
+      <AddButton onClick={() => toggleForm()}>Add Event</AddButton>
     </OuterSection>
   );
 };

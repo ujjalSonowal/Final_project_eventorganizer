@@ -163,7 +163,9 @@ const MyEvents = ({ myev }) => {
             {/* Implement your slider logic here */}
           </div>
         )}
-        <button onClick={toggleForm}>Update</button>
+        <button id="my-update" onClick={toggleForm}>
+          Update
+        </button>
         {/* <div className="comments">
           <h3>Comments:</h3>
           <div className="comment">
@@ -181,34 +183,50 @@ const MyEvents = ({ myev }) => {
         {showForm && (
           <div className="form-popup">
             <form onSubmit={handleUpdate}>
-              <label htmlFor="name">Event Name</label>
+              <label id="form-label" htmlFor="name">
+                Event Name
+              </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setEventName(e.target.value)}
               />
-              <label htmlFor="type">Event Type</label>
+              <label id="form-label" htmlFor="type">
+                Event Type
+              </label>
               <input
                 type="text"
                 onChange={(e) => setType(e.target.value)}
                 value={type}
               />
-              <label htmlFor="price">Price</label>
+              <label id="form-label" htmlFor="price">
+                Price
+              </label>
               <input
                 type="number"
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
               />
-              <label htmlFor="capacity">Capacity</label>
+              <label id="form-label" htmlFor="capacity">
+                Capacity
+              </label>
               <input
                 type="number"
                 onChange={(e) => setCapacity(e.target.value)}
                 value={capacity}
               />
-              <button type="submit">Submit</button>
-              <button className="cancel-update" onClick={toggleOff}>
-                Cancel Update
-              </button>
+              <div className="morebutton">
+                <button id="submit" type="submit">
+                  Submit
+                </button>
+                <button
+                  id="cancel"
+                  className="cancel-update"
+                  onClick={toggleOff}
+                >
+                  Cancel Update
+                </button>
+              </div>
             </form>
           </div>
         )}

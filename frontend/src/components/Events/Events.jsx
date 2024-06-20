@@ -7,7 +7,7 @@ import { Review } from "../ReviewComponent/Review";
 // import "./slider.css";
 
 const EventContainer = styled.div`
-  display: flex;
+  /* display: flex; */
   /* flex-wrap: wrap; */
   /* flex-direction: row; */
   /* justify-content: center; */
@@ -15,7 +15,10 @@ const EventContainer = styled.div`
 `;
 
 const EventsCard = styled.div`
-  /* background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: #d7f3fa;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -38,7 +41,7 @@ const EventsCard = styled.div`
 
   .edetails {
     margin-top: 1rem;
-  } */
+  }
 `;
 
 // const EventsCard = styled.div`
@@ -63,7 +66,7 @@ const EventsCard = styled.div`
 const OrganiserDetails = styled.div`
   /* display: flex; */
   p {
-    background-color: #1ed3ca;
+    /* background-color: #1ed3ca; */
     padding: 8px;
     border-radius: 4px;
   }
@@ -72,7 +75,7 @@ const OrganiserDetails = styled.div`
 `;
 
 const ViewDetailsBtn = styled.button`
-  background-color: #4caf50;
+  background-color: #000000;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -169,7 +172,7 @@ const P1 = styled.div`
 `;
 
 const BookBtn = styled.button`
-  background-color: #4caf50;
+  background-color: #050705;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -214,6 +217,9 @@ const H2 = styled.h2`
   /* position: absolute;
   left: 40%;
   top: 20px; */
+`;
+const P = styled.p`
+  background: #f9f9f9;
 `;
 
 const ContainerCreateBooking = styled.div`
@@ -328,21 +334,23 @@ export const Events = ({ event, organizer }) => {
           </p>
           {organizer ? (
             <OrganiserDetails>
-              <p>
+              <P>
                 <strong>Organizer Name:</strong>
                 {organizer.name}
-              </p>
-              <p>
+              </P>
+              <P>
                 <strong>Email:</strong>
                 {organizer.email}
-              </p>
+              </P>
             </OrganiserDetails>
           ) : (
             <p>Loading organizer details...</p>
           )}
 
           <div className="edetails">
-            <p>Event Created: {event.createOn}</p>
+            <p>
+              Event Created: {new Date(event.createdAt).toLocaleDateString()}
+            </p>
             <p>Event type: {event.type}</p>
             <p>Status: {event.status}</p>
             <StarRating rating={event.averageRating} />
@@ -368,7 +376,8 @@ export const Events = ({ event, organizer }) => {
           </SecOne>
           <SecTwo>
             <p>
-              <strong>Created date:</strong> {event.createOn}
+              <strong>Created date:</strong>{" "}
+              {new Date(event.createdAt).toLocaleDateString()}
             </p>
             <p>
               <strong>Total Booking:</strong> {event.totalbooking}

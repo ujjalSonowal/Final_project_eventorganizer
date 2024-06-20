@@ -2,101 +2,94 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
 import styled from "styled-components";
+import "./style.css";
 
-const OrganiseContainer = styled.div`
-  /* display: flex; */
-  /* flex-direction: row; */
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
+// Styled Components
+const OrganizeContainer = styled.div`
+  background: #83979b;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* max-width: 600px; */
-  margin: 20px auto;
-  max-width: 100%;
-`;
-const OrgCon = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-const OrganiseCard = styled.div`
-  max-width: 100%;
-  text-align: left;
-`;
-
-const StrongText = styled.strong`
-  display: block;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  max-width: 400px;
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const Details = styled.div`
   margin: 10px 0;
 `;
 
-const MoreButton = styled.div`
+const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
   gap: 10px;
+  margin-top: 10px;
 `;
 
 const Button = styled.button`
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
+  background-color: #000000;
   border: none;
   border-radius: 5px;
+  color: white;
   cursor: pointer;
+  font-size: 1rem;
+  padding: 10px;
   transition: background-color 0.3s ease;
-
   &:hover {
-    background-color: #0056b3;
-  }
-
-  a {
-    color: white;
-    text-decoration: none;
+    background-color: #ff8080;
   }
 `;
 
-const DetailsView = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const ModalOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
 `;
 
-const PopupContent = styled.div`
+const Modal = styled.div`
   background: white;
-  padding: 20px;
   border-radius: 10px;
-  max-width: 600px;
-  width: 90%;
-  overflow: auto;
-  max-height: 80vh;
+  left: 50%;
+  width: 600px;
+  max-width: 800px;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
 `;
 
 const CloseButton = styled.button`
-  position: absolute;
-  top: 130px;
-  right: 380px;
-  background: #ff5b5b;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  color: #333;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 1.5rem;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+`;
+
+const H2 = styled.h2`
+  font-size: 20px;
+  color: brown;
+  font-weight: bold;
+`;
+
+const P = styled.p`
+  font-size: 16px;
+  color: #333;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
 `;
 
 export const Organizer = ({ organise }) => {
@@ -111,41 +104,74 @@ export const Organizer = ({ organise }) => {
   };
 
   return (
-    <OrganiseContainer>
-      <OrgCon>
-        <OrganiseCard>
-          <StrongText>
-            <p>Organise Name: {organise.name}</p>
-          </StrongText>
-          <p>Email Id: {organise.email}</p>
-          <Details>
-            <p>Services: {organise.service}</p>
-          </Details>
-          <StarRating rating={organise.rating} />
-          <MoreButton>
-            <Button onClick={viewDetails}>View More</Button>
-            <Button>
-              <Link to={`/organise/events/${organise._id}`}>View Events</Link>
-            </Button>
-          </MoreButton>
-        </OrganiseCard>
-      </OrgCon>
+    <OrganizeContainer>
+      <strong>
+        <P>Organize Name: {organise.name}</P>
+      </strong>
+      <P>Email Id: {organise.email}</P>
+      <Details>
+        <P>Services: {organise.service}</P>
+      </Details>
+      <StarRating rating={organise.rating} />
+      <ButtonGroup>
+        <Button onClick={viewDetails}>View More</Button>
+        <Button>
+          <Link to={`/organise/events/${organise._id}`}>View Events</Link>
+        </Button>
+      </ButtonGroup>
+
       {details && (
-        <DetailsView>
-          <PopupContent>
-            <CloseButton onClick={toggleViewOff}>X</CloseButton>
-            <p>Owner: {organise.owner}</p>
-            <p>Contact No: {organise.phone}</p>
-            <p>Address: {organise.address}</p>
-            <p>Pin: {organise.pin}</p>
-            <p>State: {organise.state}</p>
-            <p>Office Location: {organise.location}</p>
-            <p>Post Office Address: {organise.postoffice}</p>
-            <p>Total Booking: {organise.totalboking}</p>
-            <p>Organise Created On: {organise.createdAt}</p>
-          </PopupContent>
-        </DetailsView>
+        <>
+          <ModalOverlay onClick={toggleViewOff} />
+          <Modal>
+            <CloseButton onClick={toggleViewOff}>×</CloseButton>
+            <H2>Organizer Details</H2>
+            <div className="one">
+              <div className="two">
+                <P>
+                  <strong>Owner: </strong>
+                  {organise.owner}
+                </P>
+                <P>
+                  <strong>Contact No:</strong> {organise.phone}
+                </P>
+              </div>
+              <div className="three">
+                <P>
+                  <strong>Address:</strong> {organise.address}
+                </P>
+                <P>
+                  <strong>Pin:</strong> {organise.pin}
+                </P>
+                <P>
+                  <strong>State:</strong> {organise.state}
+                </P>
+                <P>
+                  <strong>Office Location:</strong> {organise.location}
+                </P>
+                <P>
+                  {" "}
+                  <strong>Post Office Address:</strong> {organise.postoffice}
+                </P>
+              </div>
+              <div className="service">
+                <P>
+                  <strong>Services:</strong> {organise.service}
+                </P>
+              </div>
+              <div className="fourth">
+                <P>
+                  <strong>Total Booking:</strong> {organise.totalboking}
+                </P>
+                <P>
+                  <strong>Organize Created On:</strong>
+                  {new Date(organise.createdAt).toLocaleDateString()}
+                </P>
+              </div>
+            </div>
+          </Modal>
+        </>
       )}
-    </OrganiseContainer>
+    </OrganizeContainer>
   );
 };

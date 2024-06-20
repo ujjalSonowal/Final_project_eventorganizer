@@ -111,7 +111,7 @@ export const Review = ({ eventId }) => {
               <StarRating rating={review.rating} />
             </p>
             <p>Comment: {review.comment}</p>
-            <div className="buttons">
+            {/* <div className="buttons">
               <button
                 onClick={() => handleLike(review._id)}
                 disabled={review.likes.includes(userId)}
@@ -124,7 +124,7 @@ export const Review = ({ eventId }) => {
               >
                 Dislike ({review.dislikes.length})
               </button>
-            </div>
+            </div> */}
           </div>
         ))
       ) : (

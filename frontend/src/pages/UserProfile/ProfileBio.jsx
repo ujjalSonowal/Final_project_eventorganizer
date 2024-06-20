@@ -1,115 +1,278 @@
-// import React from 'react'
-
-// export const ProfileBio = ({user}) => {
-
-//   return (
-//     <>
-//       <div className="profile">
-//         <div className="user-profile-card">
-//         <img src="user-profile-image.jpg" alt="User Profile Image" className="user-profile-image" />
-//         <h2 className="user-profile-name">{user.name}</h2>
-//         <p className="user-profile-email">{user.email}</p>
-//         <p className="user-profile-phone">{user.phone}</p>
-//         <p className="user-profile-location">{user.location}</p>
-//       </div>
-//       </div>
-//     </>
-//   )
-// }
-
-import React from "react";
-import "./userprofile.css";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export const ProfileBio = ({ user }) => {
+  const [updateform, setupdateform] = useState(false);
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.phone);
+  const [pincode, setPinCode] = useState(user.pincode);
+  const [city, setCity] = useState(user.city);
+  const [state, setState] = useState(user.state);
+  const [postoffice, setPostOffice] = useState(user.postoffice);
+  const [street, setStreet] = useState(user.street);
+  const userId = localStorage.getItem("User");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setName(user.name);
+    setEmail(user.email);
+    setPhone(user.phone);
+    setPinCode(user.pincode);
+    setCity(user.city);
+    setState(user.state);
+    setPostOffice(user.postoffice);
+    setStreet(user.street);
+  }, [user]);
+
+  const toggleform = () => {
+    setupdateform(!updateform);
+  };
+
+  const toggleoff = () => {
+    setupdateform(false);
+  };
+
+  const handleupdate = async (e) => {
+    e.preventDefault();
+    const data = {
+      name,
+      phone,
+      pincode,
+      city,
+      email,
+      state,
+      postoffice,
+      street,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:5001/user/update/${userId}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
+      if (!response) {
+        console.log("error");
+      }
+      const updated = await response.json();
+      console.log(updated);
+      navigate(`/profile/${userId}`);
+      setupdateform(false);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="profile" style={styles.profile}>
-      <div className="userProfileCard" style={styles.userProfileCard}>
-        {/* <img src="user-profile-image.jpg" alt="User Profile Image" className="userProfileImag" style={styles.userProfileImage } /> */}
-        <h2 className="userProfileName" style={styles.userProfileName}>
-          {user.name}
-        </h2>
-        <p className="userProfileEmail" style={styles.userProfileEmail}>
-          {user.email}
-        </p>
-        <p className="userProfilePhone" style={styles.userProfilePhone}>
-          {user.phone}
-        </p>
-        <p className="userProfileLocation " style={styles.userProfileLocation}>
-          {user.location}
-        </p>
-        <button className="editButton" style={styles.editButton}>
-          Edit
-        </button>
-      </div>
-      <div className="update">
-        <button id="ubtn">Update</button>
-        <button>LogOut</button>
-      </div>
-    </div>
+    <Container>
+      <Heading>User Management</Heading>
+      <UserCard>
+        {updateform ? (
+          <Form onSubmit={handleupdate}>
+            <InputLabel>Username:</InputLabel>
+            <Input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <InputLabel>Email:</InputLabel>
+            <Input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <InputLabel>Phone Number:</InputLabel>
+            <Input
+              type="number"
+              name="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <InputLabel>Post Office:</InputLabel>
+            <Input
+              type="text"
+              name="postoffice"
+              value={postoffice}
+              onChange={(e) => setPostOffice(e.target.value)}
+            />
+            <InputLabel>Street:</InputLabel>
+            <Input
+              type="text"
+              name="street"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+            />
+            <InputLabel>City:</InputLabel>
+            <Input
+              type="text"
+              name="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+
+            <InputLabel>State:</InputLabel>
+            <Input
+              type="text"
+              name="state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+            <InputLabel>Pin Code:</InputLabel>
+            <Input
+              type="number"
+              name="pincode"
+              value={pincode}
+              onChange={(e) => setPinCode(e.target.value)}
+            />
+            <MoreButton>
+              <SaveButton>Save</SaveButton>
+              <Button onClick={() => toggleoff()}>Cancel</Button>
+            </MoreButton>
+          </Form>
+        ) : (
+          <>
+            <UserInfo>
+              <UserInfo>
+                <Avatar
+                  src={user.profilePic}
+                  alt="profilepic"
+                  onClick={toggleform}
+                />
+              </UserInfo>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Username:</UserInfoLabel>
+              <UserInfoText>{user.name}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Email:</UserInfoLabel>
+              <UserInfoText>{user.email}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Phone Number:</UserInfoLabel>
+              <UserInfoText>{user.phone}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>State:</UserInfoLabel>
+              <UserInfoText>{user.state}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Post Office:</UserInfoLabel>
+              <UserInfoText>{user.postoffice}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Pin Code:</UserInfoLabel>
+              <UserInfoText>{user.pincode}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>Street:</UserInfoLabel>
+              <UserInfoText>{user.street}</UserInfoText>
+            </UserInfo>
+            <UserInfo>
+              <UserInfoLabel>City:</UserInfoLabel>
+              <UserInfoText>{user.city}</UserInfoText>
+            </UserInfo>
+            <MoreButton>
+              <EditButton onClick={toggleform}>Edit</EditButton>
+            </MoreButton>
+          </>
+        )}
+      </UserCard>
+    </Container>
   );
 };
+const Avatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+`;
+const Container = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+`;
 
-const styles = {
-  profile: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "85vh",
-  },
-  userProfileCard: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    width: "300px",
-  },
-  userProfileImage: {
-    width: "100px",
-    height: "100px",
-    borderRadius: "50%",
-    objectFit: "cover",
-    marginBottom: "10px",
-  },
-  userProfileName: {
-    fontSize: "24px",
-    marginBottom: "5px",
-  },
-  userProfileEmail: {
-    fontSize: "16px",
-    marginBottom: "5px",
-  },
-  userProfilePhone: {
-    fontSize: "16px",
-    marginBottom: "5px",
-  },
-  userProfileLocation: {
-    fontSize: "16px",
-    marginBottom: "5px",
-  },
-  editButton: {
-    padding: "10px 20px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginTop: "20px",
-  },
-  "@media screen and (max-width: 768px)": {
-    userProfileCard: {
-      width: "100%",
-    },
-  },
-};
+const Heading = styled.h1`
+  font-size: 24px;
+  text-align: center;
+`;
 
-ProfileBio.defaultProps = {
-  user: {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    phone: "123-456-7890",
-    location: "New York, NY",
-  },
-};
+const UserCard = styled.div`
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const UserInfoLabel = styled.span`
+  font-weight: bold;
+  margin-right: 10px;
+`;
+
+const UserInfoText = styled.span`
+  flex: 1;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const InputLabel = styled.label`
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const SaveButton = styled.button`
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const EditButton = styled.button`
+  padding: 8px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+const Button = styled.button`
+  padding: 8px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const MoreButton = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+// export default UserManagement;

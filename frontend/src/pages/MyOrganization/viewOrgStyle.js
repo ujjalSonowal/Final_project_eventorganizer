@@ -11,6 +11,7 @@ export const OuterSection = styled.div`
 `;
 
 export const OrgSection = styled.div`
+  /* display: ${(props) => (props.isFormOpen ? "none" : "block")}; */
   width: 100%;
   max-width: 800px;
   font-family: Arial, sans-serif;
@@ -23,6 +24,9 @@ export const OrgSection = styled.div`
 
 export const MyOrg = styled.div`
   margin-bottom: 20px;
+  /* display: ${(props) => (props.isFormOpen ? "none" : "block")}; */
+  opacity: ${(props) => (props.isFormOpen ? 0.5 : 1)};
+  pointer-events: ${(props) => (props.isFormOpen ? "none" : "auto")};
 `;
 
 export const Title = styled.h1`
@@ -69,7 +73,7 @@ export const FormPopup = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 999;
   width: 70%;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -83,6 +87,7 @@ export const FormContainer = styled.div`
 `;
 
 export const Button = styled.button`
+  display: ${(props) => (props.isFormOpen ? "none" : "block")};
   padding: 10px;
   margin-top: 10px;
   cursor: pointer;
@@ -100,4 +105,19 @@ export const Items = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 20px;
+  /* display: ${(props) => (props.isFormOpen ? "none" : "block")}; */
+  opacity: ${(props) => (props.isFormOpen ? 0.5 : 1)};
+  pointer-events: ${(props) => (props.isFormOpen ? "none" : "auto")};
+`;
+export const AddButton = styled.button`
+  cursor: pointer;
+  background-color: brown;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  top: 90px;
+  left: 90%;
 `;

@@ -5,17 +5,22 @@ import { Events } from "../../components/Events/Events";
 
 export const OrganiserHome = () => {
   const [events, setEvents] = useState([]);
+  const [username, setUsername] = useState("");
+  const [organise, setOrganise] = useState("");
   // const [latestevent, setLatestEvent] = useState(null);
   //   const [organiser, setOrganiser] = useState([]);
   //   const [user, setUser] = useState([]);
   //   const [notifications, setNotifications] = useState([]);
   //   const [tasks, setTasks] = useState([]);
-  //   const { id } = useParams();
+  // const { _id } = useParams();
   //   const current = id;
+  const userid = localStorage.getItem("User");
 
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5001/events`);
+      const response = await fetch(
+        `http://localhost:5001/events/my/event/${userid}`
+      );
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
         console.error(message);
@@ -25,8 +30,37 @@ export const OrganiserHome = () => {
       setEvents(events);
     }
 
-    getRecords();
+    async function getUsername() {
+      try {
+        const userid = localStorage.getItem("User");
+        const response = await fetch(`http://localhost:5001/user/${userid}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch username: ${response.statusText}`);
+        }
+        const userData = await response.json();
+        setUsername(userData.name);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
+    async function getOrganise() {
+      const response = await fetch(
+        `http://localhost:5001/organise/myorg/${userid}`
+      );
+      if (!response.ok) {
+        const message = `An error occurred: ${response.statusText}`;
+        console.error(message);
+        return;
+      }
+      const org = await response.json();
+      setOrganise(org);
+    }
+
+    getOrganise();
+
+    getRecords();
+    getUsername();
     //   const userResponse = await fetch("http://localhost:5001/user/:_id");
     //   const userData = await userResponse.json();
     //   setUser(userData);
@@ -70,7 +104,7 @@ export const OrganiserHome = () => {
   return (
     <Container>
       <Header>
-        <h1>Welcome Back, Ujjwal</h1>
+        <Username>{username}</Username>
         <p>Manage your events efficiently and effortlessly.</p>
       </Header>
 
@@ -112,24 +146,33 @@ export const OrganiserHome = () => {
         </Section>
 
         <Section>
-          <h2>Organization</h2>
+          <OrgTitle>Organization</OrgTitle>
           <List>
-            {/* {tasks.map(task => (
-              <li key={task.id}>
-                <input type="checkbox" checked={task.completed} onChange={() => {}} />
-                {task.description}
-              </li>
-            ))} */}
+            <p>
+              <strong>Organization Name: </strong>
+              {organise.name}
+            </p>
+            <p>
+              {" "}
+              <strong>Owner Name: </strong>
+              {organise.owner}
+            </p>
+            <Link to={`/myorg/${userid}`}>
+              {" "}
+              <ViewButton>View Details</ViewButton>
+            </Link>
           </List>
         </Section>
       </Dashboard>
 
       <Actions>
-        <ButtonPrimary to="/create-event">Create New Event</ButtonPrimary>
-        <ButtonSecondary to="/manage-events">Manage Events</ButtonSecondary>
+        <ButtonPrimary to={`/myorg/${userid}`}>Create New Event</ButtonPrimary>
+        <ButtonSecondary to={`/myevent/${userid}`}>
+          Manage Events
+        </ButtonSecondary>
       </Actions>
       <Section>
-        <Title>Top Events</Title>
+        <Title>My Events</Title>
         <TopEvent>
           {events &&
             events.map((Event) => (
@@ -144,6 +187,11 @@ export const OrganiserHome = () => {
 };
 
 // Styled Components
+
+const Username = styled.div`
+  font-size: 40px;
+  text-transform: uppercase;
+`;
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -270,4 +318,18 @@ const Title = styled.h2`
   display: flex;
   justify-content: center;
   color: #0d4271;
+`;
+const OrgTitle = styled.h1`
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+`;
+
+const ViewButton = styled.button`
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #172305;
+  padding: 5px 10px;
+  color: aliceblue;
 `;

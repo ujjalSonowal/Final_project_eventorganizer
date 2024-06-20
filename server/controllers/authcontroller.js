@@ -6,7 +6,18 @@ const secretKey = "secret-key";
 //signup a new user
 
 const singup = async (req, res) => {
-  const { name, email, password, usertype } = req.body;
+  const {
+    name,
+    email,
+    password,
+    usertype,
+    phone,
+    postoffice,
+    city,
+    street,
+    pincode,
+    state,
+  } = req.body;
 
   try {
     const existinguser = await user.findOne({ email });
@@ -20,6 +31,12 @@ const singup = async (req, res) => {
       email,
       password: hashpassword,
       usertype,
+      phone,
+      postoffice,
+      city,
+      street,
+      state,
+      pincode,
     });
     const token = jwt.sign(
       { email: newuser.email, id: newuser._id },

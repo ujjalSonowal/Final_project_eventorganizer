@@ -92,7 +92,7 @@
   transform: translate(-50%, -50%);
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
   background-color: #fff;
   z-index: 1000;
 }
@@ -187,4 +187,38 @@
   align-items: center;
   font-size: 14px;
   color: #333;
+}
+
+#cancel {
+  background-color: #000000;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#submit {
+  background-color: #000000;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.morebutton {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.form-popup #form-label {
+  padding-top: 30px;
+}
+
+#my-update {
+  background-color: #256d6c;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
 }

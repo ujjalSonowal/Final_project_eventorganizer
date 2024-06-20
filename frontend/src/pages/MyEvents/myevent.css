@@ -5,4 +5,11 @@
 
 .component-section {
   display: flex;
+  flex-wrap: wrap;
+}
+
+#myevent {
+  font-size: 30px;
+  margin: 0 40%;
+  padding: 20px;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import image from "../../assets/homeimgae.png";
 import noticeimag from "../../assets/Biirthday.png";
 import { Events } from "../../components/Events/Events";
@@ -132,7 +132,7 @@ export const HomePage = () => {
         <div className="item-section">
           <div className="top-event">
             <SectionHeading>Top Events</SectionHeading>
-            <div>
+            <TopEvents>
               {events &&
                 events.map((event) => (
                   <Link to="" className="linkcard" key={event._id}>
@@ -142,12 +142,12 @@ export const HomePage = () => {
                     />
                   </Link>
                 ))}
-            </div>
+            </TopEvents>
           </div>
 
           <div className="latest-event">
             <SectionHeading>Latest Events</SectionHeading>
-            <div>
+            <LatestEvent>
               {latestEvent &&
                 latestEvent.map((event) => (
                   <Link to="" className="linkcard" key={event._id}>
@@ -157,7 +157,7 @@ export const HomePage = () => {
                     />
                   </Link>
                 ))}
-            </div>
+            </LatestEvent>
           </div>
         </div>
 
@@ -166,7 +166,7 @@ export const HomePage = () => {
           <CollabPara className="collab">
             We Collaborate With Several Organization
           </CollabPara>
-          <OrganiseContainer className="organisation-section">
+          <div className="organisation-section">
             <OrgSec className="organisation-container">
               {topOrg &&
                 topOrg.map((organise) => (
@@ -178,7 +178,7 @@ export const HomePage = () => {
                   </LinkOrg>
                 ))}
             </OrgSec>
-          </OrganiseContainer>
+          </div>
         </OurPartnar>
 
         <ContactSection>
@@ -220,6 +220,44 @@ export const HomePage = () => {
 };
 
 // Styled Components
+
+const TopEvents = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+  /* background-color: aliceblue; */
+  /* justify-content: center; */
+`;
+const slideShowHorizontal = keyframes`
+  /* 0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  } */
+    from {
+    transform: translateX(100%);
+    /* opacity: 1; */
+  }
+  to {
+    transform: translateX(-100%);
+    /* opacity: 0; */
+  }
+`;
+
+const LatestEvent = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+  overflow: hidden;
+  /* overflow-x: auto; */
+  height: auto;
+  /* animation: ${slideShowHorizontal} 10s linear infinite; */
+`;
 
 const Home = styled.div`
   display: flex;
@@ -286,8 +324,9 @@ const NoticeSection = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  color: white;
   padding: 20px;
-  background-color: #dac0ac;
+  background-color: #000000;
 
   img {
     max-width: 80%;
@@ -330,7 +369,7 @@ const NoticeHeading = styled.h2`
 
 const NoticePara = styled.p`
   font-size: 1.1rem;
-  color: #555;
+  /* color: #555; */
 `;
 
 const ItemSection = styled.div`
@@ -346,11 +385,6 @@ const SectionHeading = styled.h2`
   text-align: center;
   border-bottom: 1px solid blue;
   padding-bottom: 9px;
-`;
-
-const TopEvents = styled.div`
-  margin-top: 30px;
-  /* height: 400px; */
 `;
 
 const RecentEvents = styled.div`
@@ -372,7 +406,7 @@ const EventLink = styled(Link)`
 `;
 
 const OurPartnar = styled.div`
-  background: linear-gradient(to right, #1a5cb3cb, #ac886c);
+  background: #0d2d39;
   padding: 20px;
   text-align: center;
 `;
@@ -402,7 +436,6 @@ const OrgSec = styled.div`
   display: flex;
   justify-content: center;
   gap: 20px;
-  /* width: 400px; */
 `;
 
 const LinkOrg = styled(Link)`
@@ -412,7 +445,7 @@ const LinkOrg = styled(Link)`
 
 const ContactSection = styled.div`
   padding: 50px;
-  background-color: #a4a7c1;
+  background-color: #f9f7e7;
   color: #000000;
 `;
 
@@ -427,7 +460,7 @@ const ContactUsContainer = styled.div`
   box-shadow: 3px solid black;
   flex: 1;
   margin-right: 20px;
-  background-color: #186f6f;
+  background-color: #315b84;
   color: white;
 `;
 
@@ -464,7 +497,7 @@ const SubmitButton = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #ffb6c1;
+  background-color: #060303;
   color: #fff;
   font-size: 1rem;
   cursor: pointer;

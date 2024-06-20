@@ -16,7 +16,7 @@ const Title = styled.h2`
 const OrganiseItems = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  /* gap: 20px; */
   justify-content: center;
 `;
 

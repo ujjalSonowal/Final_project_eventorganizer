@@ -12,6 +12,7 @@ const usersmodel = new schema(
     street: { type: String, required: false },
     city: { type: String, required: false },
     state: { type: String, required: false },
+    postoffice: { type: String, required: false },
     pincode: { type: Number, required: false },
   },
   { timestamps: true }

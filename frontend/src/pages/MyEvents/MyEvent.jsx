@@ -43,7 +43,7 @@ export const MyEvent = () => {
 
   return (
     <div className="myevents-container">
-      <h2>My Events</h2>
+      <h2 id="myevent">My Events</h2>
       <div className="component-section">
         {events &&
           events.map((myev) => <MyEvents key={myev?._id} myev={myev} />)}
