@@ -17,9 +17,11 @@ import {
   AddButton,
 } from "./viewOrgStyle";
 
+import "./addevent.css";
+
 export const Vieworganise = () => {
   const [org, setOrg] = useState("");
-  const [status, setStatus] = useState(""); // State variable for status
+  const [status, setStatus] = useState(false); // State variable for status
   const userId = localStorage.getItem("User");
   const navigate = useNavigate();
 
@@ -53,8 +55,8 @@ export const Vieworganise = () => {
   const [organiseId, setOrganiseId] = useState("");
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [price, setPrice] = useState("");
+  const [capacity, setCapacity] = useState([]);
+  const [price, setPrice] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
 
@@ -96,7 +98,7 @@ export const Vieworganise = () => {
       email: org.email,
       phone: org.phone,
       location: org.location,
-      status: status, // Include status in the data object
+      status: org.status, // Include status in the data object
     };
     try {
       const response = await fetch(
@@ -120,12 +122,38 @@ export const Vieworganise = () => {
       console.log("Could not update the organisation data");
     }
   };
+  //add capacity
+  const [newCapacity, setnewcapacity] = useState("");
+
+  const addCapacity = () => {
+    if (newCapacity) {
+      setCapacity([...capacity, newCapacity]);
+      setnewcapacity("");
+    }
+  };
+  const removeCapacity = (index) => {
+    setCapacity(capacity.filter((_, i) => i !== index));
+  };
+  //add price
+  const [newPrice, setNewPrice] = useState("");
+
+  const addPrice = () => {
+    if (newPrice) {
+      setPrice([...price, newPrice]);
+      setNewPrice("");
+    }
+  };
+
+  const removeprice = (index) => {
+    setPrice(price.filter((_, i) => i !== index));
+  };
 
   if (!org) return <div>Create Your Organisation</div>;
 
   return (
     <OuterSection>
       <OrgSection>
+        <AddButton onClick={() => toggleForm()}>Add Event</AddButton>
         <MyOrg isFormOpen={isFormOpen}>
           <Title>My Organisations</Title>
           <HeadingOrg>
@@ -162,57 +190,152 @@ export const Vieworganise = () => {
                 <ServiceBox key={index}>{service}</ServiceBox>
               ))}
             </ServicesContainer>
-            <Detail>{org.status}</Detail>
-            <Detail>{org.rating}</Detail>
+            <Detail>{org.status ? "Active" : "Inactive"}</Detail>
+            {/* <Detail>{org.rating}</Detail> */}
           </OrgDetails>
         </MyOrg>
         <>
           {isFormOpen && (
             <FormPopup>
               <FormContainer>
-                <form onSubmit={handleSubmit}>
-                  <h2>Add Event Details</h2>
-                  <label>
-                    <span>Event Name:</span>
+                {/* <form onSubmit={handleSubmit}>
+                    <h2>Add Event Details</h2>
+                    <label>
+                      <span>Event Name:</span>
+                      <input
+                        type="text"
+                        placeholder="Event Name"
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                      />
+                    </label>
+                    <label>
+                      <span>Event Type:</span>
+                      <input
+                        type="text"
+                        placeholder="Type"
+                        onChange={(e) => setType(e.target.value)}
+                        value={type}
+                      />
+                    </label>
+                    <label>
+                      <span>Person Capacity:</span>
+                      <input
+                        type="number"
+                        placeholder="Capacity"
+                        onChange={(e) => setCapacity(e.target.value)}
+                        value={capacity}
+                      />
+                    </label>
+                    <label>
+                      <span>Price:</span>
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        onChange={(e) => setPrice(e.target.value)}
+                        value={price}
+                      />
+                    </label>
+                    <Button type="submit">Save</Button>
+                    <Button type="button" onClick={() => toggleForm()}>
+                      Cancel
+                    </Button>
+                  </form> */}
+                <div className="form-popup">
+                  <form onSubmit={handleSubmit}>
+                    <h2>Add Event details</h2>
+                    <label>Event name:</label>
                     <input
                       type="text"
                       placeholder="Event Name"
                       onChange={(e) => setName(e.target.value)}
                       value={name}
+                      required
                     />
-                  </label>
-                  <label>
-                    <span>Event Type:</span>
+
+                    <label>Event Type: </label>
                     <input
                       type="text"
                       placeholder="Type"
                       onChange={(e) => setType(e.target.value)}
                       value={type}
+                      required
                     />
-                  </label>
-                  <label>
-                    <span>Person Capacity:</span>
-                    <input
-                      type="number"
-                      placeholder="Capacity"
-                      onChange={(e) => setCapacity(e.target.value)}
-                      value={capacity}
-                    />
-                  </label>
-                  <label>
-                    <span>Price:</span>
-                    <input
-                      type="number"
-                      placeholder="Price"
-                      onChange={(e) => setPrice(e.target.value)}
-                      value={price}
-                    />
-                  </label>
-                  <Button type="submit">Save</Button>
-                  <Button type="button" onClick={() => toggleForm()}>
-                    Cancel
-                  </Button>
-                </form>
+
+                    <label htmlFor="capacity">Event Capacity:</label>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="add-capacity"
+                        onChange={(e) => setnewcapacity(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="add-service"
+                        onClick={addCapacity}
+                      >
+                        {" "}
+                        Add Capacity
+                      </button>
+                    </div>
+                    <ol>
+                      {capacity.map((capacity, index) => (
+                        <li key={index}>
+                          {capacity}
+                          <button
+                            type="button"
+                            className="remove-service"
+                            onClick={() => removeCapacity(index)}
+                          >
+                            X
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                    <label htmlFor="price">Price</label>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Add a Price"
+                        value={newPrice}
+                        onChange={(e) => setNewPrice(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="add-service"
+                        onClick={addPrice}
+                      >
+                        Add Price
+                      </button>
+                    </div>
+                    <ul>
+                      {price.map((price, index) => (
+                        <li key={index}>
+                          {price}
+                          <button
+                            type="button"
+                            className="remove-service"
+                            onClick={() => removeprice(index)}
+                          >
+                            X
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="morebutton">
+                      <button id="mrbtn" type="submit">
+                        Save
+                      </button>
+                      <button
+                        id="mrbtn"
+                        type="button"
+                        onClick={() => toggleForm()}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </FormContainer>
             </FormPopup>
           )}
@@ -265,16 +388,17 @@ export const Vieworganise = () => {
                       value={org.location}
                     />
                   </label>
-                  <label>
-                    <span>Status:</span>
-                    <select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)} // Update the status state directly
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </select>
-                  </label>
+                  <label>Status</label>
+                  <select
+                    className="selectbtn"
+                    onChange={(e) =>
+                      setOrg({ ...org, status: e.target.value === "true" })
+                    }
+                    value={org.status}
+                  >
+                    <option value={"true"}>Active</option>
+                    <option value={"false"}>Inactive</option>
+                  </select>
 
                   <Button type="submit">Save</Button>
                   <Button type="button" onClick={() => toggleUpdateForm()}>
@@ -296,7 +420,6 @@ export const Vieworganise = () => {
           <Button>Delete</Button>
         </Items>
       </OrgSection>
-      <AddButton onClick={() => toggleForm()}>Add Event</AddButton>
     </OuterSection>
   );
 };

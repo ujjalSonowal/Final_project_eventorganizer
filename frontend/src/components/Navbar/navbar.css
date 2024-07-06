@@ -1,122 +1,130 @@
 nav {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .navbar-container {
-  position: relative;
-  overflow: hidden;
-  height: 70px;
-  /* You can adjust the height to fit your design */
-  background-color: #f8f9fa;
-  /* You can adjust the background color for your design */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  /* You can adjust the shadow to fit your design */
+    position: relative;
+    overflow: hidden;
+    height: 70px;
+    /* You can adjust the height to fit your design */
+    background-color: #f8f9fa;
+    /* You can adjust the background color for your design */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    /* You can adjust the shadow to fit your design */
 }
 
 .navbar-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  list-style: none;
-  height: 100%;
-  margin: 20px;
-  padding: 0;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    list-style: none;
+    height: 100%;
+    margin: 20px;
+    padding: 0;
+    width: 100%;
 }
 
 .auth {
-  position: relative;
-  top: -40px;
-  left: 1100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  list-style: none;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  gap: 25px;
-  text-decoration: none;
+    position: relative;
+    top: -40px;
+    left: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    list-style: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    gap: 25px;
+    text-decoration: none;
 }
+
 
 /* #nav-li {
   margin-top: -14px;
 } */
 
 .navbar-nav .nav-item {
-  margin: 0 10px;
-  align-items: center;
+    margin: 0 10px;
+    align-items: center;
 }
 
 .nav-link {
-  color: #333;
-  align-items: center;
-  text-decoration: none;
-  list-style: none;
-  cursor: pointer;
+    color: #333;
+    align-items: center;
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
 }
 
 .nav-link:hover {
-  color: #007bff;
-  text-decoration: none;
+    color: #007bff;
+    text-decoration: none;
 }
 
 .navbar-nav .nav-link.active {
-  color: #007bff;
+    color: #007bff;
 }
 
 .profile {
-  position: relative;
-  top: -45px;
-  right: -1120px;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: end;
-  align-items: center;
-  margin-right: 4rem;
+    position: relative;
+    top: -45px;
+    right: -1120px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: end;
+    align-items: center;
+    margin-right: 4rem;
 }
 
 .profile .icon {
-  width: 30px;
-  height: 90%;
-  cursor: pointer;
+    width: 30px;
+    height: 90%;
+    cursor: pointer;
 }
 
 .icons {
-  /* position: fixed; */
-  position: relative;
-  top: 5px;
-  /* left: 100px; */
-  right: -190px;
-  /* margin-inline-end: -800px; */
+    /* position: fixed; */
+    position: relative;
+    top: 5px;
+    /* left: 100px; */
+    right: -190px;
+    /* margin-inline-end: -800px; */
 }
 
 .nav-icon {
-  /* position: fixed; */
-  margin-right: 100px;
+    /* position: fixed; */
+    margin-right: 100px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100px;
+    width: 100px; */
+    width: 70px;
+    margin-left: 70px;
 }
 
 .logo-h1 {
-  font-size: 24px;
-  color: #333;
-  /* Change the color as needed */
-  margin: 0;
-  /* Remove default margin */
-  padding: 0;
-  padding-left: 10px;
-  /* Remove default padding */
+    font-size: 24px;
+    color: #333;
+    /* Change the color as needed */
+    margin: 0;
+    font-family: "Times New Roman", Times, serif;
 }
 
 .logo-h1:hover {
-  color: #555;
-  /* Change the color on hover as needed */
+    color: #555;
+    /* Change the color on hover as needed */
 }

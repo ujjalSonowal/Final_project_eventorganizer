@@ -121,15 +121,22 @@ export const Myorganization = () => {
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
           />
-
+          <br></br>
           <label htmlFor="startdate">Organization From:</label>
           <input
+            style={{
+              height: "40px",
+              margin: "20px 20px",
+              width: "50%",
+              border: "1px solid black",
+              borderRadius: "4px",
+            }}
             type="date"
             name="startdate"
             onChange={(e) => setDate(e.target.value)}
             value={startdate}
           />
-
+          <br></br>
           <label htmlFor="location">Office location:</label>
           <input
             type="text"
@@ -148,12 +155,18 @@ export const Myorganization = () => {
 
           <label htmlFor="pin">Pin:</label>
           <input
+            style={{
+              width: "100%",
+              border: "1px solid black",
+              borderRadius: "3px",
+              padding: "8px",
+            }}
             type="number"
             name="pin"
             onChange={(e) => setPin(e.target.value)}
             value={pin}
           />
-
+          <br></br>
           <label htmlFor="postoffice">Post Office:</label>
           <input
             type="text"
@@ -169,14 +182,14 @@ export const Myorganization = () => {
             onChange={(e) => setMstate(e.target.value)}
             value={state}
           />
-          <label htmlFor="status">Status:</label>
+          <label>Status</label>
           <select
-            name="status"
-            onChange={(e) => setStatus(e.target.value)}
+            className="selectbtn"
+            onChange={(e) => setStatus(e.target.value === "true")}
             value={status}
           >
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
+            <option value={"true"}>Active</option>
+            <option value={"false"}>Inactive</option>
           </select>
 
           <div className="services-section">
@@ -191,16 +204,17 @@ export const Myorganization = () => {
                 <button type="button" onClick={() => removeService(index)}>
                   Remove
                 </button>
+                <button type="button" onClick={addService} className="btns">
+                  Add Service
+                </button>
               </div>
             ))}
-            <button type="button" onClick={addService} className="btns">
-              Add Service
-            </button>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button type="submit" className="btns">
+                Submit
+              </button>
+            </div>
           </div>
-
-          <button type="submit" className="btns">
-            Submit
-          </button>
         </form>
       </div>
     </>

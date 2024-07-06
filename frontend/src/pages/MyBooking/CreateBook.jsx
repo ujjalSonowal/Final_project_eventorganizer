@@ -46,6 +46,7 @@ export const CreateBook = () => {
   const [name, setname] = useState("");
   const [bookingDate, setbookingDate] = useState("");
   const [noofday, setnoofday] = useState("");
+  const [capacity, setCapacity] = useState("");
   const [location, setlocation] = useState("");
   const [pin, setpin] = useState("");
   const [district, setdistrict] = useState("");
@@ -63,6 +64,7 @@ export const CreateBook = () => {
       eventId,
       bookingDate,
       noofday,
+      capacity,
       location,
       pin,
       district,
@@ -71,7 +73,7 @@ export const CreateBook = () => {
       panno,
     };
     try {
-      const response = await fetch(`http://localhost:5001/booking/addbooking`, {
+      const response = await fetch(`http://localhost:5001/booking/post`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -121,6 +123,18 @@ export const CreateBook = () => {
             required
             onChange={(e) => setnoofday(e.target.value)}
             value={noofday}
+          />
+        </FormField>
+        <FormField>
+          <label htmlFor="duration">
+            Capacity(Add maximun number to be attend the function)
+          </label>
+          <input
+            type="number"
+            placeholder="Capacity"
+            required
+            onChange={(e) => setCapacity(e.target.value)}
+            value={capacity}
           />
         </FormField>
         <FormField>

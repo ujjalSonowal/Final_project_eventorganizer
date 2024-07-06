@@ -15,6 +15,7 @@ export const HomePage = () => {
   const [userType, setUserType] = useState("");
   const [organizers, setOrganizers] = useState({});
   const [isLogin, setIsLogin] = useState(false);
+  const [sixevent, setSixEvent] = useState(null);
 
   // Fetching data from API
   useEffect(() => {
@@ -47,6 +48,16 @@ export const HomePage = () => {
           }
         }
         setOrganizers(orgDetails);
+
+        // Fetching top events
+        const topevent = await fetch(
+          "http://localhost:5001/events/latest/event"
+        );
+        if (!topevent.ok) {
+          throw new Error(`An error occurred: ${topevent.statusText}`);
+        }
+        const topeventData = await topevent.json();
+        setSixEvent(topeventData);
 
         // Fetching latest events
         const latestEventsResponse = await fetch(
@@ -133,8 +144,8 @@ export const HomePage = () => {
           <div className="top-event">
             <SectionHeading>Top Events</SectionHeading>
             <TopEvents>
-              {events &&
-                events.map((event) => (
+              {sixevent &&
+                sixevent.map((event) => (
                   <Link to="" className="linkcard" key={event._id}>
                     <Events
                       event={event}
@@ -205,7 +216,7 @@ export const HomePage = () => {
               <ContactPara>24/7</ContactPara>
               <ContactDetails>
                 <ContactInfo>Phone: 8133820226/9101233239</ContactInfo>
-                <ContactInfo>Gmail: nitulsonowal8133@gmail.com</ContactInfo>
+                <ContactInfo>Gmail: ujjalsonowal8133@gmail.com</ContactInfo>
               </ContactDetails>
             </TextContact>
           </ContactFlexBox>
@@ -224,6 +235,8 @@ export const HomePage = () => {
 const TopEvents = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 20px;
   padding: 30px;
@@ -251,6 +264,8 @@ const LatestEvent = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
   padding: 30px;
   overflow: hidden;

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Events } from "../../components/Events/Events";
 import "./style.css";
 import { colors } from "@mui/material";
+
 export const Eventpage = () => {
   const [events, setEvents] = useState(null);
   const [organizers, setOrganizers] = useState({});
+
   useEffect(() => {
     async function getEventRecords() {
       try {
@@ -18,7 +20,7 @@ export const Eventpage = () => {
         setEvents(allevents);
 
         const orgdetails = {};
-        for (const event of events) {
+        const organizerPromises = allevents.map(async (event) => {
           const organizerResponse = await fetch(
             `http://localhost:5001/organise/${event.organiseId}`
           );
@@ -30,12 +32,15 @@ export const Eventpage = () => {
               `Failed to fetch organizer details for ID ${event.organiseId}`
             );
           }
-        }
+        });
+
+        await Promise.all(organizerPromises);
         setOrganizers(orgdetails);
       } catch (error) {
-        console.error("Error fetching data:");
+        console.error("Error fetching data:", error);
       }
     }
+
     getEventRecords();
     document.title = "EventCraft-Events";
     return () => {
@@ -51,11 +56,11 @@ export const Eventpage = () => {
             <h2 id="h1">Events</h2>
             <div className="events">
               {events &&
-                events.map((Event) => (
+                events.map((event) => (
                   <Events
-                    key={Event._id}
-                    event={Event}
-                    organizer={organizers[Event.organiseId]}
+                    key={event._id}
+                    event={event}
+                    organizer={organizers[event.organiseId]}
                   />
                 ))}
             </div>

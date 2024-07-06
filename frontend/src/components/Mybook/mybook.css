@@ -139,6 +139,7 @@
   flex-direction: row;
   justify-content: center;
   gap: 50px;
+  margin: 10px;
 }
 
 .cancel-btn {
@@ -156,7 +157,7 @@
 .update-btn {
   text-decoration: none;
   border: 1px solid rgb(0, 130, 251);
-  padding: 10px;
+  padding: 8px;
   color: blue;
   transition: 3s;
 }
@@ -168,9 +169,21 @@
 
 .cancelupdate {
   padding: 8px;
-  display: block;
-  margin: 10px auto;
   background: #ff6f36ec;
   color: white;
   border: none;
+}
+
+.btn-update-section {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 10px;
+}
+
+.dateinput {
+  border: 1px solid rgb(201, 201, 201);
+  margin: 7px;
+  padding: 6px;
+  border-radius: 6px;
 }

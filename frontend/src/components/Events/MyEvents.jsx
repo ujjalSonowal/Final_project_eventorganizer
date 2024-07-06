@@ -10,6 +10,7 @@ const MyEvents = ({ myev }) => {
   const navigate = useNavigate();
   const [name, setEventName] = useState(myev.name);
   const [type, setType] = useState(myev.type);
+  const [status, setStatus] = useState("false"); // Convert to boolean
   const [price, setPrice] = useState(myev.price);
   const [capacity, setCapacity] = useState(myev.capacity);
   const [images, setImages] = useState([]);
@@ -66,9 +67,37 @@ const MyEvents = ({ myev }) => {
     setShowForm(false);
   };
 
+  // Add price
+  const [newPrice, setNewPrice] = useState("");
+
+  const addPrice = () => {
+    if (newPrice) {
+      setPrice([...price, newPrice]);
+      setNewPrice("");
+    }
+  };
+
+  const removePrice = (index) => {
+    setPrice(price.filter((_, i) => i !== index));
+  };
+
+  // Add capacity
+  const [newCapacity, setNewCapacity] = useState("");
+
+  const addCapacity = () => {
+    if (newCapacity) {
+      setCapacity([...capacity, newCapacity]);
+      setNewCapacity("");
+    }
+  };
+
+  const removeCapacity = (index) => {
+    setCapacity(capacity.filter((_, i) => i !== index));
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const data = { name, type, price, capacity };
+    const data = { name, type, price, capacity, status };
     try {
       const response = await fetch(
         `http://localhost:5001/events/update/${eventId}`,
@@ -85,7 +114,7 @@ const MyEvents = ({ myev }) => {
       console.log(updated);
       navigate(`/myevent/${userId}`);
       setShowForm(false);
-      window.location.reload();
+      window.location.reload(); // Temporary solution, consider a more refined approach for updating UI
     } catch (error) {
       console.log(error);
     }
@@ -119,140 +148,194 @@ const MyEvents = ({ myev }) => {
   };
 
   return (
-    <div className="card">
-      {/* <img src="" alt="Event" /> */}
-      <div className="card-content">
-        <h2>Event Name: {myev.name}</h2>
-        <p>Type: {myev.type}</p>
-        <p className="price">Price: {myev.price}</p>
-        <p className="capacity">Capacity: {myev.capacity}</p>
-        <p className="rating">
-          Rating: <StarRating rating={myev.rating} />
-        </p>
-        <p className="status">Status: {myev.status}</p>
-        <p className="create-on">Created On: {myev.createOn}</p>
-        <p className="total-booking">Total Bookings: {myev.totalbooking}</p>
-        <p className="no-of-comments">Number of Comments: {myev.noofcomment}</p>
-        <div>
-          <form onSubmit={handleImageUpload}>
-            <input type="file" accept="images/*" onChange={handleFileChange} />
-            <button type="submit">Add Image</button>
-          </form>
-        </div>
-        <div className="image-box">
-          {images.map((image, index) => (
-            <div key={index} className="image-container">
-              <img
-                src={`http://localhost:5001/uploads/${image.images}`}
-                alt="Event"
-                onClick={() => handleImageClick(image, index)}
-                className="event-image"
-              />
-              {index === selectedImageIndex && (
-                <div className="image-buttons">
-                  <button className="delete-button" onClick={handleDeleteImage}>
-                    Delete
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        {images.length > 4 && (
-          <div className="image-slider">
-            {/* Implement your slider logic here */}
-          </div>
-        )}
-        <button id="my-update" onClick={toggleForm}>
-          Update
-        </button>
-        {/* <div className="comments">
-          <h3>Comments:</h3>
-          <div className="comment">
-            {myev.comment &&
-              myev.comment.map((comment, index) => (
-                <div key={index}>
-                  <p className="p3">
-                    <strong>Comment Body: {comment.commentBody} </strong>
-                  </p>
-                  <p className="p3"> Comment On: {comment.commentDate}</p>
-                </div>
-              ))}
-          </div>
-        </div> */}
-        {showForm && (
-          <div className="form-popup">
-            <form onSubmit={handleUpdate}>
-              <label id="form-label" htmlFor="name">
-                Event Name
-              </label>
+    <div className="myevent-container">
+      <div className="card">
+        <div className="card-content">
+          <h2>Event Name: {myev.name}</h2>
+          <p>Type: {myev.type}</p>
+          <p className="price">Price: {myev.price.join(", ")}</p>
+          <p className="capacity">Capacity: {myev.capacity.join(", ")}</p>
+          <p className="rating">
+            Rating: <StarRating rating={myev.rating} />
+          </p>
+          <p>Status: {myev.status === true ? "Active" : "Inactive"}</p>
+          <p className="create-on">Created On: {myev.createOn}</p>
+          <p className="total-booking">Total Bookings: {myev.totalbooking}</p>
+          <p className="no-of-comments">
+            Number of Comments: {myev.noofcomment}
+          </p>
+          <div>
+            <form onSubmit={handleImageUpload}>
               <input
-                type="text"
-                value={name}
-                onChange={(e) => setEventName(e.target.value)}
+                className="imginput"
+                type="file"
+                accept="images/*"
+                onChange={handleFileChange}
               />
-              <label id="form-label" htmlFor="type">
-                Event Type
-              </label>
-              <input
-                type="text"
-                onChange={(e) => setType(e.target.value)}
-                value={type}
-              />
-              <label id="form-label" htmlFor="price">
-                Price
-              </label>
-              <input
-                type="number"
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-              <label id="form-label" htmlFor="capacity">
-                Capacity
-              </label>
-              <input
-                type="number"
-                onChange={(e) => setCapacity(e.target.value)}
-                value={capacity}
-              />
-              <div className="morebutton">
-                <button id="submit" type="submit">
-                  Submit
-                </button>
-                <button
-                  id="cancel"
-                  className="cancel-update"
-                  onClick={toggleOff}
-                >
-                  Cancel Update
-                </button>
-              </div>
+              <button type="submit" className="imagebtn">
+                Upload
+              </button>
             </form>
           </div>
-        )}
-        {showImage && (
-          <div className="image-modal">
-            <div className="image-modal-content">
-              <button
-                className="delete-button-modal"
-                onClick={handleDeleteImage}
-              >
-                delete
-              </button>
-              <button
-                className="cancel-button-modal"
-                onClick={handleImageClose}
-              >
-                Cancel
-              </button>
-              <img
-                src={`http://localhost:5001/uploads/${showImage.images}`}
-                alt="Event"
-                className="large-image"
-              />
-            </div>
+          <div className="image-box">
+            {images.map((image, index) => (
+              <div key={index} className="image-container">
+                <img
+                  src={`http://localhost:5001/uploads/${image.images}`}
+                  alt="Event"
+                  onClick={() => handleImageClick(image, index)}
+                  className="event-image"
+                />
+                {index === selectedImageIndex && (
+                  <div className="image-buttons">
+                    <button
+                      className="delete-button"
+                      onClick={handleDeleteImage}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        )}
+          {images.length > 4 && (
+            <div className="image-slider">
+              {/* Implement your slider logic here */}
+            </div>
+          )}
+          <button id="my-update" onClick={toggleForm}>
+            Update
+          </button>
+          {showForm && (
+            <div className="form-popup">
+              <form onSubmit={handleUpdate}>
+                <label id="form-label" htmlFor="name">
+                  Event Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setEventName(e.target.value)}
+                />
+                <label id="form-label" htmlFor="type">
+                  Event Type
+                </label>
+                <input
+                  type="text"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                />
+                <label>Status</label>
+                <select
+                  className="selectbtn"
+                  onChange={(e) => setStatus(e.target.value === "true")}
+                  value={status}
+                >
+                  <option value={"true"}>Active</option>
+                  <option value={"false"}>Inactive</option>
+                </select>
+                <br />
+                <label htmlFor="price">Prices</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Add a Price"
+                    value={newPrice}
+                    onChange={(e) => setNewPrice(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="add-service"
+                    onClick={addPrice}
+                  >
+                    Add Prices
+                  </button>
+                </div>
+                <ul>
+                  {price.map((price, index) => (
+                    <li key={index}>
+                      {price}
+                      <button
+                        type="button"
+                        className="remove-service"
+                        onClick={() => removePrice(index)}
+                      >
+                        X
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <label htmlFor="capacity">Capacity</label>
+                <div>
+                  <input
+                    className="capacityInput"
+                    type="number"
+                    placeholder="add capacity"
+                    value={newCapacity}
+                    onChange={(e) => setNewCapacity(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="add-service"
+                    onClick={addCapacity}
+                  >
+                    Add Capacity
+                  </button>
+                </div>
+                <ul>
+                  {capacity.map((capacity, index) => (
+                    <li key={index}>
+                      {capacity}
+                      <button
+                        type="button"
+                        className="remove-service"
+                        onClick={() => removeCapacity(index)}
+                      >
+                        X
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <div className="morebutton">
+                  <button id="submit" type="submit">
+                    Submit
+                  </button>
+                  <button
+                    id="cancel"
+                    className="cancel-update"
+                    onClick={toggleOff}
+                  >
+                    Cancel Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+          {showImage && (
+            <div className="image-modal">
+              <div className="image-modal-content">
+                <button
+                  className="delete-button-modal"
+                  onClick={handleDeleteImage}
+                >
+                  delete
+                </button>
+                <button
+                  className="cancel-button-modal"
+                  onClick={handleImageClose}
+                >
+                  Cancel
+                </button>
+                <img
+                  src={`http://localhost:5001/uploads/${showImage.images}`}
+                  alt="Event"
+                  className="large-image"
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

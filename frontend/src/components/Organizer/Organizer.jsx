@@ -112,6 +112,9 @@ export const Organizer = ({ organise }) => {
       <Details>
         <P>Services: {organise.service}</P>
       </Details>
+      <Details>
+        <P>Status: {organise.status ? "Active" : "Inactive"}</P>
+      </Details>
       <StarRating rating={organise.rating} />
       <ButtonGroup>
         <Button onClick={viewDetails}>View More</Button>

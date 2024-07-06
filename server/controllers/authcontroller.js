@@ -22,7 +22,7 @@ const singup = async (req, res) => {
   try {
     const existinguser = await user.findOne({ email });
     if (existinguser) {
-      res.status(201).json({ msg: "email already registered" });
+      return res.status(201).json({ msg: "email already registered" });
     }
 
     const hashpassword = await bcrpyt.hash(password, 12);
@@ -44,11 +44,11 @@ const singup = async (req, res) => {
       { expiresIn: "1h" }
     );
     if (!newuser) {
-      res.status(404).json({ msg: "user not found..." });
+      return res.status(404).json({ msg: "user not found..." });
     }
     res.status(200).json({ result: newuser, token });
   } catch (error) {
-    res.status(500).json({ msg: "Internal server error", error });
+    return res.status(500).json({ msg: "Internal server error", error });
   }
 };
 
@@ -60,12 +60,12 @@ const login = async (req, res) => {
   try {
     const existinguser = await user.findOne({ email });
     if (!existinguser) {
-      res.status(404).json({ msg: "email not registered" });
+      return res.status(404).json({ msg: "email not registered" });
     }
     const validpassword = await bcrpyt.compare(password, existinguser.password);
 
     if (!validpassword) {
-      res.status(400).json({ msg: "Invalid credentials" });
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
     const token = jwt.sign(
       { email: existinguser.email, id: existinguser._id },
@@ -79,7 +79,7 @@ const login = async (req, res) => {
       id: existinguser._id,
     });
   } catch (error) {
-    res.status(400).json({ msg: "Something went wrong..." });
+    return res.status(400).json({ msg: "Something went wrong..." });
   }
 };
 

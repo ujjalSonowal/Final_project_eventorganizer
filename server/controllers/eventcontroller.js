@@ -54,10 +54,10 @@ const geteventuser = async (req, res) => {
 //get events by organise id
 const geteventbyorgid = async (req, res) => {
   const { id: organiseId } = req.params;
-  // if(!mongoose.Types.ObjectId.isValid(organiseId)){
-  //     return res.status(404).json('organise not found')
-  // }
-  const events = await Event.find({ _id: organiseId });
+  if (!mongoose.Types.ObjectId.isValid(organiseId)) {
+    return res.status(404).json("organise not found");
+  }
+  const events = await Event.find({ organiseId });
   if (!events) {
     return res.status(404).json({ message: "Events not found" });
   }
@@ -78,11 +78,11 @@ const createevent = async (req, res) => {
       // organiseId,
     });
     if (!postevent) {
-      res.status(500).json({ msg: " Server Error" });
+      return res.status(500).json({ msg: " Server Error" });
     }
     res.status(201).json(postevent);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -109,11 +109,11 @@ const updateevent = async (req, res) => {
       $set: { ...updatesdata },
     });
     if (!update) {
-      res.status(500).json({ error: "Fail to update" });
+      return res.status(500).json({ error: "Fail to update" });
     }
     res.status(201).json(update);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -131,11 +131,11 @@ const deletevent = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    res.status(404).json({ error: "not a vaild id" });
+    return res.status(404).json({ error: "not a vaild id" });
   }
   const deleteone = await Event.findByIdAndDelete(_id);
   if (!deleteone) {
-    res.status(404).json({ error: "not deleted" });
+    return res.status(404).json({ error: "not deleted" });
   }
   res.status(200).json(deleteone);
 };

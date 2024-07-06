@@ -23,7 +23,8 @@ const eventmodel = new schema(
     // },
     images: { type: [String] },
     video: { type: String },
-    status: { type: String, enum: ["Active", "Inactive"] }, // active or inactive
+    // status: { type: String, enum: ["Active", "Inactive"] },
+    status: { type: Boolean, default: true },
     createOn: { type: Date, default: Date.now },
     totalbooking: { type: Number, default: 0 },
     noofcomment: { type: Number, default: 0 },

@@ -8,7 +8,7 @@ export const Review = ({ eventId }) => {
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState("");
-  //   const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const userId = localStorage.getItem("User");
 
   useEffect(() => {
@@ -45,41 +45,29 @@ export const Review = ({ eventId }) => {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        throw new Error("Data not submitted");
-
-        // const newReview = await response.json();
-        // setReviews([newReview, ...reviews]);
-        // setRating(0);
-        // setComment("");
-        // setError("");
-        // setSuccessMessage("Review submitted successfully.");
-      } else {
-        // const { error } = await response.json();
-        // setError(error);
-        const myreview = await response.json();
-        console.log(myreview);
-        window.alert(`submitted`);
+      if (!response.ok) {
+        throw new Error("Failed to post review.");
       }
+
+      setRating(0);
+      setComment("");
+      setError("");
+      setSuccessMessage("Review submitted successfully.");
+      fetchReviews();
     } catch (error) {
       console.error(error);
-      //   setError("Failed to post review.");
+      setError("Failed to post review.");
     }
   };
 
-  const handleLike = async (reviewId) => {};
-
-  const handleDislike = async (reviewId) => {};
-
-  //   useEffect(() => {
-  //     if (successMessage) {
-  //       const timer = setTimeout(() => {
-  //         setSuccessMessage("");
-  //         fetchReviews();
-  //       }, 3000);
-  //       return () => clearTimeout(timer);
-  //     }
-  //   }, [successMessage]);
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   return (
     <div>
@@ -99,8 +87,8 @@ export const Review = ({ eventId }) => {
         </div>
 
         <button type="submit">Post Review</button>
-        {/* {error && <p className="error-message">{error}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>} */}
+        {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </form>
 
       {reviews.length > 0 ? (
@@ -111,20 +99,6 @@ export const Review = ({ eventId }) => {
               <StarRating rating={review.rating} />
             </p>
             <p>Comment: {review.comment}</p>
-            {/* <div className="buttons">
-              <button
-                onClick={() => handleLike(review._id)}
-                disabled={review.likes.includes(userId)}
-              >
-                Like ({review.likes.length})
-              </button>
-              <button
-                onClick={() => handleDislike(review._id)}
-                disabled={review.dislikes.includes(userId)}
-              >
-                Dislike ({review.dislikes.length})
-              </button>
-            </div> */}
           </div>
         ))
       ) : (

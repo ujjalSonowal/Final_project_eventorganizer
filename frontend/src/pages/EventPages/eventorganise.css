@@ -1,0 +1,17 @@
+.event-card-container-organise {
+  /* background: rgb(175, 101, 214);
+  background: linear-gradient(
+    180deg,
+    rgba(175, 101, 214, 0.8715861344537815) 44%,
+    rgba(56, 140, 157, 0.5830707282913166) 100%
+  ); */
+  width: 100%;
+  /* height: 100vh; */
+}
+
+.cards-items-organise {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 20px;
+}

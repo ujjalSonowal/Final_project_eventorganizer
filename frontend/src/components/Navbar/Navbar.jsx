@@ -9,6 +9,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 // import { UserProfile } from '../../pages/UserProfile/UserProfile';
 import { Sidenav } from "../Sidenav/Sidenav";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import logo from "../../assets/logo1.png";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -36,13 +37,18 @@ export const Navbar = () => {
       <div className="navbar-container">
         <nav className="navbar">
           <div className="logo">
+            <img src={logo} alt="logo here" />
             <h1 className="logo-h1">EventTora</h1>
-            {/* <img src="" alt="logo here" /> */}
           </div>
           <ul className="navbar-nav">
             <li className="nav-item" id="nav-li">
               <Link to="/" className="nav-link">
                 Home
+              </Link>
+            </li>
+            <li className="nav-item" id="nav-li">
+              <Link to="/about" className="nav-link">
+                About
               </Link>
             </li>
             <li className="nav-item" id="nav-li">
@@ -76,11 +82,6 @@ export const Navbar = () => {
                 Organizers
               </Link>
             </li> */}
-            <li className="nav-item" id="nav-li">
-              <Link to="/" className="nav-link">
-                About
-              </Link>
-            </li>
 
             {/* {usertype === "User" && (
               <li className="nav-item">
@@ -135,7 +136,7 @@ export const Navbar = () => {
               <ul className="auth">
                 <li className="nav-item">
                   <Link to="/login" className="nav-link">
-                    Sign In
+                    Login
                   </Link>
                 </li>
                 <li className="nav-item">

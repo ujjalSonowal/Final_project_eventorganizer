@@ -25,7 +25,7 @@ router.get("/mybooking/:id", getmybooking);
 router.get("/allbooking/:id", getallbooking);
 
 //create booking
-router.post("/addbooking", createbooking);
+router.post("/post", createbooking);
 //update booking
 router.patch("/update/:id", updatebooking);
 //delete booking

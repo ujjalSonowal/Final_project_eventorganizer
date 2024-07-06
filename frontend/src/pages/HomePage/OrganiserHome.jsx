@@ -176,7 +176,7 @@ export const OrganiserHome = () => {
         <TopEvent>
           {events &&
             events.map((Event) => (
-              <Link to="" className="linkcard">
+              <Link to="" id="linkcard">
                 <Events key={Event._id} event={Event} />
               </Link>
             ))}
@@ -301,7 +301,7 @@ const Footer = styled.footer`
 
 const TopEvent = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: no-wrap; */
   justify-content: center;
   gap: 20px;
   margin-top: 50px;

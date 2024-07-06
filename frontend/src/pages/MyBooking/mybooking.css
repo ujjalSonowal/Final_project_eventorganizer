@@ -1,3 +1,12 @@
 .my-booking-section h1 {
   text-align: center;
+  font-size: 24px;
+}
+
+.bookings {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }

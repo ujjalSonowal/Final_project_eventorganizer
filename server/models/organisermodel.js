@@ -16,7 +16,7 @@ const organisermodel = new schema(
     state: { type: String },
     services: { type: [String] },
     totalboking: { type: Number, default: 0 },
-    status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
+    status: { type: Boolean, default: true },
     rating: { type: Number, default: 0 },
     feedback: { type: String },
   },

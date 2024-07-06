@@ -90,6 +90,7 @@ input[type="tel"]:focus {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 5px;
 }
 
 .btns:hover {

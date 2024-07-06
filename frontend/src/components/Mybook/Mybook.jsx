@@ -163,12 +163,12 @@ export const Mybook = ({ booking, organizer, event }) => {
           </p>
           <p>
             <strong>Price:</strong>{" "}
-            {event?.price &&
+            {/* {event?.price &&
               event?.price.map((price, index) => (
                 <div key={index}>
                   <div className="itemlist">{price}</div>
                 </div>
-              ))}
+              ))} */}
           </p>
           <p>
             <strong>Payment Status:</strong> {booking.paymentstatus}
@@ -233,10 +233,17 @@ export const Mybook = ({ booking, organizer, event }) => {
                     onChange={(e) => setemail(e.target.value)}
                     value={email}
                   />
-                  <button type="submit">submit</button>
-                  <button className="cancelupdate" onClick={() => toggleoff()}>
-                    Cancel Updation
-                  </button>
+                  <div className="btn-update-section">
+                    <button className="update-btn" type="submit">
+                      submit
+                    </button>
+                    <button
+                      className="cancelupdate"
+                      onClick={() => toggleoff()}
+                    >
+                      Cancel Updation
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>

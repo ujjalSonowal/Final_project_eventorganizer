@@ -22,6 +22,7 @@ import { MyBooking } from "./pages/MyBooking/MyBooking";
 // import { EventDetailsPage } from "./pages/EventPages/EventDetailsPage";
 import { EventsOrganise } from "./pages/EventPages/EventsOrganise";
 import { RecentBooking } from "./pages/MyBooking/RecentBooking";
+import { AboutPage } from "./pages/Dashboard/AboutPage/index";
 
 const Allroutes = () => {
   return (
@@ -33,10 +34,8 @@ const Allroutes = () => {
       <Route path="/profile/:id" element={<UserProfile />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
-      {/* <Route path="/addevent" element={<AddEvent />} />
-      <Route path="/addorganization" element={<AddOrganizer />} /> */}
-      {/* <Route path="/myevent" element={<MyEvent />} />
-      <Route path="/myorganise" element={<MyOrganization />} /> */}
+      {/* <Route path="/profile/:id/bio" element={<ProfileBio />} /> */}
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/allbooking/:id" element={<AllBookings />} />
       <Route path="/createorganization" element={<Myorganization />} />
       <Route path="/myorg/:id" element={<Vieworganise />} />

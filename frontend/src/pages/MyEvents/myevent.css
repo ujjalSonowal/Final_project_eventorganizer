@@ -6,6 +6,7 @@
 .component-section {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #myevent {
