@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useParams } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Events } from "../../components/Events/Events";
 
@@ -7,14 +7,65 @@ export const OrganiserHome = () => {
   const [events, setEvents] = useState([]);
   const [username, setUsername] = useState("");
   const [organise, setOrganise] = useState("");
-  // const [latestevent, setLatestEvent] = useState(null);
-  //   const [organiser, setOrganiser] = useState([]);
-  //   const [user, setUser] = useState([]);
-  //   const [notifications, setNotifications] = useState([]);
-  //   const [tasks, setTasks] = useState([]);
-  // const { _id } = useParams();
-  //   const current = id;
+  const [notifications, setNotifications] = useState([]);
+  const [org, setOrg] = useState("");
+  const currentuser = localStorage.getItem("User");
+  const [organiseId, setOrganiseId] = useState("");
+  const navigate = useNavigate();
+
   const userid = localStorage.getItem("User");
+
+  useEffect(() => {
+    const getOrg = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/organise/myorg/${currentuser}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (!response.ok) {
+          console.error(`An error occurred: ${response.statusText}`);
+          return;
+        }
+        const myOrg = await response.json();
+        setOrg(myOrg);
+        const orgId = myOrg._id;
+        setOrganiseId(orgId);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    getOrg();
+  }, [currentuser]);
+
+  useEffect(() => {
+    const getNotifications = async (orgId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/notification/organise/${orgId}`
+        );
+        if (!response.ok) {
+          console.error(`An error occurred: ${response.statusText}`);
+          return;
+        }
+        const data = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    if (organiseId) {
+      getNotifications(organiseId);
+    }
+  }, [organiseId]);
+
+  const handleNotificationClick = (eventId) => {
+    navigate(`/recent-book/${eventId}`);
+  };
 
   useEffect(() => {
     async function getRecords() {
@@ -61,44 +112,6 @@ export const OrganiserHome = () => {
 
     getRecords();
     getUsername();
-    //   const userResponse = await fetch("http://localhost:5001/user/:_id");
-    //   const userData = await userResponse.json();
-    //   setUser(userData);
-
-    // async function fetchOrganisers() {
-    //   const response = await fetch("http://localhost:5001/organise");
-    //   const data = await response.json();
-    //   setOrganiser(data);
-    // }
-
-    // async function getuser() {
-    //   const response = await fetch(`http://localhost:5001/user/${current}`);
-    //   if (!response.ok) {
-    //     const message = `An error has occured: ${response.statusText}`;
-    //     window.alert(message);
-    //     return;
-    //   }
-    //   const user = await response.json();
-    //   setUser(user);
-    // }
-    // getuser();
-
-    // async function fetchNotifications() {
-    //   const response = await fetch("http://localhost:5001/organizer/notifications");
-    //   const data = await response.json();
-    //   setNotifications(data);
-    // }
-
-    // async function fetchTasks() {
-    //   const response = await fetch("http://localhost:5001/organizer/tasks");
-    //   const data = await response.json();
-    //   setTasks(data);
-    // }
-
-    // Getlatestevents()
-    // fetchOrganisers();
-    // fetchNotifications();
-    // fetchTasks();
   }, []);
 
   return (
@@ -121,15 +134,15 @@ export const OrganiserHome = () => {
                 } */}
               </p>
             </Card>
-            <Card>
+            {/* <Card>
               <h3>Number of Users</h3>
               <p>
-                {/* {
+                {
                   latestevent.filter((event) => new Date(event.date) <= new Date())
                     .length
-                } */}
+                }
               </p>
-            </Card>
+            </Card> */}
             <Card>
               <h3>Total No. of Bookings</h3>
             </Card>
@@ -139,9 +152,16 @@ export const OrganiserHome = () => {
         <Section>
           <h2>Notifications</h2>
           <List>
-            {/* {notifications.map(notification => (
-              <li key={notification.id}>{notification.message}</li>
-            ))} */}
+            {notifications.map((notification) => (
+              <div key={notification._id} className="notification-item">
+                <li
+                  className="notification-message"
+                  onClick={() => handleNotificationClick(notification.eventId)}
+                >
+                  {notification.message}
+                </li>
+              </div>
+            ))}
           </List>
         </Section>
 
@@ -253,12 +273,15 @@ const Card = styled.div`
 const List = styled.ul`
   list-style: none;
   padding: 0;
+  height: 200px;
+  overflow-x: scroll;
 
   li {
     background: #f1f1f1;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
+    cursor: pointer;
   }
 `;
 

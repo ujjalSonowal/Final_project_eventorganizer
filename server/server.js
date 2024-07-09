@@ -12,7 +12,7 @@ const commentrouter = require("./routes/postcomment");
 const bookingrouter = require("./routes/bookingRoute");
 const serviceRouter = require("./routes/postservices");
 const reviewRouter = require("./routes/reviewRoute");
-
+const Notification = require("./routes/notificationRoute");
 const imageRouter = require("./routes/imageRoute");
 
 // const imageRouter = require("./routes/imageRoute");
@@ -43,6 +43,7 @@ app.use("/service", serviceRouter);
 app.use("/booking", bookingrouter);
 app.use("/file", imageRouter);
 app.use("/review", reviewRouter);
+app.use("/notification", Notification);
 
 // app.use("/images", imageRouter);
 

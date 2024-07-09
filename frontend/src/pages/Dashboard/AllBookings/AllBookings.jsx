@@ -129,6 +129,7 @@ export const AllBookings = () => {
       : "Accepted")
   );
   const [price, setPrice] = useState(bookings.price);
+  const [capacity, setCapacity] = useState(bookings.capacity);
   const [paymentstatus, setPaymentstatus] = useState(
     bookings.Status === "pending"
       ? "Pending"
@@ -138,10 +139,11 @@ export const AllBookings = () => {
   );
   const [selectedBookingId, setSelectedBookingId] = useState("");
 
-  const togglePopup = (id, currentStatus, currentPrice) => {
+  const togglePopup = (id, currentStatus, currentPrice, currentCapacity) => {
     setSelectedBookingId(id);
     setStatus(currentStatus);
     setPrice(currentPrice);
+    setCapacity(currentCapacity);
     setShowPopup(!showPopup);
     console.log(id);
   };
@@ -154,6 +156,7 @@ export const AllBookings = () => {
     const data = {
       Status: Status,
       price: price,
+      capacity: capacity,
       paymentstatus: paymentstatus,
     };
     try {
@@ -176,6 +179,7 @@ export const AllBookings = () => {
                 ...booking,
                 Status: Status,
                 price: price,
+                capacity: capacity,
                 paymentstatus: paymentstatus,
               }
             : booking
@@ -286,6 +290,7 @@ export const AllBookings = () => {
                       booking._id,
                       booking.Status,
                       booking.price,
+                      booking.capacity,
                       booking.paymentstatus
                     )
                   }
@@ -308,7 +313,16 @@ export const AllBookings = () => {
                 placeholder="Add Total Amount"
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
-              />{" "}
+              />
+              <br />
+              <label htmlFor="price">Update Capacity</label>
+              <input
+                className="priceinput"
+                type="text"
+                placeholder="Add capacity"
+                onChange={(e) => setCapacity(e.target.value)}
+                value={capacity}
+              />
               <br />
               <label htmlFor="Status"> Update Status</label>
               <select

@@ -123,6 +123,7 @@ const SecOne = styled.div`
 const SecTwo = styled.div`
   justify-content: space-evenly;
   display: flex;
+  flex-direction: column;
 `;
 
 const P1 = styled.div`
@@ -219,6 +220,7 @@ export const Events = ({ event, organizer }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("profile")
   );
+  const [isManualCapacity, setIsManualCapacity] = useState(false);
 
   const navigate = useNavigate();
   const userId = localStorage.getItem("User");
@@ -231,13 +233,15 @@ export const Events = ({ event, organizer }) => {
   const [district, setDistrict] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
-  const [panNo, setPanNo] = useState("");
+  const [panno, setPanNo] = useState("");
   const [capacity, setCapacity] = useState("");
 
   const organiseId = event.organiseId;
   const eventId = event._id;
-  const eventName = event.name;
-  const eventType = event.type;
+  const eventname = event.name;
+  const eventtype = event.type;
+  const price = event.price;
+  const eventcapacity = event.capacity;
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -277,10 +281,39 @@ export const Events = ({ event, organizer }) => {
 
   const handleCapacityChange = (e) => {
     setSelectedCapacity(e.target.value);
+    setSelectedPrice("");
+  };
+
+  const clearSelectedCapacityAndPrice = () => {
+    setSelectedCapacity("");
+    setSelectedPrice("");
+  };
+
+  const handleInputMethodChange = (e) => {
+    const method = e.target.value;
+    setIsManualCapacity(method === "manual");
+    clearSelectedCapacityAndPrice();
   };
 
   const CreateBooking = async (e) => {
     e.preventDefault();
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Parse the selected booking date from the input
+    const selectedDate = new Date(bookingDate);
+
+    // Compare selected date with current date
+    if (selectedDate < currentDate) {
+      window.alert("Please select a date that is not before the present date.");
+      return;
+    }
+
+    // Additional form validation
+    if (!validateForm()) {
+      return;
+    }
     const data = {
       name,
       userId,
@@ -293,9 +326,13 @@ export const Events = ({ event, organizer }) => {
       district,
       contact,
       email,
-      panNo,
-      eventName,
-      eventType,
+      panno,
+      eventname,
+      eventtype,
+      // capacity,
+      capacity: isManualCapacity ? capacity : selectedCapacity,
+      price: selectedPrice,
+      eventcapacity,
     };
     try {
       const response = await fetch(`http://localhost:5001/booking/post`, {
@@ -321,6 +358,22 @@ export const Events = ({ event, organizer }) => {
     // If event status is inactive, do not render the event
     return null;
   }
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    if (month < 10) {
+      month = `0${month}`; // Pad month with zero if single digit
+    }
+    if (day < 10) {
+      day = `0${day}`; // Pad day with zero if single digit
+    }
+
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <EventContainer>
@@ -365,15 +418,18 @@ export const Events = ({ event, organizer }) => {
         <EventInfo>
           <SecOne>
             <H2>{event.name.toUpperCase()}</H2>
-            <p>{event.eventdesc}</p>
+            {/* <p>{event.eventdesc}</p> */}
           </SecOne>
           <SecTwo>
             <p>
               <strong>Created date:</strong>{" "}
               {new Date(event.createdAt).toLocaleDateString()}
             </p>
-            <p>
+            {/* <p>
               <strong>Total Booking:</strong> {event.totalbooking}
+            </p> */}
+            <p>
+              <strong>Description:</strong> {event.eventdesc}
             </p>
           </SecTwo>
         </EventInfo>
@@ -444,9 +500,11 @@ export const Events = ({ event, organizer }) => {
                     cursor: "pointer",
                   }}
                   required
+                  min={getCurrentDate()}
                   onChange={(e) => setBookingDate(e.target.value)}
                   value={bookingDate}
                 />
+
                 <br></br>
                 <label htmlFor="duration">Number of Days</label>
                 <input
@@ -464,16 +522,94 @@ export const Events = ({ event, organizer }) => {
                   onChange={(e) => setLocation(e.target.value)}
                   value={location}
                 />
-                <label htmlFor="duration">
+                {/* <label htmlFor="duration">
                   Capacity(Add maximun number to be attend the function)
-                </label>
-                <input
-                  type="number"
+                </label> */}
+                {/* <input
+                  type="text"
                   placeholder="Capacity"
-                  required
                   onChange={(e) => setCapacity(e.target.value)}
                   value={capacity}
                 />
+                <label>
+                  Capacity:
+                  <select
+                    value={selectedCapacity}
+                    onChange={handleCapacityChange}
+                    required
+                  >
+                    <option value="">Select Capacity</option>
+                    {event.capacity.map((cap, index) => (
+                      <option key={index} value={cap}>
+                        {cap}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <p
+                  style={{
+                    padding: "8px",
+                    margin: "20px",
+                    background: "#CCD1D1",
+                    width: " 200px",
+                    borderRadius: "4px",
+                    color: "red",
+                  }}
+                >
+                  Price: {selectedPrice}
+                </p> */}
+                <label>
+                  Choose capacity input method:
+                  <select
+                    value={isManualCapacity ? "manual" : "dropdown"}
+                    // onChange={(e) =>
+                    //   setIsManualCapacity(e.target.value === "manual")
+                    // }
+                    onChange={handleInputMethodChange}
+                  >
+                    <option value="dropdown">Select from dropdown</option>
+                    <option value="manual">Enter manually</option>
+                  </select>
+                </label>
+                {isManualCapacity ? (
+                  <>
+                    <label>Capacity:</label>
+                    <input
+                      type="text"
+                      value={capacity}
+                      onChange={(e) => setCapacity(e.target.value)}
+                      required
+                    />
+                  </>
+                ) : (
+                  <>
+                    <label>Select Capacity:</label>
+                    <select
+                      value={selectedCapacity}
+                      onChange={handleCapacityChange}
+                      required
+                    >
+                      <option value="">--Select Capacity--</option>
+                      {event.capacity.map((cap, index) => (
+                        <option key={index} value={cap}>
+                          {cap}
+                        </option>
+                      ))}
+                    </select>
+                    <p
+                      style={{
+                        padding: "8px",
+                        margin: "20px",
+                        background: "#CCD1D1",
+                        width: " 200px",
+                        borderRadius: "4px",
+                        color: "red",
+                      }}
+                    >
+                      Selected Price: {selectedPrice}
+                    </p>
+                  </>
+                )}
                 <label htmlFor="pin">Pin Number</label>
                 <input
                   type="number"
@@ -512,7 +648,7 @@ export const Events = ({ event, organizer }) => {
                   required
                   placeholder="Pan card no"
                   onChange={(e) => setPanNo(e.target.value)}
-                  value={panNo}
+                  value={panno}
                 />
               </div>
               <BtnSectionBook>

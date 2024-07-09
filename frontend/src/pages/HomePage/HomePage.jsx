@@ -105,127 +105,124 @@ export const HomePage = () => {
 
   return (
     <>
-      <div>
-        <Home className="home">
-          <Left className="left">
-            <Heading>All in One Event Management Software</Heading>
-            <Title>Book Your Events Today</Title>
-            <Para>'We provide you high quality products'</Para>
-            {!isLogin ? (
-              <LinkStyled to="/signup">Create Account</LinkStyled>
-            ) : (
-              <LinkStyled to="/events">Explore</LinkStyled>
-            )}
-          </Left>
+      <Home className="home">
+        <Left className="left">
+          <Heading>All in One Event Management Software</Heading>
+          <Title>Book Your Events Today</Title>
+          <Para>'We provide you high quality products'</Para>
+          {!isLogin ? (
+            <LinkStyled to="/signup">Create Account</LinkStyled>
+          ) : (
+            <LinkStyled to="/events">Explore</LinkStyled>
+          )}
+        </Left>
 
-          <Right className="right">
-            <img alt="img" src={image} />
-          </Right>
-        </Home>
+        <Right className="right">
+          <img alt="img" src={image} />
+        </Right>
+      </Home>
 
-        <NoticeSection>
-          <NoticeRight className="image-area">
-            <img src={noticeimag} alt="" />
-          </NoticeRight>
-          <NoticeLeft className="text-area">
-            <NoticeHeading>
-              Event planning software that handles everything all in one place
-            </NoticeHeading>
-            <NoticePara>
-              No matter what stage of the event process you’re in, we offer a
-              complete set of tools that’s flexible enough to work with your
-              event program. From small meetings, large conferences or internal
-              meetings, we’ve got you covered.
-            </NoticePara>
-          </NoticeLeft>
-        </NoticeSection>
+      <NoticeSection>
+        <NoticeRight className="image-area">
+          <img src={noticeimag} alt="" />
+        </NoticeRight>
+        <NoticeLeft className="text-area">
+          <NoticeHeading>
+            Event planning software that handles everything all in one place
+          </NoticeHeading>
+          <NoticePara>
+            No matter what stage of the event process you’re in, we offer a
+            complete set of tools that’s flexible enough to work with your event
+            program. From small meetings, large conferences or internal
+            meetings, we’ve got you covered.
+          </NoticePara>
+        </NoticeLeft>
+      </NoticeSection>
 
-        <div className="item-section">
-          <div className="top-event">
-            <SectionHeading>Top Events</SectionHeading>
-            <TopEvents>
-              {sixevent &&
-                sixevent.map((event) => (
-                  <Link to="" className="linkcard" key={event._id}>
-                    <Events
-                      event={event}
-                      organizer={organizers[event.organiseId]}
-                    />
-                  </Link>
-                ))}
-            </TopEvents>
-          </div>
-
-          <div className="latest-event">
-            <SectionHeading>Latest Events</SectionHeading>
-            <LatestEvent>
-              {latestEvent &&
-                latestEvent.map((event) => (
-                  <Link to="" className="linkcard" key={event._id}>
-                    <Events
-                      event={event}
-                      organizer={organizers[event.organiseId]}
-                    />
-                  </Link>
-                ))}
-            </LatestEvent>
-          </div>
+      <div className="item-section">
+        <div className="top-event">
+          <SectionHeading>Top Events</SectionHeading>
+          <TopEvents>
+            {sixevent &&
+              sixevent.map((event) => (
+                <Link to="" className="linkcard" key={event._id}>
+                  <Events
+                    event={event}
+                    organizer={organizers[event.organiseId]}
+                  />
+                </Link>
+              ))}
+          </TopEvents>
         </div>
 
-        <OurPartnar className="our-patner">
-          <PartnerHeading>Our Patner</PartnerHeading>
-          <CollabPara className="collab">
-            We Collaborate With Several Organization
-          </CollabPara>
-          <div className="organisation-section">
-            <OrgSec className="organisation-container">
-              {topOrg &&
-                topOrg.map((organise) => (
-                  <LinkOrg to="" className="linkcardorganise">
-                    <OrgView>
-                      {" "}
-                      <Organizer key={organise._id} organise={organise} />
-                    </OrgView>
-                  </LinkOrg>
-                ))}
-            </OrgSec>
-          </div>
-        </OurPartnar>
-
-        <ContactSection>
-          <ContactFlexBox>
-            <ContactUsContainer>
-              <ContactForm>
-                <Label htmlFor="name">Name</Label>
-                <Input type="text" placeholder="Your Name" id="name" required />
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  type="email"
-                  placeholder="Your Email"
-                  id="email"
-                  required
-                />
-                <Label htmlFor="message">Message</Label>
-                <Textarea rows="5" id="message" required />
-                <SubmitButton type="submit">Send Message</SubmitButton>
-              </ContactForm>
-            </ContactUsContainer>
-            <TextContact>
-              <h1>Contact Us</h1>
-              <ContactPara>Any Queries? You Can Freely Ask</ContactPara>
-              <ContactPara>24/7</ContactPara>
-              <ContactDetails>
-                <ContactInfo>Phone: 8133820226/9101233239</ContactInfo>
-                <ContactInfo>Gmail: ujjalsonowal8133@gmail.com</ContactInfo>
-              </ContactDetails>
-            </TextContact>
-          </ContactFlexBox>
-        </ContactSection>
-
-        <Footer>
-          <p>&copy; 2024 Event Organizer. All Rights Reserved.</p>
-        </Footer>
+        <div className="latest-event">
+          <SectionHeading>Latest Events</SectionHeading>
+          <LatestEvent>
+            {latestEvent &&
+              latestEvent.map((event) => (
+                <Link to="" className="linkcard" key={event._id}>
+                  <Events
+                    event={event}
+                    organizer={organizers[event.organiseId]}
+                  />
+                </Link>
+              ))}
+          </LatestEvent>
+        </div>
       </div>
+
+      <OurPartnar className="our-patner">
+        <PartnerHeading>Our Patner</PartnerHeading>
+        <CollabPara className="collab">
+          We Collaborate With Several Organization
+        </CollabPara>
+        <div className="organisation-section">
+          <OrgSec className="organisation-container">
+            {topOrg &&
+              topOrg.map((organise) => (
+                <LinkOrg to="" className="linkcardorganise">
+                  <OrgView>
+                    {" "}
+                    <Organizer key={organise._id} organise={organise} />
+                  </OrgView>
+                </LinkOrg>
+              ))}
+          </OrgSec>
+        </div>
+      </OurPartnar>
+
+      {/* <ContactSection>
+        <ContactFlexBox>
+          <ContactUsContainer>
+            <ContactForm>
+              <Label htmlFor="name">Name</Label>
+              <Input type="text" placeholder="Your Name" id="name" required />
+              <Label htmlFor="email">Email</Label>
+              <Input
+                type="email"
+                placeholder="Your Email"
+                id="email"
+                required
+              />
+              <Label htmlFor="message">Message</Label>
+              <Textarea rows="5" id="message" required />
+              <SubmitButton type="submit">Send Message</SubmitButton>
+            </ContactForm>
+          </ContactUsContainer>
+          <TextContact>
+            <h1>Contact Us</h1>
+            <ContactPara>Any Queries? You Can Freely Ask</ContactPara>
+            <ContactPara>24/7</ContactPara>
+            <ContactDetails>
+              <ContactInfo>Phone: 8133820226/9101233239</ContactInfo>
+              <ContactInfo>Gmail: ujjalsonowal8133@gmail.com</ContactInfo>
+            </ContactDetails>
+          </TextContact>
+        </ContactFlexBox>
+      </ContactSection> */}
+      <Footer>
+        <p>&copy; 2024 Event Organizer. All Rights Reserved.</p>
+      </Footer>
     </>
   );
 };
@@ -480,7 +477,7 @@ const ContactUsContainer = styled.div`
 `;
 
 const ContactForm = styled.form`
-  display: block;
+  /* display: block; */
   padding: 10px;
 `;
 

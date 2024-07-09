@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../StarRating";
 import "./myevent.css";
+// import "./style.css";
 
 const MyEvents = ({ myev }) => {
   const [showForm, setShowForm] = useState(false);
@@ -10,9 +11,10 @@ const MyEvents = ({ myev }) => {
   const navigate = useNavigate();
   const [name, setEventName] = useState(myev.name);
   const [type, setType] = useState(myev.type);
-  const [status, setStatus] = useState("false"); // Convert to boolean
+  const [status, setStatus] = useState("true");
   const [price, setPrice] = useState(myev.price);
   const [capacity, setCapacity] = useState(myev.capacity);
+  const [eventdesc, setEventdesc] = useState(myev.eventdesc);
   const [images, setImages] = useState([]);
   const [file, setFile] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -53,7 +55,7 @@ const MyEvents = ({ myev }) => {
       });
       const data = await response.json();
       console.log(data);
-      fetchImages(); // Refresh the images list after upload
+      fetchImages();
     } catch (error) {
       console.error(error);
     }
@@ -67,37 +69,31 @@ const MyEvents = ({ myev }) => {
     setShowForm(false);
   };
 
-  // Add price
   const [newPrice, setNewPrice] = useState("");
+  const [newCapacity, setNewCapacity] = useState("");
 
-  const addPrice = () => {
-    if (newPrice) {
-      setPrice([...price, newPrice]);
-      setNewPrice("");
-    }
+  const handlePriceChange = (index, value) => {
+    const updatedPrices = [...price];
+    updatedPrices[index] = value;
+    setPrice(updatedPrices);
   };
 
   const removePrice = (index) => {
     setPrice(price.filter((_, i) => i !== index));
   };
 
-  // Add capacity
-  const [newCapacity, setNewCapacity] = useState("");
-
-  const addCapacity = () => {
-    if (newCapacity) {
-      setCapacity([...capacity, newCapacity]);
-      setNewCapacity("");
-    }
+  const handleCapacityChange = (index, value) => {
+    const updatedCapacities = [...capacity];
+    updatedCapacities[index] = value;
+    setCapacity(updatedCapacities);
   };
-
   const removeCapacity = (index) => {
     setCapacity(capacity.filter((_, i) => i !== index));
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const data = { name, type, price, capacity, status };
+    const data = { name, type, price, capacity, status, eventdesc };
     try {
       const response = await fetch(
         `http://localhost:5001/events/update/${eventId}`,
@@ -114,7 +110,7 @@ const MyEvents = ({ myev }) => {
       console.log(updated);
       navigate(`/myevent/${userId}`);
       setShowForm(false);
-      window.location.reload(); // Temporary solution, consider a more refined approach for updating UI
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -148,7 +144,7 @@ const MyEvents = ({ myev }) => {
   };
 
   return (
-    <div className="myevent-container">
+    <div id="myevent-container" className={showForm ? "form-popup-open" : ""}>
       <div className="card">
         <div className="card-content">
           <h2>Event Name: {myev.name}</h2>
@@ -156,13 +152,12 @@ const MyEvents = ({ myev }) => {
           <p className="price">Price: {myev.price.join(", ")}</p>
           <p className="capacity">Capacity: {myev.capacity.join(", ")}</p>
           <p className="rating">
-            Rating: <StarRating rating={myev.rating} />
+            Rating: <StarRating rating={myev.averageRating} />
           </p>
           <p>Status: {myev.status === true ? "Active" : "Inactive"}</p>
           <p className="create-on">Created On: {myev.createOn}</p>
-          <p className="total-booking">Total Bookings: {myev.totalbooking}</p>
-          <p className="no-of-comments">
-            Number of Comments: {myev.noofcomment}
+          <p>
+            <strong>Description:</strong> {myev.eventdesc}
           </p>
           <div>
             <form onSubmit={handleImageUpload}>
@@ -199,119 +194,11 @@ const MyEvents = ({ myev }) => {
               </div>
             ))}
           </div>
-          {images.length > 4 && (
-            <div className="image-slider">
-              {/* Implement your slider logic here */}
-            </div>
-          )}
+          {images.length > 4 && <div className="image-slider"></div>}
           <button id="my-update" onClick={toggleForm}>
             Update
           </button>
-          {showForm && (
-            <div className="form-popup">
-              <form onSubmit={handleUpdate}>
-                <label id="form-label" htmlFor="name">
-                  Event Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setEventName(e.target.value)}
-                />
-                <label id="form-label" htmlFor="type">
-                  Event Type
-                </label>
-                <input
-                  type="text"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                />
-                <label>Status</label>
-                <select
-                  className="selectbtn"
-                  onChange={(e) => setStatus(e.target.value === "true")}
-                  value={status}
-                >
-                  <option value={"true"}>Active</option>
-                  <option value={"false"}>Inactive</option>
-                </select>
-                <br />
-                <label htmlFor="price">Prices</label>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Add a Price"
-                    value={newPrice}
-                    onChange={(e) => setNewPrice(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="add-service"
-                    onClick={addPrice}
-                  >
-                    Add Prices
-                  </button>
-                </div>
-                <ul>
-                  {price.map((price, index) => (
-                    <li key={index}>
-                      {price}
-                      <button
-                        type="button"
-                        className="remove-service"
-                        onClick={() => removePrice(index)}
-                      >
-                        X
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <label htmlFor="capacity">Capacity</label>
-                <div>
-                  <input
-                    className="capacityInput"
-                    type="number"
-                    placeholder="add capacity"
-                    value={newCapacity}
-                    onChange={(e) => setNewCapacity(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="add-service"
-                    onClick={addCapacity}
-                  >
-                    Add Capacity
-                  </button>
-                </div>
-                <ul>
-                  {capacity.map((capacity, index) => (
-                    <li key={index}>
-                      {capacity}
-                      <button
-                        type="button"
-                        className="remove-service"
-                        onClick={() => removeCapacity(index)}
-                      >
-                        X
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <div className="morebutton">
-                  <button id="submit" type="submit">
-                    Submit
-                  </button>
-                  <button
-                    id="cancel"
-                    className="cancel-update"
-                    onClick={toggleOff}
-                  >
-                    Cancel Update
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+
           {showImage && (
             <div className="image-modal">
               <div className="image-modal-content">
@@ -319,7 +206,7 @@ const MyEvents = ({ myev }) => {
                   className="delete-button-modal"
                   onClick={handleDeleteImage}
                 >
-                  delete
+                  Delete
                 </button>
                 <button
                   className="cancel-button-modal"
@@ -336,6 +223,148 @@ const MyEvents = ({ myev }) => {
             </div>
           )}
         </div>
+      </div>
+      <div>
+        {showForm && (
+          <div className="form-popup">
+            <form onSubmit={handleUpdate}>
+              <label id="form-label" htmlFor="name">
+                Event Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setEventName(e.target.value)}
+              />
+              <label id="form-label" htmlFor="type">
+                Event Type
+              </label>
+              <input
+                type="text"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              />
+              <label>Status</label>
+              <select
+                className="selectbtn"
+                onChange={(e) => setStatus(e.target.value === "true")}
+                value={status}
+              >
+                <option value={"true"}>Active</option>
+                <option value={"false"}>Inactive</option>
+              </select>
+              <br />
+
+              <label htmlFor="capacity">Capacity</label>
+              <div id="cap">
+                {capacity.map((c, index) => (
+                  <div id="price" key={index} className="capacity-item">
+                    <input
+                      type="text"
+                      value={c}
+                      onChange={(e) =>
+                        handleCapacityChange(index, e.target.value)
+                      }
+                    />
+                    <button
+                      id="btn"
+                      type="button"
+                      className="remove-service"
+                      onClick={() => removeCapacity(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+                <input
+                  className="capacityInput"
+                  type="text"
+                  placeholder="Add Capacity"
+                  value={newCapacity}
+                  onChange={(e) => setNewCapacity(e.target.value)}
+                />
+                <button
+                  id="bt"
+                  type="button"
+                  className="add-service"
+                  onClick={() => {
+                    setCapacity([...capacity, newCapacity]);
+                    setNewCapacity("");
+                  }}
+                >
+                  Add Capacity
+                </button>
+              </div>
+              <label htmlFor="price">Prices</label>
+              <div id="cap">
+                {price.map((p, index) => (
+                  <div id="price" key={index} className="price-item">
+                    <input
+                      type="text"
+                      value={p}
+                      onChange={(e) => handlePriceChange(index, e.target.value)}
+                    />
+                    <button
+                      id="btn"
+                      type="button"
+                      className="remove-service"
+                      onClick={() => removePrice(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+                <input
+                  type="text"
+                  placeholder="Add a Price"
+                  value={newPrice}
+                  onChange={(e) => setNewPrice(e.target.value)}
+                />
+                <button
+                  id="bt"
+                  type="button"
+                  className="add-service"
+                  onClick={() => {
+                    setPrice([...price, newPrice]);
+                    setNewPrice("");
+                  }}
+                >
+                  Add Price
+                </button>
+              </div>
+              <label htmlFor="price">Description</label>
+              <input
+                style={{
+                  width: "100%",
+                  height: "150px",
+                  padding: "12px 20px",
+                  boxSizing: "border-box",
+                  border: "2px solid #ccc",
+                  borderRadius: "4px",
+                  backgroundColor: " #f8f8f8",
+                  fontSize: "16px",
+                  resize: "none",
+                }}
+                type="textarea"
+                placeholder="Add a Description"
+                value={eventdesc}
+                onChange={(e) => setEventdesc(e.target.value)}
+              />
+              <div className="morebutton">
+                <button id="submit" type="submit">
+                  Submit
+                </button>
+                <button
+                  id="cancel"
+                  className="cancel-update"
+                  onClick={toggleOff}
+                >
+                  Cancel Update
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

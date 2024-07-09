@@ -1,174 +1,120 @@
-.event-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  /* margin: 1rem; */
+/* myevent.css */
+
+.myevent-container {
+    position: relative;
 }
 
-.events-card {
-  background-color: #e7f4ff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  margin: 1rem;
-  padding: 1rem;
-  width: 300px;
-  height: 250px;
+.card {
+    position: relative;
+    z-index: 1;
+    /* Ensure the card content stays above the blur */
 }
 
-.events-card p {
-  margin: 0.5rem 0;
-  color: black;
+.card-content {
+    transition: filter 0.3s ease;
 }
 
-.edetails {
-  display: flex;
-  justify-content: space-around;
+.blur-background {
+    filter: blur(5px);
 }
 
-.view-details-btn {
-  background-color: #4caf50;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0.5rem;
-  transition: background-color 0.3s ease;
+.form-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    /* Ensure the form popup is on top */
+    width: 400px;
+    max-width: 90%;
+    border-radius: 8px;
 }
 
-.view-details-btn:hover {
-  background-color: #3e8e41;
+.form-popup .morebutton {
+    display: flex;
+    justify-content: space-between;
 }
 
-.popup-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 999;
-  display: none;
-  color: #333;
+.form-popup label {
+    display: block;
+    margin-top: 10px;
 }
 
-.popup-card {
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  left: 50%;
-  max-height: 80vh;
-  overflow-y: auto;
-  padding: 1rem;
-  position: fixed;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  z-index: 1000;
-  display: none;
+.form-popup input,
+.form-popup select,
+.form-popup textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.popup-card.active {
-  display: block;
+.form-popup .add-service {
+    margin-left: 10px;
 }
 
-.close-btn {
-  background-color: transparent;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  font-size: 1.1rem;
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
+.form-popup ul {
+    padding: 0;
+    list-style-type: none;
 }
 
-.event-images {
-  margin-bottom: 1rem;
+.form-popup li {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
 }
 
-.event-images img {
-  border-radius: 5px;
-  height: 200px;
-  object-fit: cover;
-  width: 100%;
+.form-popup li button {
+    margin-left: 10px;
 }
 
-.event-info {
-  /* margin-bottom: .1rem; */
-  display: flex;
-  justify-content: space-around;
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* Ensure the image modal is on top */
 }
 
-.event-info p {
-  color: #333;
+.image-modal-content {
+    background: white;
+    padding: 20px;
+    position: relative;
+    border-radius: 8px;
 }
 
-h2 {
-  margin: 0 0 0.5rem;
-  text-align: center;
+.image-modal img.large-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
-.book-btn {
-  background-color: #4caf50;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0.5rem;
-  transition: background-color 0.3s ease;
+.image-modal .delete-button-modal,
+.image-modal .cancel-button-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
-.book-btn:hover {
-  background-color: #3e8e41;
-}
-
-.comment-cotainer {
-  border-top: 1px solid #ddd;
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
-
-.p3 {
-  margin: 0;
-  color: #7f7f7f;
-}
-
-.list {
-  display: flex;
-  gap: 20px;
-}
-
-.itemlist {
-  color: rgb(0, 0, 0);
-  background: #489aff57;
-  padding: 2px 4px 4px 5px;
-  border-radius: 3px;
-}
-
-.btn-section-book {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.btn-section-book > .submit-btn {
-  background-color: #695e69;
-  width: 50%;
-  padding: 10px;
-}
-
-.btn-section-book button {
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  font-size: 19px;
-}
-
-.container-create-booking p {
-  color: blueviolet;
+.image-modal .cancel-button-modal {
+    background: grey;
+    right: 60px;
 }

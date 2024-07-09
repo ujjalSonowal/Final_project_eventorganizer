@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const booking = require("../models/bookingmodel");
+const Notification = require("../models/notification");
 
 //get all booking
 const getbookingall = async (req, res) => {
@@ -66,47 +67,91 @@ const getallbooking = async (req, res) => {
   }
 };
 
-//create a booking
+//create booking
 // const createbooking = async (req, res) => {
 //   const postbookingdata = req.body;
-//   const userId = req.userId;
-//   const organiseId = req.organiseId;
-//   const createbook = await booking.create({
-//     ...postbookingdata,
-//     userId,
-//     organiseId,
-//   });
+//   const createbook = await booking.create({ ...postbookingdata });
 
 //   if (!createbook) {
-//     res.status(500).json({ error: "booking not create" });
+//     return res.status(500).json({ error: "booking not create" });
 //   }
 //   res.status(201).json(createbook);
 // };
 
+// Create a booking
 const createbooking = async (req, res) => {
   const postbookingdata = req.body;
-  const createbook = await booking.create({ ...postbookingdata });
+  try {
+    const createbook = await booking.create({ ...postbookingdata });
 
-  if (!createbook) {
-    return res.status(500).json({ error: "booking not create" });
+    if (!createbook) {
+      return res.status(500).json({ error: "Booking not created" });
+    }
+
+    const message = `New booking created for event ${createbook.eventname}`;
+    await Notification.create({
+      eventId: createbook.eventId,
+      organiseId: createbook.organiseId,
+      userId: createbook.userId,
+      message,
+    });
+
+    res.status(201).json(createbook);
+  } catch (error) {
+    return res.status(500).json({ error: "Booking not created" });
   }
-  res.status(201).json(createbook);
 };
+
+//delete a booking
+// const deletebooking = async (req, res) => {
+//   const { id: _id } = req.params;
+
+//   if (!mongoose.Types.ObjectId.isValid(_id)) {
+//     return res.status(404).json("Booking not found");
+//   }
+
+//   const removedBooking = await booking.findByIdAndDelete(_id);
+//   if (!removedBooking) {
+//     return res.status(404).json({ error: "Booking not found" });
+//   }
+
+//   const message = `Booking for event ${removedBooking.eventname} has been canceled by the customer.`;
+//   await Notification.create({
+//     eventId: removedBooking.eventId,
+//     organiseId: removedBooking.organiseId,
+//     userId: removedBooking.userId,
+//     message,
+//   });
+
+//   res.status(200).json(removedBooking);
+// };
 
 //delete a booking
 const deletebooking = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).json("booking not found");
+    res.status(404).json("booking not found");
   }
-  const removeData = await booking.findOneAndDelete({ _id });
+  const removeData = await booking.findOneAndDelete({
+    _id,
+    // userId: req.userId,
+  });
   if (!removeData) {
     return res.status(404).json({ error: "Booking not found" });
   }
 
+  const message = `Booking for event ${removeData.eventname} has been canceled by the customer.`;
+  await Notification.create({
+    eventId: removeData.eventId,
+    organiseId: removeData.organiseId,
+    userId: removeData.userId,
+    message,
+  });
+
   res.status(200).json(removeData);
 };
+
 //update booking
 const updatebooking = async (req, res) => {
   const { id: _id } = req.params;
@@ -133,13 +178,33 @@ const recentbooking = async (req, res) => {
   }
 
   try {
-    const bookingData = await booking.find({ eventId });
+    const bookingData = await booking.find({ eventId }).sort({ createdAt: -1 });
     if (!bookingData) {
       return res.status(404).json({ error: "Booking not found" });
     }
     return res.status(200).json(bookingData); // Changed to 200 OK as this is a successful data retrieval
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
+  }
+};
+const getBookingsForEvent = async (req, res) => {
+  const { eventId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+    return res.status(404).json({ error: "Invalid event ID" });
+  }
+
+  try {
+    const bookingData = await booking.find({ eventId }).sort({ createdAt: -1 });
+    if (!bookingData) {
+      return res
+        .status(404)
+        .json({ error: "Booking not found for this event and user" });
+    }
+    res.status(200).json(bookingData);
+  } catch (error) {
+    console.error("Error fetching booking:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -152,4 +217,5 @@ module.exports = {
   getmybooking,
   getallbooking,
   recentbooking,
+  getBookingsForEvent,
 };

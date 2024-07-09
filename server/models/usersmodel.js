@@ -5,7 +5,7 @@ const usersmodel = new schema(
   {
     name: { type: String, require: "user must have an name" },
     email: { type: String, require: "user must have an email" },
-    usertype: { type: String },
+    usertype: { type: String }, // customer or organizer
     phone: { type: Number },
     password: { type: String },
     // location: {type:String},

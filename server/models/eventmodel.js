@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const eventmodel = new schema(
-  {
+const eventmodel = new schema({
     // userId: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "user",
@@ -13,7 +12,7 @@ const eventmodel = new schema(
     organiseId: { type: String },
     name: { type: String, require: "Please provide an Event Name" },
     type: { type: String },
-    capacity: { type: [Number] },
+    capacity: { type: [String] },
     price: { type: [Number] },
     // reviews: [reviewSchema],
     rating: { type: Number, default: 0 },
@@ -40,8 +39,6 @@ const eventmodel = new schema(
 
     averageRating: { type: Number, default: 0 },
     numberOfRatings: { type: Number, default: 0 },
-  },
-  { timestamps: true }
-);
+}, { timestamps: true });
 
 module.exports = mongoose.model("events", eventmodel);

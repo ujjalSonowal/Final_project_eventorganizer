@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
 import styled from "styled-components";
 import "./style.css";
+import { Review } from "../ReviewComponent/Review";
 
 // Styled Components
 const OrganizeContainer = styled.div`
@@ -115,7 +116,7 @@ export const Organizer = ({ organise }) => {
       <Details>
         <P>Status: {organise.status ? "Active" : "Inactive"}</P>
       </Details>
-      <StarRating rating={organise.rating} />
+      {/* <StarRating rating={organise.rating} /> */}
       <ButtonGroup>
         <Button onClick={viewDetails}>View More</Button>
         <Button>

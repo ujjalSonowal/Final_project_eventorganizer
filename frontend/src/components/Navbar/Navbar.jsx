@@ -1,23 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./navbar.css";
-// import "./nav.css";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-// import { UserProfile } from '../../pages/UserProfile/UserProfile';
-import { Sidenav } from "../Sidenav/Sidenav";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
+
 import logo from "../../assets/logo1.png";
+import axios from "axios";
+import { Sidenav } from "../Sidenav/Sidenav";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  // const { organiseId } = useParams();
   const [usertype, setUserType] = useState("");
   const [currentuser, setCurrentUser] = useState("");
+
+  const [notifications, setNotifications] = useState([]);
+  const [org, setOrg] = useState("");
+  const currentuserid = localStorage.getItem("User");
+  const [organiseId, setOrganiseId] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("profile")
   );
+
+  useEffect(() => {
+    const getOrg = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/organise/myorg/${currentuserid}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (!response.ok) {
+          console.error(`An error occurred: ${response.statusText}`);
+          return;
+        }
+        const myOrg = await response.json();
+        setOrg(myOrg);
+        const orgId = myOrg._id;
+        setOrganiseId(orgId);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    getOrg();
+  }, [currentuserid]);
+
+  useEffect(() => {
+    const getNotifications = async (orgId) => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/notification/organise/${orgId}`
+        );
+        if (!response.ok) {
+          console.error(`An error occurred: ${response.statusText}`);
+          return;
+        }
+        const data = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    if (organiseId) {
+      getNotifications(organiseId);
+    }
+  }, [organiseId]);
+
+  const handleIconClick = () => {
+    setShowPopup(!showPopup);
+  };
+
+  const handleNotificationClick = (eventId) => {
+    navigate(`/recent-book/${eventId}`);
+  };
+
   useEffect(() => {
     const userType = localStorage.getItem("userType");
     setUserType(userType);
@@ -32,6 +95,7 @@ export const Navbar = () => {
     navigate("/");
     window.location.reload();
   };
+
   return (
     <>
       <div className="navbar-container">
@@ -72,61 +136,16 @@ export const Navbar = () => {
                 </Link>
               )}
             </li>
-            {/* <li className="nav-item">
-              <Link to="/events" className="nav-link">
-                Events
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/organise" className="nav-link">
-                Organizers
-              </Link>
-            </li> */}
-
-            {/* {usertype === "User" && (
-              <li className="nav-item">
-                <a className="nav-link" href="/about">
-                  About
-                </a>
-              </li>
-            )} */}
-            {/* <li className="nav-item">
-              {usertype === "Organiser" && (
-                <Link to="/addevent" className="nav-link">
-                  Create Events
-                </Link>
-              )}
-            </li> */}
-
-            {/* <li className="nav-item">
-              {usertype === "Organiser" && (
-                <Link to="/createorganization" className="nav-link">
-                  Create Organizer
-                </Link>
-              )}
-            </li> */}
-            {/* <li className="nav-icon">
-              {usertype === "Organiser" && (
-                <Link to="" className="icons">
-                  <NotificationsIcon />
-                </Link>
-              )}
-            </li> */}
           </ul>
-          <div className="nav-icon">
+          <div className="nav-icon" onClick={handleIconClick}>
             {usertype === "Organiser" && (
-              <Link to="" className="icons">
-                <NotificationsIcon />
-              </Link>
+              <FontAwesomeIcon icon={faBell} className="notification-icon" />
             )}
           </div>
-
           {isAuthenticated ? (
             <>
               <div className="profile">
-                {/* <Avater backgroundColor="purple" color='white' fontSize='50px' px='40px' py='30px'/> */}
                 <Link to={`/profile/${currentuser}`}>
-                  {" "}
                   <FontAwesomeIcon icon={faUser} className="icon" />
                 </Link>
               </div>
@@ -149,6 +168,21 @@ export const Navbar = () => {
           )}
         </nav>
       </div>
+      {showPopup && (
+        <div className="notification-popup">
+          {notifications.map((notification) => (
+            <div key={notification._id} className="notification-items">
+              <p
+                className="notification-messages"
+                onClick={() => handleNotificationClick(notification.eventId)}
+              >
+                {notification.message}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
       {isAuthenticated && <Sidenav />}
     </>
   );

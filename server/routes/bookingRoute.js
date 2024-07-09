@@ -9,6 +9,7 @@ const {
   getallbooking,
   deletebooking,
   recentbooking,
+  getBookingsForEvent,
 } = require("../controllers/bookingcontroller");
 const router = express.Router();
 
@@ -31,5 +32,8 @@ router.patch("/update/:id", updatebooking);
 //delete booking
 router.delete("/delete/:id", deletebooking);
 
-router.get("/event/recent/booking/:id", recentbooking);
+router.get("/event/recent/:id", recentbooking);
+// router.get("/notification/:id", getNotifications);
+
+router.get("/event/booking/:eventId", getBookingsForEvent);
 module.exports = router;

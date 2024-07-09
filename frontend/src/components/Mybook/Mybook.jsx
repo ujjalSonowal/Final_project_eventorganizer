@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 import "./mybook.css";
-export const Mybook = ({ booking, organizer, event }) => {
+export const Mybook = ({ booking, organizer }) => {
   const [updateform, setupdateform] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem("User");
@@ -131,7 +131,8 @@ export const Mybook = ({ booking, organizer, event }) => {
             <strong>Event Date:</strong> {booking.bookingDate}
           </p>
           <p>
-            <strong>Booking Date:</strong> {booking.createdAt}
+            <strong>Booking Date:</strong>{" "}
+            {new Date(booking.createdAt).toLocaleDateString()}
           </p>
           <p>
             <strong>Number of Days:</strong> {booking.noofday}
@@ -154,12 +155,16 @@ export const Mybook = ({ booking, organizer, event }) => {
           <p>
             <strong>PAN No:</strong> {booking.panno}
           </p>
-          <p>
+          {/* <p>
             <strong>Booking Status:</strong>{" "}
             {booking.bookingstatus ? "Confirmed" : "Pending"}
+          </p> */}
+          <p>
+            <strong>Booking Status:</strong>
+            {booking.Status}
           </p>
           <p>
-            <strong>Status:</strong> {booking.Status}
+            <strong>Capacity: </strong> {booking.capacity}
           </p>
           <p>
             <strong>Price:</strong>{" "}
@@ -169,7 +174,9 @@ export const Mybook = ({ booking, organizer, event }) => {
                   <div className="itemlist">{price}</div>
                 </div>
               ))} */}
+            {booking.price}
           </p>
+
           <p>
             <strong>Payment Status:</strong> {booking.paymentstatus}
           </p>
@@ -199,10 +206,12 @@ export const Mybook = ({ booking, organizer, event }) => {
                   />
                   <label htmlFor="date">Event date</label>
                   <input
+                    style={{ paddingTop: "8px", paddingBottom: "7px" }}
                     type="date"
                     onChange={(e) => setbookingDate(e.target.value)}
                     value={bookingDate}
                   />
+                  <br />
                   <label htmlFor="location">location</label>
                   <input
                     type="text"
@@ -211,10 +220,12 @@ export const Mybook = ({ booking, organizer, event }) => {
                   />
                   <label htmlFor="pin">pin</label>
                   <input
+                    style={{ paddingTop: "8px", paddingBottom: "7px" }}
                     type="number"
                     onChange={(e) => setpin(e.target.value)}
                     value={pin}
                   />
+                  <br />
                   <label htmlFor="district">District</label>
                   <input
                     type="text"
