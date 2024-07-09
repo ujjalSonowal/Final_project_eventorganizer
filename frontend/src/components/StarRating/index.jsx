@@ -1,59 +1,52 @@
 import React from "react";
-import "./style.css";
+import styled from "styled-components";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
-const StarRating = ({ rating, onRatingChange }) => {
-  const handleClick = (value) => {
-    if (onRatingChange) {
-      onRatingChange(value);
-    }
-  };
+const StarRating = ({ rating }) => {
+  // Round rating to one decimal place
+  const roundedRating = Math.round(rating * 10) / 10;
 
-  const roundRating = (rating) => {
-    return Math.round(rating * 2) / 2;
-  };
+  // Calculate full stars and half stars
+  const fullStars = Math.floor(roundedRating);
+  const hasHalfStar = roundedRating % 1 !== 0;
 
-  const roundedRating = roundRating(rating);
+  // Array to hold star elements
+  const stars = [];
 
-  const renderStar = (index) => {
-    if (roundedRating >= index + 1) {
-      return (
-        <span
-          key={index}
-          className="star full"
-          onClick={() => handleClick(index + 1)}
-        >
-          &#9733;
-        </span>
-      );
-    } else if (roundedRating >= index + 0.5) {
-      return (
-        <span
-          key={index}
-          className="star half"
-          onClick={() => handleClick(index + 1)}
-        >
-          &#9733;
-        </span>
-      );
-    } else {
-      return (
-        <span
-          key={index}
-          className="star empty"
-          onClick={() => handleClick(index + 1)}
-        >
-          &#9733;
-        </span>
-      );
-    }
-  };
+  // Push full stars
+  for (let i = 0; i < fullStars; i++) {
+    stars.push(<FaStar key={i} />);
+  }
+
+  // Push half star if applicable
+  if (hasHalfStar) {
+    stars.push(<FaStarHalfAlt key={stars.length} />);
+  }
 
   return (
-    <div className="star-rating-container">
-      {[0, 1, 2, 3, 4].map(renderStar)}
-      <span className="rating-number">({roundedRating.toFixed(1)})</span>
-    </div>
+    <RatingContainer>
+      {stars.map((star, index) => (
+        <StarIcon key={index}>{star}</StarIcon>
+      ))}
+      <RatingNumber>({roundedRating})</RatingNumber>
+    </RatingContainer>
   );
 };
+
+// Styled components for the rating display
+const RatingContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  color: #f39c12; /* Star color */
+`;
+
+const StarIcon = styled.span`
+  font-size: 1.2em;
+`;
+
+const RatingNumber = styled.span`
+  margin-left: 5px;
+  font-size: 1em;
+`;
 
 export default StarRating;
