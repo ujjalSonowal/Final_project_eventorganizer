@@ -1,44 +1,42 @@
 .card {
-    /* display: flex;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap; */
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: 20px;
-    overflow: hidden;
-    /* transition: transform 0.2s; */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px;
+  overflow: hidden;
+  /* transition: transform 0.2s; */
 }
-
 
 /* #myevent-container {
    
 } */
-
 
 /* .card:hover {
   transform: scale(1.05);
 } */
 
 .card img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .card-content {
-    padding: 20px;
+  padding: 20px;
 }
 
 .card-content h2 {
-    margin: 0 0 10px;
-    font-size: 24px;
-    color: #333;
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #333;
 }
 
 .card-content p {
-    margin: 0 0 10px;
-    color: #777;
+  margin: 0 0 10px;
+  color: #777;
 }
 
 .card-content .price,
@@ -48,298 +46,295 @@
 .card-content .create-on,
 .card-content .total-booking,
 .card-content .no-of-comments {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .comments {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .comment {
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 10px;
 }
 
 .comment p {
-    margin: 0 0 5px;
-    color: #333;
+  margin: 0 0 5px;
+  color: #333;
 }
 
 .comment small {
-    color: #999;
+  color: #999;
 }
 
 .image-box {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    width: 100%;
-    max-height: 400px;
-    overflow: auto;
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
 }
 
 .image-box img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 5px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .form-popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -20%);
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    /* Ensure the form popup is on top */
-    width: 800px;
-    max-width: 90%;
-    border-radius: 8px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  /* Ensure the form popup is on top */
+  width: 800px;
+  max-width: 90%;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .image-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .large-image {
-    max-width: 90%;
-    max-height: 90%;
+  max-width: 90%;
+  max-height: 90%;
 }
 
 .image-slider {
-    display: flex;
-    overflow-x: auto;
-    gap: 8px;
-    margin-top: 20px;
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  margin-top: 20px;
 }
 
 .image-slider img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 5px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
 }
-
 
 /* Keep existing styles */
 
-
 /* Remove hover effect for image */
-
 
 /* .image-box img:hover {
   transform: none;
 } */
 
-
 /* Adjust the size of the large image */
 
-
 /* Keep existing styles */
-
 
 /* Remove big image size when clicked */
 
 .large-image {
-    max-width: 80vw;
-    max-height: 80vh;
+  max-width: 80vw;
+  max-height: 80vh;
 }
-
 
 /* Add style for the delete button in the image modal */
 
 .delete-button-modal {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    /* Adjusting the position */
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 5px;
-    /* Adjusting border radius */
-    padding: 5px 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #333;
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  /* Adjusting the position */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 5px;
+  /* Adjusting border radius */
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
 }
-
 
 /* Add style for the cancel button in the image modal */
 
 .cancel-button-modal {
-    position: absolute;
-    top: 10px;
-    right: 130px;
-    /* Adjusting the position */
-    background-color: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 5px;
-    /* Adjusting border radius */
-    padding: 5px 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #333;
+  position: absolute;
+  top: 10px;
+  right: 130px;
+  /* Adjusting the position */
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 5px;
+  /* Adjusting border radius */
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
 }
 
 #cancel {
-    background-color: #000000;
-    color: white;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
+  background-color: #000000;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 #submit {
-    background-color: #000000;
-    color: white;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
+  background-color: #000000;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .morebutton {
-    padding: 10px;
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 .form-popup #form-label {
-    padding-top: 30px;
+  padding-top: 30px;
 }
 
 #my-update {
-    background-color: #256d6c;
-    color: white;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-top: 15px;
+  background-color: #256d6c;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
 .form-popup ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 3px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
 }
 
-.form-popup ul>li {
-    border-bottom: 1px solid red;
+.form-popup ul > li {
+  border-bottom: 1px solid red;
 }
 
 .add-service {
-    margin: 10px;
-    padding: 4px;
-    border: 1px solid black;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 7px;
+  margin: 10px;
+  padding: 4px;
+  border: 1px solid black;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 7px;
 }
 
 .remove-service {
-    margin-left: 10px;
-    background: transparent;
-    cursor: grab;
-    border: 1px double rgba(20, 19, 19, 0.235);
-    border-radius: 5px;
-    padding-left: 4px;
-    padding-right: 4px;
-    margin: 5px;
-    transition: 1s;
+  margin-left: 10px;
+  background: transparent;
+  cursor: grab;
+  border: 1px double rgba(20, 19, 19, 0.235);
+  border-radius: 5px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin: 5px;
+  transition: 1s;
 }
 
 .remove-service:hover {
-    border: 1px solid blue;
-    transform: scale(1.1);
+  border: 1px solid blue;
+  transform: scale(1.1);
 }
 
 .selectbtn {
-    padding: 10px;
-    width: 100%;
-    border: 1px solid rgb(160, 160, 160);
-    border-radius: 7px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid rgb(160, 160, 160);
+  border-radius: 7px;
 }
 
 .capacityInput {
-    border: 1px solid rgb(108, 108, 108);
-    padding: 8px;
-    border-radius: 8px;
+  border: 1px solid rgb(108, 108, 108);
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .imginput {
-    border: none;
-    background-color: #256d6c;
-    color: white;
-    border-radius: 6px;
-    margin-top: 3px;
+  border: none;
+  background-color: #256d6c;
+  color: white;
+  border-radius: 6px;
+  margin-top: 3px;
 }
 
 .imagebtn {
-    margin: 8px;
-    border: 1px solid slateblue;
-    padding: 6px;
-    transition: 1s;
+  margin: 8px;
+  border: 1px solid slateblue;
+  padding: 6px;
+  transition: 1s;
 }
 
 .imagebtn:hover {
-    background-color: slateblue;
-    color: white;
-    border-radius: 7px;
-}
-
-#price {
-    display: flex;
-    gap: 10px;
+  background-color: slateblue;
+  color: white;
+  border-radius: 7px;
 }
 
 #btn {
-    color: red;
-    /* background-color: red; */
+  display: flex;
+  gap: 10px;
+}
+
+#price {
+  display: flex;
+  gap: 10px;
+}
+
+#btn {
+  color: red;
+  /* background-color: red; */
 }
 
 #bt {
-    width: 30%;
-    color: #256d6c;
+  width: 30%;
+  color: #256d6c;
 }
 
 #cap {
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
 }
 
 .form-popup-open {
-    background-color: rgba(255, 255, 255, 0.5);
-    /* Adjust opacity as needed */
-    backdrop-filter: blur(30px);
-    /* Optional: Adds blur effect */
+  background-color: rgba(255, 255, 255, 0.5);
+  /* Adjust opacity as needed */
+  backdrop-filter: blur(30px);
+  /* Optional: Adds blur effect */
 }

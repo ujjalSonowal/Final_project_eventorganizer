@@ -116,6 +116,25 @@ const MyEvents = ({ myev }) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/events/delete/${eventId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete");
+      }
+      // Redirect to another page or perform any other actions after deletion
+      navigate(`/myevent/${userId}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleImageClick = (image, index) => {
     setShowImage(image);
     setSelectedImageIndex(index);
@@ -195,9 +214,14 @@ const MyEvents = ({ myev }) => {
             ))}
           </div>
           {images.length > 4 && <div className="image-slider"></div>}
-          <button id="my-update" onClick={toggleForm}>
-            Update
-          </button>
+          <div id="btn">
+            <button id="my-update" onClick={toggleForm}>
+              Update
+            </button>
+            <button id="my-update" onClick={() => handleDelete()}>
+              Delete
+            </button>
+          </div>
 
           {showImage && (
             <div className="image-modal">

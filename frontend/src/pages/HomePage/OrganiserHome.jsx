@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useParams } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Events } from "../../components/Events/Events";
+import { BsTrash } from "react-icons/bs"; // Import delete/trash icon from react-icons library
 
 export const OrganiserHome = () => {
   const [events, setEvents] = useState([]);
   const [username, setUsername] = useState("");
-  const [organise, setOrganise] = useState("");
+  const [organise, setOrganise] = useState({});
   const [notifications, setNotifications] = useState([]);
-  const [org, setOrg] = useState("");
-  const currentuser = localStorage.getItem("User");
   const [organiseId, setOrganiseId] = useState("");
   const navigate = useNavigate();
-
   const userid = localStorage.getItem("User");
 
   useEffect(() => {
+    const currentuser = localStorage.getItem("User");
+
     const getOrg = async () => {
       try {
         const response = await fetch(
@@ -30,16 +30,15 @@ export const OrganiserHome = () => {
           return;
         }
         const myOrg = await response.json();
-        setOrg(myOrg);
-        const orgId = myOrg._id;
-        setOrganiseId(orgId);
+        setOrganise(myOrg);
+        setOrganiseId(myOrg._id);
       } catch (error) {
         console.error("Fetch error:", error);
       }
     };
 
     getOrg();
-  }, [currentuser]);
+  }, []);
 
   useEffect(() => {
     const getNotifications = async (orgId) => {
@@ -65,6 +64,47 @@ export const OrganiserHome = () => {
 
   const handleNotificationClick = (eventId) => {
     navigate(`/recent-book/${eventId}`);
+  };
+
+  const handleClearAllNotifications = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/notification/deleteAll/${organiseId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        console.error(`Failed to clear notifications: ${response.statusText}`);
+        return;
+      }
+      setNotifications([]); // Clear notifications locally on success
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  };
+
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/notification/delete/${notificationId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        console.error(`Failed to delete notification: ${response.statusText}`);
+        return;
+      }
+      // Remove the deleted notification from the local state
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notification) => notification._id !== notificationId
+        )
+      );
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
   };
 
   useEffect(() => {
@@ -127,40 +167,38 @@ export const OrganiserHome = () => {
           <CardContainer>
             <Card>
               <h3>Total No. Events</h3>
-              <p>
-                {/* {
-                  latestevent.filter((event) => new Date(event.date) > new Date())
-                    .length
-                } */}
-              </p>
+              <p>{events.length}</p>
             </Card>
             {/* <Card>
               <h3>Number of Users</h3>
-              <p>
-                {
-                  latestevent.filter((event) => new Date(event.date) <= new Date())
-                    .length
-                }
-              </p>
+              <p>{events.filter((event) => new Date(event.date) <= new Date()).length}</p>
             </Card> */}
             <Card>
               <h3>Total No. of Bookings</h3>
+              <p>{/* Display total number of bookings */}</p>
             </Card>
           </CardContainer>
         </Section>
 
         <Section>
           <h2>Notifications</h2>
+          <ClearButton onClick={handleClearAllNotifications}>
+            Clear All
+          </ClearButton>
           <List>
             {notifications.map((notification) => (
-              <div key={notification._id} className="notification-item">
-                <li
-                  className="notification-message"
+              <NotificationItem key={notification._id}>
+                <NotificationMessage
                   onClick={() => handleNotificationClick(notification.eventId)}
                 >
                   {notification.message}
-                </li>
-              </div>
+                </NotificationMessage>
+                <DeleteIcon
+                  onClick={() => handleDeleteNotification(notification._id)}
+                >
+                  <BsTrash />
+                </DeleteIcon>
+              </NotificationItem>
             ))}
           </List>
         </Section>
@@ -173,12 +211,10 @@ export const OrganiserHome = () => {
               {organise.name}
             </p>
             <p>
-              {" "}
               <strong>Owner Name: </strong>
               {organise.owner}
             </p>
-            <Link to={`/myorg/${userid}`}>
-              {" "}
+            <Link to={`/myorg/${localStorage.getItem("User")}`}>
               <ViewButton>View Details</ViewButton>
             </Link>
           </List>
@@ -186,20 +222,22 @@ export const OrganiserHome = () => {
       </Dashboard>
 
       <Actions>
-        <ButtonPrimary to={`/myorg/${userid}`}>Create New Event</ButtonPrimary>
-        <ButtonSecondary to={`/myevent/${userid}`}>
+        <ButtonPrimary to={`/myorg/${localStorage.getItem("User")}`}>
+          Create New Event
+        </ButtonPrimary>
+        <ButtonSecondary to={`/myevent/${localStorage.getItem("User")}`}>
           Manage Events
         </ButtonSecondary>
       </Actions>
+
       <Section>
         <Title>My Events</Title>
         <TopEvent>
-          {events &&
-            events.map((Event) => (
-              <Link to="" id="linkcard">
-                <Events key={Event._id} event={Event} />
-              </Link>
-            ))}
+          {events.map((event) => (
+            <Link key={event._id} to="">
+              <Events event={event} />
+            </Link>
+          ))}
         </TopEvent>
       </Section>
     </Container>
@@ -243,7 +281,6 @@ const Dashboard = styled.div`
 `;
 
 const Section = styled.div`
-  /* display: flex; */
   flex: 1;
   min-width: 300px;
   background: #fff;
@@ -274,15 +311,27 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   height: 200px;
-  overflow-x: scroll;
+  overflow-y: auto;
+`;
 
-  li {
-    background: #f1f1f1;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+const NotificationItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f1f1f1;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+`;
+
+const NotificationMessage = styled.div`
+  flex: 1;
+  cursor: pointer;
+`;
+
+const DeleteIcon = styled.div`
+  color: red;
+  cursor: pointer;
 `;
 
 const Actions = styled.div`
@@ -310,30 +359,13 @@ const ButtonSecondary = styled(Link)`
   display: inline-block;
 `;
 
-const Footer = styled.footer`
-  text-align: center;
-  padding: 20px 0;
-  background-color: #007bff;
+const ClearButton = styled.button`
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #dc3545;
   color: #fff;
-  border-radius: 10px;
-  /* position: absolute; */
-  bottom: 0;
-  width: 100%;
-  margin: 0 10px;
-`;
-
-const TopEvent = styled.div`
-  display: flex;
-  /* flex-wrap: no-wrap; */
-  justify-content: center;
-  gap: 20px;
-  margin-top: 50px;
-
-  .linkcard {
-    flex: 1 1 calc(25% - 20px); /* 4 items per row, minus the gap */
-    max-width: calc(25% - 20px);
-    box-sizing: border-box;
-  }
+  cursor: pointer;
 `;
 
 const Title = styled.h2`
@@ -342,6 +374,7 @@ const Title = styled.h2`
   justify-content: center;
   color: #0d4271;
 `;
+
 const OrgTitle = styled.h1`
   font-size: 25px;
   display: flex;
@@ -349,6 +382,12 @@ const OrgTitle = styled.h1`
   padding-bottom: 20px;
 `;
 
+const TopEvent = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+`;
 const ViewButton = styled.button`
   cursor: pointer;
   border-radius: 5px;

@@ -120,6 +120,31 @@ const deleteNotification = async (req, res) => {
   }
 };
 
+// Delete all notifications for a specific organiser
+const deleteAllNotificationsForOrganiser = async (req, res) => {
+  const { organiseId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(organiseId)) {
+    return res.status(404).json({ error: "Invalid organiser ID" });
+  }
+
+  try {
+    const deleteResult = await Notification.deleteMany({ organiseId });
+
+    if (deleteResult.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ error: "No notifications found to delete" });
+    }
+
+    res.status(200).json({ message: "All notifications deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting notifications" });
+  }
+};
+
 // Create a notification when a booking is completed
 // const createNotificationOnBooking = async (booking) => {
 //   try {
@@ -164,5 +189,6 @@ module.exports = {
   getNotificationsByUserId,
   markNotificationAsRead,
   deleteNotification,
+  deleteAllNotificationsForOrganiser,
   //   createNotificationOnBooking,
 };

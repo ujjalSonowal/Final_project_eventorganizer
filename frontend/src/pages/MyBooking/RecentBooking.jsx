@@ -46,9 +46,6 @@ export const RecentBooking = () => {
         <BackButton onClick={handleBack}>
           <FaArrowLeft /> Home
         </BackButton>
-        <Button>
-          <Link to={`/allbooking/${userId}`}>Go to Booking Page</Link>
-        </Button>
       </MainBtn>
       <MainContainer>
         {recentbooking &&
@@ -73,7 +70,7 @@ const Main = styled.div`
 
 const MainContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
 `;
 
@@ -99,12 +96,4 @@ const BackButton = styled.button`
   svg {
     margin-right: 10px;
   }
-`;
-
-const Button = styled.button`
-  padding: 2px;
-  background-color: #2d6150;
-  border-radius: 5px;
-  color: white;
-  width: 15%;
 `;
