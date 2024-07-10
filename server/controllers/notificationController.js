@@ -166,7 +166,9 @@ const getNotificationsByOrganiserId = async (req, res) => {
   const { id: organiseId } = req.params; // Assuming organiserId is passed as userId in params
 
   try {
-    const notifications = await Notification.find({ organiseId: organiseId });
+    const notifications = await Notification.find({
+      organiseId: organiseId,
+    }).sort({ createdAt: -1 });
 
     if (!notifications || notifications.length === 0) {
       return res

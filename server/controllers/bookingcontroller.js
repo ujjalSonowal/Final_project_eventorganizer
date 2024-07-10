@@ -94,6 +94,7 @@ const createbooking = async (req, res) => {
       organiseId: createbook.organiseId,
       userId: createbook.userId,
       message,
+      createdAt: new Date(),
     });
 
     res.status(201).json(createbook);

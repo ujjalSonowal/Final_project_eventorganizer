@@ -138,9 +138,9 @@ export const Navbar = () => {
             </li>
           </ul>
           <div className="nav-icon" onClick={handleIconClick}>
-            {usertype === "Organiser" && (
+            {/* {usertype === "Organiser" && (
               <FontAwesomeIcon icon={faBell} className="notification-icon" />
-            )}
+            )} */}
           </div>
           {isAuthenticated ? (
             <>

@@ -84,12 +84,12 @@ export const Sidenav = () => {
             <a href={`/allbooking/${user}`}>All Booking</a>
           </li>
         )}
-        {currentuser === "Organiser" && (
+        {/* {currentuser === "Organiser" && (
           <li>
             <FontAwesomeIcon icon={faClipboardList} className="snav-icon" />
             <a href={`/notifications/${user}`}>Notification</a>
           </li>
-        )}
+        )} */}
         {currentuser === "User" && (
           <li>
             <FontAwesomeIcon icon={faUserCircle} className="snav-icon" />

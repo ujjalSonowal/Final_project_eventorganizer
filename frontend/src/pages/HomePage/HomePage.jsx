@@ -107,13 +107,22 @@ export const HomePage = () => {
     <>
       <Home className="home">
         <Left className="left">
-          <Heading>All in One Event Management Software</Heading>
-          <Title>Book Your Events Today</Title>
-          <Para>'We provide you high quality products'</Para>
           {!isLogin ? (
-            <LinkStyled to="/signup">Create Account</LinkStyled>
+            <div>
+              <Title1>Join Our Community of Event Enthusiasts!</Title1>
+              <Heading1>
+                Choose Your Role to Get Started: <Strong>Organizer </Strong>or{" "}
+                <Strong>Customer</Strong>
+              </Heading1>
+              <LinkStyled to="/signup">Create Account</LinkStyled>
+            </div>
           ) : (
-            <LinkStyled to="/events">Explore</LinkStyled>
+            <div>
+              <Heading>All in One Event Management Software</Heading>
+              <Title>Book Your Events Today</Title>
+              <Para>'We provide you high quality products'</Para>
+              <LinkStyled to="/events">Explore</LinkStyled>
+            </div>
           )}
         </Left>
 
@@ -277,6 +286,7 @@ const Home = styled.div`
   padding: 20px;
   /* margin: 100px; */
   max-width: 100%;
+  overflow: hidden;
 `;
 
 const Right = styled.div`
@@ -300,9 +310,21 @@ const Heading = styled.p`
   margin-bottom: 10px;
   width: 500px;
 `;
+const Heading1 = styled.p`
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  width: 400px;
+`;
+const Strong = styled.strong`
+  color: #ab1818;
+`;
 
 const Title = styled.h1`
   font-size: 3rem;
+  margin: 10px 0;
+`;
+const Title1 = styled.h1`
+  font-size: 2rem;
   margin: 10px 0;
 `;
 

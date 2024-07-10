@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Notification = () => {
   const [notifications, setNotifications] = useState([]);
-  const [org, setOrg] = useState("");
-  const currentuser = localStorage.getItem("User");
   const [organiseId, setOrganiseId] = useState("");
+  const currentuser = localStorage.getItem("User");
   const navigate = useNavigate();
   const { id: userId } = useParams();
 
@@ -24,9 +23,7 @@ export const Notification = () => {
           return;
         }
         const myOrg = await response.json();
-        setOrg(myOrg);
-        const orgId = myOrg._id;
-        setOrganiseId(orgId);
+        setOrganiseId(myOrg._id);
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -61,6 +58,20 @@ export const Notification = () => {
     navigate(`/recent-book/${eventId}`);
   };
 
+  const timeSince = (date) => {
+    const now = new Date();
+    const seconds = Math.floor((now - new Date(date)) / 1000);
+    let interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours ago";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+  };
+
   return (
     <div className="notification-container">
       {notifications.map((notification) => (
@@ -70,6 +81,9 @@ export const Notification = () => {
             onClick={() => handleNotificationClick(notification.eventId)}
           >
             {notification.message}
+          </p>
+          <p className="notification-time">
+            {timeSince(notification.createdAt)}
           </p>
         </div>
       ))}

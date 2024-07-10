@@ -153,6 +153,19 @@ export const OrganiserHome = () => {
     getRecords();
     getUsername();
   }, []);
+  const timeSince = (date) => {
+    const now = new Date();
+    const seconds = Math.floor((now - new Date(date)) / 1000);
+    let interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours ago";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+  };
 
   return (
     <Container>
@@ -192,6 +205,12 @@ export const OrganiserHome = () => {
                   onClick={() => handleNotificationClick(notification.eventId)}
                 >
                   {notification.message}
+                  <p
+                    className="notification-time"
+                    style={{ fontSize: "13px", color: "red" }}
+                  >
+                    {timeSince(notification.createdAt)}
+                  </p>
                 </NotificationMessage>
                 <DeleteIcon
                   onClick={() => handleDeleteNotification(notification._id)}
@@ -213,6 +232,14 @@ export const OrganiserHome = () => {
             <p>
               <strong>Owner Name: </strong>
               {organise.owner}
+            </p>
+            <p>
+              <strong>Owner Email: </strong>
+              {organise.email}
+            </p>
+            <p>
+              <strong>Contact: </strong>
+              {organise.phone}
             </p>
             <Link to={`/myorg/${localStorage.getItem("User")}`}>
               <ViewButton>View Details</ViewButton>
