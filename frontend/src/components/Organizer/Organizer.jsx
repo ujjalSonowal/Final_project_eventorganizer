@@ -95,6 +95,9 @@ const P = styled.p`
 
 export const Organizer = ({ organise }) => {
   const [details, setDetails] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("profile")
+  );
 
   const viewDetails = () => {
     setDetails(!details);
@@ -116,13 +119,21 @@ export const Organizer = ({ organise }) => {
       <Details>
         <P>Status: {organise.status ? "Active" : "Inactive"}</P>
       </Details>
-      {/* <StarRating rating={organise.rating} /> */}
-      <ButtonGroup>
-        <Button onClick={viewDetails}>View More</Button>
-        <Button>
-          <Link to={`/organise/events/${organise._id}`}>View Events</Link>
-        </Button>
-      </ButtonGroup>
+
+      {isAuthenticated ? (
+        <ButtonGroup>
+          <Button onClick={viewDetails}>View More</Button>
+          <Button>
+            <Link to={`/organise/events/${organise._id}`}>View Events</Link>
+          </Button>
+        </ButtonGroup>
+      ) : (
+        <>
+          <p style={{ color: "blue" }}>
+            To View Details Create Your Account First.
+          </p>
+        </>
+      )}
 
       {details && (
         <>

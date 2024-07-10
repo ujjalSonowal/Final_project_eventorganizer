@@ -208,6 +208,21 @@ const getBookingsForEvent = async (req, res) => {
   }
 };
 
+// Controller to check if a booking already exists
+const checkBookingExists = async (req, res) => {
+  const eventId = req.params.eventId;
+  const userId = req.params.userId;
+
+  try {
+    const existingBooking = await booking.findOne({ eventId, userId });
+    const isBooked = existingBooking !== null;
+    res.json({ isBooked });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getbookingall,
   createbooking,
@@ -218,4 +233,5 @@ module.exports = {
   getallbooking,
   recentbooking,
   getBookingsForEvent,
+  checkBookingExists,
 };

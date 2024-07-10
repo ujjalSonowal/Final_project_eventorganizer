@@ -221,6 +221,7 @@ export const Events = ({ event, organizer }) => {
     localStorage.getItem("profile")
   );
   const [isManualCapacity, setIsManualCapacity] = useState(false);
+  const [isBooked, setIsBooked] = useState(false);
 
   const navigate = useNavigate();
   const userId = localStorage.getItem("User");
@@ -247,8 +248,19 @@ export const Events = ({ event, organizer }) => {
     setShowPopup(!showPopup);
   };
 
-  const toggleBooking = () => {
-    setShowBookingForm(!showBookingForm);
+  const toggleBooking = async () => {
+    // Check for existing booking before showing form
+    const response = await fetch(
+      `http://localhost:5001/booking/check/${eventId}/${userId}`
+    );
+    const data = await response.json();
+    setIsBooked(data.isBooked); // Update booking status
+
+    if (!isBooked) {
+      setShowBookingForm(!showBookingForm);
+    } else {
+      window.alert("You have already booked this event.");
+    }
   };
 
   const toggleOff = () => {
@@ -462,8 +474,21 @@ export const Events = ({ event, organizer }) => {
           </EventInfo>
         </EventInfoOne>
 
+        {/* 
         {isAuthenticated ? (
           <BookBtn onClick={() => toggleBooking()}>Book Now</BookBtn>
+        ) : ( */}
+        <>
+          {/* <p style={{ color: "red" }}>
+              For Booking Please Create a Account Or loggin First
+            </p> */}
+        </>
+        {/* )} */}
+
+        {isAuthenticated ? (
+          !isBooked && (
+            <BookBtn onClick={() => toggleBooking()}>Book Now</BookBtn>
+          )
         ) : (
           <>
             <p style={{ color: "red" }}>
@@ -471,8 +496,11 @@ export const Events = ({ event, organizer }) => {
             </p>
           </>
         )}
+        {/* {isBooked && (
+          <p style={{ color: "red" }}>You have already booked this event.</p>
+        )} */}
 
-        {showBookingForm && (
+        {showBookingForm && !isBooked && (
           <ContainerCreateBooking>
             <p>
               Notes: Payment Status/Booking Status will be updated by Event
@@ -660,7 +688,9 @@ export const Events = ({ event, organizer }) => {
             </form>
           </ContainerCreateBooking>
         )}
-
+        {isBooked && (
+          <p style={{ color: "red" }}>You have already booked this event.</p>
+        )}
         {!showBookingForm && (
           <div>
             <Review eventId={event._id} />

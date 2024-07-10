@@ -10,6 +10,7 @@ const {
   deletebooking,
   recentbooking,
   getBookingsForEvent,
+  checkBookingExists,
 } = require("../controllers/bookingcontroller");
 const router = express.Router();
 
@@ -36,4 +37,5 @@ router.get("/event/recent/:id", recentbooking);
 // router.get("/notification/:id", getNotifications);
 
 router.get("/event/booking/:eventId", getBookingsForEvent);
+router.get("/check/:eventId/:userId", checkBookingExists);
 module.exports = router;

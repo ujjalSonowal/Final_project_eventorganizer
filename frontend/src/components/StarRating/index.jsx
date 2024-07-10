@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating, onRatingChange }) => {
   // Round rating to one decimal place
   const roundedRating = Math.round(rating * 10) / 10;
 
@@ -15,19 +15,35 @@ const StarRating = ({ rating }) => {
 
   // Push full stars
   for (let i = 0; i < fullStars; i++) {
-    stars.push(<FaStar key={i} />);
+    stars.push(
+      <StarIcon key={i} onClick={() => onRatingChange(i + 1)}>
+        <FaStar />
+      </StarIcon>
+    );
   }
 
   // Push half star if applicable
   if (hasHalfStar) {
-    stars.push(<FaStarHalfAlt key={stars.length} />);
+    stars.push(
+      <StarIcon key={fullStars} onClick={() => onRatingChange(fullStars + 0.5)}>
+        <FaStarHalfAlt />
+      </StarIcon>
+    );
+  }
+
+  // Fill remaining stars with empty stars to make total 5 stars
+  const totalStars = 5;
+  for (let i = stars.length; i < totalStars; i++) {
+    stars.push(
+      <StarIcon key={i} onClick={() => onRatingChange(i + 1)}>
+        <FaStar style={{ color: "#ccc" }} />
+      </StarIcon>
+    );
   }
 
   return (
     <RatingContainer>
-      {stars.map((star, index) => (
-        <StarIcon key={index}>{star}</StarIcon>
-      ))}
+      {stars}
       <RatingNumber>({roundedRating})</RatingNumber>
     </RatingContainer>
   );
@@ -42,6 +58,12 @@ const RatingContainer = styled.div`
 
 const StarIcon = styled.span`
   font-size: 1.2em;
+  cursor: pointer;
+  margin-right: 5px;
+
+  &:hover {
+    color: #f39c12; /* Change star color on hover */
+  }
 `;
 
 const RatingNumber = styled.span`
