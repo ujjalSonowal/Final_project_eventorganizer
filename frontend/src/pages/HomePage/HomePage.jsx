@@ -250,6 +250,8 @@ const TopEvents = styled.div`
     flex-wrap: wrap;
     animation: none;
     margin-left: -40px;
+    /* justify-content: center;
+    align-items: center; */
   }
 `;
 const slideShowHorizontal = keyframes`

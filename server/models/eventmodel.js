@@ -37,6 +37,7 @@ const eventmodel = new schema(
     //   },
     // ],
     eventdesc: { type: String }, //description
+    services: { type: [String] },
 
     averageRating: { type: Number, default: 0 },
     numberOfRatings: { type: Number, default: 0 },

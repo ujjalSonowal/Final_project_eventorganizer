@@ -69,16 +69,17 @@ export const ServiceBox = styled.div`
 `;
 
 export const FormPopup = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 40%;
+  left: 15%;
+  /* transform: translate(-50%, -50%); */
   z-index: 999;
   width: 70%;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 8px;
+  margin-bottom: 50px;
 `;
 
 export const FormContainer = styled.div`

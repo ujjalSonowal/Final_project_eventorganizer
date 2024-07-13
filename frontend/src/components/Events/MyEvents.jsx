@@ -1,8 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../StarRating";
+import styled from "styled-components";
 import "./myevent.css";
 // import "./style.css";
+
+const ServiceBox = styled.div`
+  background: #e0e0e0;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+`;
+const P = styled.p`
+  font-size: 16px;
+  color: #333;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+`;
+
+const Details = styled.div`
+  margin: 10px 0;
+`;
 
 const MyEvents = ({ myev }) => {
   const [showForm, setShowForm] = useState(false);
@@ -14,6 +37,7 @@ const MyEvents = ({ myev }) => {
   const [status, setStatus] = useState("true");
   const [price, setPrice] = useState(myev.price);
   const [capacity, setCapacity] = useState(myev.capacity);
+  const [services, setServices] = useState(myev.services);
   const [eventdesc, setEventdesc] = useState(myev.eventdesc);
   const [images, setImages] = useState([]);
   const [file, setFile] = useState(null);
@@ -71,6 +95,17 @@ const MyEvents = ({ myev }) => {
 
   const [newPrice, setNewPrice] = useState("");
   const [newCapacity, setNewCapacity] = useState("");
+  const [newServices, setNewServices] = useState("");
+
+  const handleServicesChange = (index, value) => {
+    const updatedServices = [...services];
+    updatedServices[index] = value;
+    setServices(updatedServices);
+  };
+
+  const removeServices = (index) => {
+    setServices(services.filter((_, i) => i !== index));
+  };
 
   const handlePriceChange = (index, value) => {
     const updatedPrices = [...price];
@@ -93,7 +128,7 @@ const MyEvents = ({ myev }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const data = { name, type, price, capacity, status, eventdesc };
+    const data = { name, type, price, capacity, status, services, eventdesc };
     try {
       const response = await fetch(
         `http://localhost:5001/events/update/${eventId}`,
@@ -173,6 +208,14 @@ const MyEvents = ({ myev }) => {
           <p className="rating">
             Rating: <StarRating rating={myev.averageRating} />
           </p>
+          <Details>
+            <P>
+              Services:
+              {myev.services.map((service, index) => (
+                <ServiceBox key={index}>{service}</ServiceBox>
+              ))}
+            </P>
+          </Details>
           <p>Status: {myev.status === true ? "Active" : "Inactive"}</p>
           <p className="create-on">Created On: {myev.createOn}</p>
           <p>
@@ -356,7 +399,46 @@ const MyEvents = ({ myev }) => {
                   Add Price
                 </button>
               </div>
-              <label htmlFor="price">Description</label>
+              <label htmlFor="services">Services</label>
+              <div id="cap">
+                {services.map((service, index) => (
+                  <div id="price" key={index} className="price-item">
+                    <input
+                      type="text"
+                      value={service}
+                      onChange={(e) =>
+                        handleServicesChange(index, e.target.value)
+                      }
+                    />
+                    <button
+                      id="btn"
+                      type="button"
+                      className="remove-service"
+                      onClick={() => removeServices(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+                <input
+                  type="text"
+                  placeholder="Add a Services"
+                  value={newServices}
+                  onChange={(e) => setNewServices(e.target.value)}
+                />
+                <button
+                  id="bt"
+                  type="button"
+                  className="add-service"
+                  onClick={() => {
+                    setServices([...services, newServices]);
+                    setNewServices("");
+                  }}
+                >
+                  Add Service
+                </button>
+              </div>
+              <label htmlFor="des">Description</label>
               <input
                 style={{
                   width: "100%",

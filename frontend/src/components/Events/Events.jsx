@@ -131,15 +131,26 @@ const SecTwo = styled.div`
   flex-direction: column;
 `;
 
-const P1 = styled.div`
-  background-color: #2389b1;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px;
-  border-radius: 4px;
-  width: 80px;
+const ServiceBox = styled.div`
+  background: #e0e0e0;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+`;
+const P1 = styled.p`
+  font-size: 16px;
+  color: #333;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+`;
+
+const Details = styled.div`
+  margin: 10px 0;
 `;
 
 const BookBtn = styled.button`
@@ -484,6 +495,14 @@ export const Events = ({ event, organizer }) => {
           <EventInfo>
             <p>Event Type: {event.type}</p>
             <RatingDisplay rating={event.averageRating} />
+            <Details>
+              <P>
+                <strong>Services:</strong>
+                {event.services.map((service, index) => (
+                  <ServiceBox key={index}>{service}</ServiceBox>
+                ))}
+              </P>
+            </Details>
           </EventInfo>
         </EventInfoOne>
 

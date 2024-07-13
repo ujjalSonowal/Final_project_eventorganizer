@@ -169,10 +169,11 @@ export const Navbar = () => {
                 </li>
               </ul>
             )}
+            {/* {isAuthenticated && <Sidenav />} */}
           </div>
         </nav>
       </div>
-      {showPopup && (
+      {/* {showPopup && (
         <div className="notification-popup">
           {notifications.map((notification) => (
             <div key={notification._id} className="notification-items">
@@ -185,8 +186,8 @@ export const Navbar = () => {
             </div>
           ))}
         </div>
-      )}
-      {isAuthenticated && <Sidenav />}
+      )} */}
+      <div className="sidnav">{isAuthenticated && <Sidenav />}</div>
     </>
   );
 };

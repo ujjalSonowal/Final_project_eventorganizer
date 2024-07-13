@@ -70,6 +70,7 @@
   gap: 20px;
   justify-content: end;
   align-items: center;
+  margin-left: 190px;
 }
 
 .profile .icon {
@@ -205,6 +206,12 @@
     margin-left: 40px;
   }
   .search-container {
-    right: 10px;
+    /* right: 10px; */
+  }
+  .sidenav {
+    /* margin-right: 70px; */
+  }
+  .profile {
+    margin-left: 20px;
   }
 }

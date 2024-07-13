@@ -56,6 +56,7 @@ export const Vieworganise = () => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [capacity, setCapacity] = useState([]);
+  const [services, setServices] = useState([""]);
   const [price, setPrice] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
@@ -68,9 +69,24 @@ export const Vieworganise = () => {
     setIsUpdateFormOpen(!isUpdateFormOpen);
   };
 
+  const handleServiceChange = (index, value) => {
+    const newServices = [...services];
+    newServices[index] = value;
+    setServices(newServices);
+  };
+
+  const addService = () => {
+    setServices([...services, ""]);
+  };
+
+  const removeService = (index) => {
+    const newServices = services.filter((_, i) => i !== index);
+    setServices(newServices);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { userId, organiseId, name, type, capacity, price };
+    const data = { userId, organiseId, name, type, capacity, price, services };
     try {
       const response = await fetch(`http://localhost:5001/events/create`, {
         method: "POST",
@@ -243,14 +259,7 @@ export const Vieworganise = () => {
                       Cancel
                     </Button>
                   </form> */}
-                <div
-                  className="form-popup"
-                  style={{
-                    position: "absolute",
-                    top: "-140px",
-                    overflow: "scroll",
-                  }}
-                >
+                <div className="form-popup">
                   <form onSubmit={handleSubmit}>
                     <h2>Add Event details</h2>
                     <label>Event name:</label>
@@ -331,6 +340,29 @@ export const Vieworganise = () => {
                         </li>
                       ))}
                     </ul>
+                    <div className="services-section">
+                      <label htmlFor="services">Services:</label>
+                      {services.map((service, index) => (
+                        <div key={index} className="service">
+                          <input
+                            type="text"
+                            value={service}
+                            onChange={(e) =>
+                              handleServiceChange(index, e.target.value)
+                            }
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeService(index)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                      <button type="button" onClick={addService}>
+                        Add Service
+                      </button>
+                    </div>
                     <div className="morebutton">
                       <button id="mrbtn" type="submit">
                         Save
