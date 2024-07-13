@@ -1,4 +1,5 @@
 const express = require("express");
+const Event = require("../models/eventmodel");
 const {
   getallevent,
   createevent,
@@ -12,6 +13,8 @@ const {
   LatestEvent,
   geteventbyorgid,
   getEventWithReviews,
+  searchEvents,
+  getFilteredEvents,
 } = require("../controllers/eventcontroller");
 
 const router = express.Router();
@@ -50,5 +53,11 @@ router.get("/organise/events/:id", geteventbyorgid);
 
 //get an event with its reviews and average rating
 router.get("/event/review/:eventId", getEventWithReviews);
+
+// router.get("/event", getEventBySearch);
+// Route to get filtered events based on price and rating
+router.get("/filter", getFilteredEvents);
+
+router.get("/search", searchEvents);
 
 module.exports = router;

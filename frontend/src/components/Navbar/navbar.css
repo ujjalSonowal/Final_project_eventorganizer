@@ -1,3 +1,5 @@
+/* Base styles for the navbar */
+
 .navbar-container {
   position: relative;
   overflow: hidden;
@@ -9,9 +11,8 @@
 .navbar {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  align-content: center;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   position: relative;
 }
 
@@ -28,9 +29,6 @@
 }
 
 .auth {
-  position: relative;
-  top: -40px;
-  left: 1100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,15 +65,11 @@
 }
 
 .profile {
-  position: relative;
-  top: -45px;
-  right: -1120px;
   display: flex;
   flex-direction: row;
   gap: 20px;
   justify-content: end;
   align-items: center;
-  margin-right: 4rem;
 }
 
 .profile .icon {
@@ -85,8 +79,7 @@
 }
 
 .nav-icon {
-  margin-right: 100px;
-  position: relative;
+  cursor: pointer;
 }
 
 .logo {
@@ -94,7 +87,7 @@
   justify-content: center;
   align-items: center;
   width: 70px;
-  margin-left: 70px;
+  margin-left: 80px;
 }
 
 .logo-h1 {
@@ -111,7 +104,6 @@
 /* Notification Icon */
 
 .notification-icon {
-  position: relative;
   cursor: pointer;
   font-size: 24px;
   color: #333;
@@ -121,36 +113,26 @@
   color: #007bff;
 }
 
-/* Notification Popup */
-
 .notification-popup {
   position: absolute;
-  top: 70px;
-  /* Adjust to align under the navbar */
-  right: 0;
-  background-color: rgb(33, 4, 4);
+  top: 60px;
+  right: 20px;
+  background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  width: 300px;
-  /* Adjust width as needed */
 }
 
 .notification-items {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.notification-items:last-child {
-  border-bottom: none;
+  margin-bottom: 10px;
 }
 
 .notification-messages {
   cursor: pointer;
-  margin: 0;
+  color: #000;
   font-size: 14px;
-  color: #333;
+  line-height: 1.5;
 }
 
 .notification-messages:hover {
@@ -158,6 +140,71 @@
   text-decoration: underline;
 }
 
-.nav-icon {
+.search-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 80px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  width: 0;
+}
+
+.search-container.visible {
+  width: 300px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  margin-left: -60px;
+  color: #333;
+}
+
+.search-button:hover {
+  color: #007bff;
+}
+
+.search-toggle {
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  margin-left: -30px;
+}
+
+.search-toggle:hover {
+  color: #007bff;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Responsive styles */
+
+@media (max-width: 768px) {
+  .navbar-nav .nav-item {
+    display: none;
+  }
+  .navbar-nav .nav-item:first-child {
+    display: block;
+  }
+  .logo {
+    margin-left: 40px;
+  }
+  .search-container {
+    right: 10px;
+  }
 }

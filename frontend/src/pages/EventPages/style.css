@@ -1,11 +1,28 @@
 .events {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  margin-left: 70px;
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 #h1 {
   font-size: 40px;
-  margin: 0 45%;
+  margin: 0 auto;
   padding: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  #h1 {
+    font-size: 30px;
+  }
+  .search-input {
+    max-width: 100%;
+    width: calc(100% - 20px);
+  }
+  .events {
+    margin-left: -20px;
+    margin-right: 10px;
+  }
 }

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./navbar.css";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../../assets/logo1.png";
-import axios from "axios";
 import { Sidenav } from "../Sidenav/Sidenav";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  // const { organiseId } = useParams();
   const [usertype, setUserType] = useState("");
   const [currentuser, setCurrentUser] = useState("");
 
@@ -24,6 +22,10 @@ export const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("profile")
   );
+
+  const [searchQuery, setSearchQuery] = useState("");
+  // const history = useHistory();
+  const [searchVisible, setSearchVisible] = useState(false);
 
   useEffect(() => {
     const getOrg = async () => {
@@ -96,6 +98,20 @@ export const Navbar = () => {
     window.location.reload();
   };
 
+  const handleSearch = async () => {
+    if (searchQuery.trim() !== "") {
+      // history.push(`/search?query=${searchQuery}`);
+    }
+  };
+
+  const executeSearch = () => {
+    navigate(`/search?query=${searchQuery}`);
+  };
+
+  const toggleSearch = () => {
+    setSearchVisible(!searchVisible);
+  };
+
   return (
     <>
       <div className="navbar-container">
@@ -131,41 +147,29 @@ export const Navbar = () => {
             </li>
             <li className="nav-item" id="nav-li">
               {usertype === "Organiser" && (
-                <Link to={`/myorg/${currentuser}`} className="nav-link">
-                  Create Event
+                <Link to={`/createorganization`} className="nav-link">
+                  Create Organization
                 </Link>
               )}
             </li>
           </ul>
-          <div className="nav-icon" onClick={handleIconClick}>
-            {/* {usertype === "Organiser" && (
-              <FontAwesomeIcon icon={faBell} className="notification-icon" />
-            )} */}
-          </div>
-          {isAuthenticated ? (
-            <>
+          <div className="nav-actions">
+            {isAuthenticated ? (
               <div className="profile">
                 <Link to={`/profile/${currentuser}`}>
                   <FontAwesomeIcon icon={faUser} className="icon" />
                 </Link>
               </div>
-            </>
-          ) : (
-            <>
+            ) : (
               <ul className="auth">
                 <li className="nav-item">
                   <Link to="/login" className="nav-link">
                     Login
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link to="/signup" className="nav-link">
-                    Sign Up
-                  </Link>
-                </li>
               </ul>
-            </>
-          )}
+            )}
+          </div>
         </nav>
       </div>
       {showPopup && (
@@ -182,7 +186,6 @@ export const Navbar = () => {
           ))}
         </div>
       )}
-
       {isAuthenticated && <Sidenav />}
     </>
   );

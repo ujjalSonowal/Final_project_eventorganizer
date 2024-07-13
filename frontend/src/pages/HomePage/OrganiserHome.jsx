@@ -411,6 +411,7 @@ const OrgTitle = styled.h1`
 
 const TopEvent = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   margin-top: 50px;

@@ -4,6 +4,8 @@ import styled from "styled-components";
 import StarRating from "../StarRating";
 import { ImageSlider } from "../ImageSlider/ImageSlider";
 import { Review } from "../ReviewComponent/Review";
+import { ImageEvent } from "../ImageSlider/ImageEvent";
+import { RatingDisplay } from "../StarRating/RatingDisplay";
 
 const EventContainer = styled.div`
   max-width: 100%;
@@ -12,7 +14,7 @@ const EventContainer = styled.div`
 const EventsCard = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   background-color: #cfe2e7;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -22,27 +24,30 @@ const EventsCard = styled.div`
   width: 400px;
   max-width: 100%;
   transition: box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 20px;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   p {
-    margin: 0.5rem 0;
+    /* margin: 0.5rem 0;
     color: #333333;
     font-family: "Arial", sans-serif;
-    font-size: 16px;
+    font-size: 16px; */
   }
 
   .edetails {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
   }
 `;
 
 const OrganiserDetails = styled.div`
   p {
-    padding: 8px;
-    border-radius: 4px;
+    /* padding: 8px;
+    border-radius: 4px; */
   }
 `;
 
@@ -390,9 +395,10 @@ export const Events = ({ event, organizer }) => {
   return (
     <EventContainer>
       <div>
-        <EventsCard>
-          <p>
-            Event Name: <strong>{event.name.toUpperCase()}</strong>
+        <EventsCard style={{ height: "auto" }}>
+          <ImageEvent eventId={event._id} />
+          <p style={{ display: "flex", justifyContent: "center" }}>
+            <strong>{event.name.toUpperCase()}</strong>
           </p>
           {organizer ? (
             <OrganiserDetails>
@@ -406,14 +412,21 @@ export const Events = ({ event, organizer }) => {
           ) : (
             <p>Loading organizer details...</p>
           )}
-
-          <div className="edetails">
-            <p>
+          <div className="edetails" style={{ padding: "4px" }}>
+            {/* <p>
               Event Created: {new Date(event.createdAt).toLocaleDateString()}
-            </p>
+            </p> */}
             <p>Event type: {event.type}</p>
-            <p>Status: {event.status === true ? "Active" : "Inactive"}</p>
-            <StarRating rating={event.averageRating} />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}
+            >
+              <p>Status: {event.status === true ? "Active" : "Inactive"}</p>
+              <StarRating rating={event.averageRating} />
+            </div>
           </div>
 
           <PopupOverlay show={showPopup} onClick={togglePopup}></PopupOverlay>
@@ -470,7 +483,7 @@ export const Events = ({ event, organizer }) => {
           </EventInfo>
           <EventInfo>
             <p>Event Type: {event.type}</p>
-            <StarRating rating={event.averageRating} />
+            <RatingDisplay rating={event.averageRating} />
           </EventInfo>
         </EventInfoOne>
 

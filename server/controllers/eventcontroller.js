@@ -11,14 +11,14 @@ const getallevent = async (req, res) => {
 
 //get events with limit 6 for home
 const getsixevent = async (req, res) => {
-  const sixevent = await Event.find({}).sort({ createdAt: 1 }).limit(4);
+  const sixevent = await Event.find({}).sort({ createdAt: 1 }).limit(3);
   res.status(200).json(sixevent);
 };
 
 //latest create date
 const LatestEvent = async (req, res) => {
   try {
-    const latestevent = await Event.find().sort({ createdAt: -1 }).limit(6);
+    const latestevent = await Event.find().sort({ createdAt: -1 }).limit(3);
     if (!latestevent) {
       res.status(400).json({ error: "nothing to show" });
     }
@@ -36,7 +36,7 @@ const singlevent = async (req, res) => {
   }
   const eventdata = await Event.findOne({ _id });
   if (!eventdata) {
-    res.status(404).json({ error: "event not found" });
+    return res.status(404).json({ error: "event not found" });
   }
   res.status(201).json(eventdata);
 };
@@ -221,7 +221,63 @@ const getEventWithReviews = async (req, res) => {
   }
 };
 
+// Controller for searching events
+
+// Controller function to fetch events based on filtering criteria
+const getFilteredEvents = async (req, res) => {
+  const { minPrice, minRating } = req.query;
+
+  try {
+    const filter = {};
+    if (minPrice) {
+      filter.price = { $gte: parseInt(minPrice) }; // Filter events with price greater than or equal to minPrice
+    }
+    if (minRating) {
+      filter.rating = { $gte: parseInt(minRating) }; // Filter events with rating greater than or equal to minRating
+    }
+
+    // Query events based on filters
+    const events = await Event.find(filter);
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error("Error fetching filtered events:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const searchEvents = async (req, res) => {
+  const { name, location } = req.query;
+
+  try {
+    let query = {};
+
+    // If name parameter is present, add it to the query
+    if (name) {
+      query.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
+    }
+
+    // If location parameter is present, add it to the query
+    if (location) {
+      query.location = { $regex: new RegExp(location, "i") }; // Case-insensitive search
+    }
+
+    const events = await Event.find(query);
+
+    // Check if events array is empty
+    if (events.length === 0) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.json(events);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
 module.exports = {
+  searchEvents,
+  getFilteredEvents,
   getallevent,
   deletevent,
   createevent,

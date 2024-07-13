@@ -95,10 +95,12 @@ export const Vieworganise = () => {
     e.preventDefault();
     const data = {
       name: org.name,
+      owner: org.owner,
       email: org.email,
       phone: org.phone,
       location: org.location,
-      status: org.status, // Include status in the data object
+      status: org.status,
+      services: org.services,
     };
     try {
       const response = await fetch(
@@ -241,7 +243,14 @@ export const Vieworganise = () => {
                       Cancel
                     </Button>
                   </form> */}
-                <div className="form-popup">
+                <div
+                  className="form-popup"
+                  style={{
+                    position: "absolute",
+                    top: "-140px",
+                    overflow: "scroll",
+                  }}
+                >
                   <form onSubmit={handleSubmit}>
                     <h2>Add Event details</h2>
                     <label>Event name:</label>
@@ -265,7 +274,7 @@ export const Vieworganise = () => {
                     <label htmlFor="capacity">Event Capacity:</label>
                     <div>
                       <input
-                        type="number"
+                        type="text"
                         placeholder="add-capacity"
                         onChange={(e) => setnewcapacity(e.target.value)}
                       />
@@ -353,6 +362,17 @@ export const Vieworganise = () => {
                       placeholder="Organisation Name"
                       onChange={(e) => setOrg({ ...org, name: e.target.value })}
                       value={org.name}
+                    />
+                  </label>
+                  <label>
+                    <span>Onwer Name:</span>
+                    <input
+                      type="text"
+                      placeholder="Owner Name"
+                      onChange={(e) =>
+                        setOrg({ ...org, owner: e.target.value })
+                      }
+                      value={org.owner}
                     />
                   </label>
                   <label>

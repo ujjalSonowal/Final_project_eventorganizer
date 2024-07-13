@@ -61,10 +61,14 @@ const Modal = styled.div`
   width: 600px;
   max-width: 800px;
   padding: 20px;
-  position: fixed;
+  position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1001;
+  z-index: 1000;
+  @media (max-width: 768px) {
+    width: 350px;
+    top: 70%;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -93,6 +97,16 @@ const P = styled.p`
   margin: 5px 0;
 `;
 
+const ServiceBox = styled.div`
+  background: #e0e0e0;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+`;
+
 export const Organizer = ({ organise }) => {
   const [details, setDetails] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -113,9 +127,7 @@ export const Organizer = ({ organise }) => {
         <P>Organize Name: {organise.name}</P>
       </strong>
       <P>Email Id: {organise.email}</P>
-      <Details>
-        <P>Services: {organise.service}</P>
-      </Details>
+
       <Details>
         <P>Status: {organise.status ? "Active" : "Inactive"}</P>
       </Details>
@@ -170,14 +182,19 @@ export const Organizer = ({ organise }) => {
                 </P>
               </div>
               <div className="service">
-                <P>
-                  <strong>Services:</strong> {organise.service}
-                </P>
+                <Details>
+                  <P>
+                    Services:
+                    {organise.services.map((service, index) => (
+                      <ServiceBox key={index}>{service}</ServiceBox>
+                    ))}
+                  </P>
+                </Details>
               </div>
               <div className="fourth">
-                <P>
+                {/* <P>
                   <strong>Total Booking:</strong> {organise.totalboking}
-                </P>
+                </P> */}
                 <P>
                   <strong>Organize Created On:</strong>
                   {new Date(organise.createdAt).toLocaleDateString()}

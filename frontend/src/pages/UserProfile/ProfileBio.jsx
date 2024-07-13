@@ -72,6 +72,7 @@ export const ProfileBio = ({ user }) => {
   return (
     <Container>
       <Heading>My Profile</Heading>
+      <h1>complete your profile</h1>
       <UserCard>
         {updateform ? (
           <Form onSubmit={handleupdate}>

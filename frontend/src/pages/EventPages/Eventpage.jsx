@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Events } from "../../components/Events/Events";
 import "./style.css";
 import { colors } from "@mui/material";
+import { Search } from "../../components/Search/Search";
 
 export const Eventpage = () => {
   const [events, setEvents] = useState(null);
@@ -51,19 +52,17 @@ export const Eventpage = () => {
   return (
     <>
       <div className="container">
-        <div className="container-items">
-          <div className="evetns-items">
-            <h2 id="h1">Events</h2>
-            <div className="events">
-              {events &&
-                events.map((event) => (
-                  <Events
-                    key={event._id}
-                    event={event}
-                    organizer={organizers[event.organiseId]}
-                  />
-                ))}
-            </div>
+        <div className="evetns-items">
+          <h2 id="h1">Events</h2>
+          <div className="events">
+            {events &&
+              events.map((event) => (
+                <Events
+                  key={event._id}
+                  event={event}
+                  organizer={organizers[event.organiseId]}
+                />
+              ))}
           </div>
         </div>
       </div>

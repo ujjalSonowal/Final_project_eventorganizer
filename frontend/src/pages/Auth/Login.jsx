@@ -82,6 +82,22 @@ export const Login = () => {
     e.preventDefault();
     if (!email && !password) {
       alert("Enter email and password");
+
+      const validateForm = () => {
+        const emailRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        if (!emailRegex.test(email)) {
+          window.alert("Please enter a valid email address.");
+          return false;
+        }
+
+        return true;
+      };
+
+      if (!validateForm()) {
+        return;
+      }
     }
 
     const auth = { email, password };

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const bcrpyt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user = require("../models/usersmodel");
 const secretKey = "secret-key";
-//signup a new user
 
-const singup = async (req, res) => {
+// Signup a new user
+const signup = async (req, res) => {
   const {
     name,
     email,
@@ -20,16 +20,16 @@ const singup = async (req, res) => {
   } = req.body;
 
   try {
-    const existinguser = await user.findOne({ email });
-    if (existinguser) {
-      return res.status(201).json({ msg: "email already registered" });
+    const existingUser = await user.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already registered" });
     }
 
-    const hashpassword = await bcrpyt.hash(password, 12);
-    const newuser = await user.create({
+    const hashPassword = await bcrypt.hash(password, 12);
+    const newUser = await user.create({
       name,
       email,
-      password: hashpassword,
+      password: hashPassword,
       usertype,
       phone,
       postoffice,
@@ -39,51 +39,50 @@ const singup = async (req, res) => {
       pincode,
     });
     const token = jwt.sign(
-      { email: newuser.email, id: newuser._id },
+      { email: newUser.email, id: newUser._id },
       secretKey,
       { expiresIn: "1h" }
     );
-    if (!newuser) {
-      return res.status(404).json({ msg: "user not found..." });
+    if (!newUser) {
+      return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json({ result: newuser, token });
+    res.status(200).json({ result: newUser, token });
   } catch (error) {
-    return res.status(500).json({ msg: "Internal server error", error });
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
-//login a existing user
-
+// Login an existing user
 const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const existinguser = await user.findOne({ email });
-    if (!existinguser) {
-      return res.status(404).json({ msg: "email not registered" });
+    const existingUser = await user.findOne({ email });
+    if (!existingUser) {
+      return res.status(404).json({ msg: "Email not registered" });
     }
-    const validpassword = await bcrpyt.compare(password, existinguser.password);
+    const validPassword = await bcrypt.compare(password, existingUser.password);
 
-    if (!validpassword) {
+    if (!validPassword) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
     const token = jwt.sign(
-      { email: existinguser.email, id: existinguser._id },
+      { email: existingUser.email, id: existingUser._id },
       secretKey,
       { expiresIn: "1h" }
     );
     res.status(200).json({
-      result: existinguser,
+      result: existingUser,
       token,
-      usertype: existinguser.usertype,
-      id: existinguser._id,
+      usertype: existingUser.usertype,
+      id: existingUser._id,
     });
   } catch (error) {
-    return res.status(400).json({ msg: "Something went wrong..." });
+    return res.status(500).json({ msg: "Something went wrong", error });
   }
 };
 
 module.exports = {
   login,
-  singup,
+  signup,
 };

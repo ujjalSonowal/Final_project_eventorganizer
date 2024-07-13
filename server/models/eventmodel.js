@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const eventmodel = new schema({
+const eventmodel = new schema(
+  {
     // userId: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "user",
@@ -39,6 +40,9 @@ const eventmodel = new schema({
 
     averageRating: { type: Number, default: 0 },
     numberOfRatings: { type: Number, default: 0 },
-}, { timestamps: true });
-
+  },
+  { timestamps: true }
+);
+// eventSchema.index({ price: 1 });
+// eventSchema.index({ rating: 1 });
 module.exports = mongoose.model("events", eventmodel);

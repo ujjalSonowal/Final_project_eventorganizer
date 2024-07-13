@@ -46,8 +46,8 @@ export const Myorganization = () => {
       pin,
       postoffice,
       state,
-      status,
-      services, // Ensure services is included in the data
+
+      services,
     };
     try {
       const response = await fetch(`http://localhost:5001/organise/post`, {
@@ -78,7 +78,6 @@ export const Myorganization = () => {
       setPostoffice("");
       setMstate("");
       setServices([""]);
-      setStatus("");
     } catch (error) {
       console.error(error);
       alert("Error submitting data: " + error.message);
@@ -121,7 +120,7 @@ export const Myorganization = () => {
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
           />
-          <br></br>
+          <br />
           <label htmlFor="startdate">Organization From:</label>
           <input
             style={{
@@ -136,7 +135,7 @@ export const Myorganization = () => {
             onChange={(e) => setDate(e.target.value)}
             value={startdate}
           />
-          <br></br>
+          <br />
           <label htmlFor="location">Office location:</label>
           <input
             type="text"
@@ -166,7 +165,7 @@ export const Myorganization = () => {
             onChange={(e) => setPin(e.target.value)}
             value={pin}
           />
-          <br></br>
+          <br />
           <label htmlFor="postoffice">Post Office:</label>
           <input
             type="text"
@@ -182,15 +181,6 @@ export const Myorganization = () => {
             onChange={(e) => setMstate(e.target.value)}
             value={state}
           />
-          <label>Status</label>
-          <select
-            className="selectbtn"
-            onChange={(e) => setStatus(e.target.value === "true")}
-            value={status}
-          >
-            <option value={"true"}>Active</option>
-            <option value={"false"}>Inactive</option>
-          </select>
 
           <div className="services-section">
             <label htmlFor="services">Services:</label>
@@ -204,17 +194,14 @@ export const Myorganization = () => {
                 <button type="button" onClick={() => removeService(index)}>
                   Remove
                 </button>
-                <button type="button" onClick={addService} className="btns">
-                  Add Service
-                </button>
               </div>
             ))}
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button type="submit" className="btns">
-                Submit
-              </button>
-            </div>
+            <button type="button" onClick={addService}>
+              Add Service
+            </button>
           </div>
+
+          <button type="submit">Submit</button>
         </form>
       </div>
     </>

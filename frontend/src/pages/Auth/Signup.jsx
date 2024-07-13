@@ -99,38 +99,57 @@ export const Signup = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState("");
 
+  const validateForm = () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      window.alert("Please enter a valid email address.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!usertype) {
-      setError("Please select a type");
+    setError(""); // Clear previous errors
+
+    if (!validateForm()) {
       return;
     }
 
     const auth = { name, email, password, usertype };
 
-    const response = await fetch(`http://localhost:5001/user/signup`, {
-      method: "POST",
-      body: JSON.stringify(auth),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    const json = await response.json();
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      setName("");
-      setEmail("");
-      setUsertype("");
-      setPassword("");
-      navigate("/login");
-      const authToken = json.token;
-      localStorage.setItem("profile", authToken);
-      setToken(authToken);
+    try {
+      const response = await fetch(`http://localhost:5001/user/signup`, {
+        method: "POST",
+        body: JSON.stringify(auth),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        if (json.error === "Email already registered") {
+          window.alert("This email address is already used.");
+        } else {
+          setError(json.error);
+        }
+      } else {
+        setName("");
+        setEmail("");
+        setUsertype("");
+        setPassword("");
+        navigate("/login");
+        const authToken = json.token;
+        localStorage.setItem("profile", authToken);
+        setToken(authToken);
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
     }
   };
-
   return (
     <SignupContainer>
       <FormContainer>

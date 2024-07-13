@@ -96,6 +96,18 @@ export const Sidenav = () => {
             <Link to={`/profile/${userId}`}>Manage Profile</Link>
           </li>
         )}
+        {currentuser === "User" && (
+          <li>
+            <FontAwesomeIcon icon={faCalendarAlt} className="snav-icon" />
+            <Link to={`/events`}>Events</Link>
+          </li>
+        )}
+        {currentuser === "User" && (
+          <li>
+            <FontAwesomeIcon icon={faUserCircle} className="snav-icon" />
+            <Link to={`/organise`}>Organizer</Link>
+          </li>
+        )}
 
         {currentuser === "User" && (
           <li>

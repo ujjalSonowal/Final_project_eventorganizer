@@ -1,12 +1,95 @@
+.my-booking-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
 .my-booking-section h1 {
   text-align: center;
-  font-size: 24px;
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .bookings {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  gap: 20px;
+  @media (max-width: 768px) {
+    width: 100%;
+    /* margin-left: 70px; */
+    /* margin-right: 60px; */
+  }
+}
+
+.mybook-card {
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 300px;
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.mybook-card:hover {
+  transform: translateY(-10px);
+}
+
+.mybook-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.mybook-card-content {
+  padding: 15px;
+}
+
+.mybook-card-content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.mybook-card-content p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.mybook-card-content .date,
+.mybook-card-content .organizer {
+  font-size: 12px;
+  color: #999;
+}
+
+.mybook-card-content .date {
+  margin-bottom: 5px;
+}
+
+/* Responsive styles */
+
+@media (max-width: 768px) {
+  .my-booking-section h1 {
+    font-size: 28px;
+  }
+  .mybook-card-content h3 {
+    font-size: 18px;
+  }
+  .mybook-card-content p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-booking-section h1 {
+    font-size: 24px;
+  }
+  .mybook-card-content h3 {
+    font-size: 16px;
+  }
+  .mybook-card-content p {
+    font-size: 12px;
+  }
 }

@@ -8,7 +8,6 @@ import { Organizer } from "../../components/Organizer/Organizer";
 import { OrganiserHome } from "./OrganiserHome";
 
 export const HomePage = () => {
-  // State variables
   const [events, setEvents] = useState(null);
   const [latestEvent, setLatestEvent] = useState(null);
   const [topOrg, setTopOrg] = useState(null);
@@ -17,13 +16,10 @@ export const HomePage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [sixevent, setSixEvent] = useState(null);
 
-  // Fetching data from API
   useEffect(() => {
-    // Fetching user type from local storage
     const userType = localStorage.getItem("userType");
     setUserType(userType);
 
-    // Fetching events and organizers data
     async function fetchData() {
       try {
         const eventsResponse = await fetch("http://localhost:5001/events");
@@ -49,17 +45,13 @@ export const HomePage = () => {
         }
         setOrganizers(orgDetails);
 
-        // Fetching top events
-        const topevent = await fetch(
-          "http://localhost:5001/events/latest/event"
-        );
+        const topevent = await fetch("http://localhost:5001/events/event/six");
         if (!topevent.ok) {
           throw new Error(`An error occurred: ${topevent.statusText}`);
         }
         const topeventData = await topevent.json();
         setSixEvent(topeventData);
 
-        // Fetching latest events
         const latestEventsResponse = await fetch(
           "http://localhost:5001/events/latest/event"
         );
@@ -71,7 +63,6 @@ export const HomePage = () => {
         const latestEventData = await latestEventsResponse.json();
         setLatestEvent(latestEventData);
 
-        // Fetching top organizers
         const topOrgResponse = await fetch(
           "http://localhost:5001/organise/rating"
         );
@@ -81,7 +72,6 @@ export const HomePage = () => {
         const topOrgData = await topOrgResponse.json();
         setTopOrg(topOrgData);
 
-        // Checking if user is logged in
         const user = localStorage.getItem("User");
         if (user) {
           setIsLogin(true);
@@ -94,7 +84,6 @@ export const HomePage = () => {
     fetchData();
   }, []);
 
-  // Rendering OrganiserHome if user type is "Organiser"
   if (userType === "Organiser") {
     return (
       <div>
@@ -120,7 +109,7 @@ export const HomePage = () => {
             <div>
               <Heading>All in One Event Management Software</Heading>
               <Title>Book Your Events Today</Title>
-              <Para>'We provide you high quality products'</Para>
+              <Para>'We provide you high quality Services'</Para>
               <LinkStyled to="/events">Explore</LinkStyled>
             </div>
           )}
@@ -189,10 +178,9 @@ export const HomePage = () => {
           <OrgSec className="organisation-container">
             {topOrg &&
               topOrg.map((organise) => (
-                <LinkOrg to="" className="linkcardorganise">
+                <LinkOrg to="" className="linkcardorganise" key={organise._id}>
                   <OrgView>
-                    {" "}
-                    <Organizer key={organise._id} organise={organise} />
+                    <Organizer organise={organise} />
                   </OrgView>
                 </LinkOrg>
               ))}
@@ -237,32 +225,47 @@ export const HomePage = () => {
 };
 
 // Styled Components
+const moveAnimation = keyframes`
+   0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% ));
+  }
+`;
 
 const TopEvents = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
   padding: 30px;
+  /* overflow: hidden; */
+  /* animation: ${moveAnimation} 10s linear infinite; */
   /* background-color: aliceblue; */
-  /* justify-content: center; */
+  justify-content: center;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    animation: none;
+    margin-left: -40px;
+  }
 `;
 const slideShowHorizontal = keyframes`
-  /* 0% {
+  0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
-  } */
+  }
     from {
     transform: translateX(100%);
-    /* opacity: 1; */
+    opacity: 1;
   }
   to {
     transform: translateX(-100%);
-    /* opacity: 0; */
+    opacity: 0;
   }
 `;
 
@@ -271,205 +274,215 @@ const LatestEvent = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   gap: 20px;
   padding: 30px;
   overflow: hidden;
   /* overflow-x: auto; */
   height: auto;
   /* animation: ${slideShowHorizontal} 10s linear infinite; */
+  @media (max-width: 768px) {
+    /* width: 100%; */
+    margin-left: -40px;
+    margin-right: -60px;
+    overflow: hidden;
+  }
 `;
 
 const Home = styled.div`
   display: flex;
-  height: 650px;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  /* margin: 100px; */
   max-width: 100%;
   overflow: hidden;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 80px;
+    overflow: hidden;
+    height: 650px;
+  }
 `;
 
 const Right = styled.div`
   position: relative;
-  top: 100px;
-  right: -400px;
   max-width: 500px;
+  margin-top: 20px;
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const Left = styled.div`
-  padding: 10px;
-  padding-top: 100px;
+  max-width: 100%;
+  text-align: center;
+  @media (min-width: 768px) {
+    text-align: left;
+  }
+  p {
+    font-size: 30px;
+    font-weight: 700;
+    color: gray;
+  }
 `;
 
-const HomeWrapper = styled.div`
-  /* padding: 20px; */
+const Heading = styled.h1`
+  font-size: 22px;
+  font-weight: bold;
+  color: #00e6e6;
+  @media (min-width: 768px) {
+    font-size: 35px;
+  }
 `;
 
-const Heading = styled.p`
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  width: 500px;
-`;
-const Heading1 = styled.p`
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  width: 400px;
-`;
-const Strong = styled.strong`
-  color: #ab1818;
-`;
-
-const Title = styled.h1`
-  font-size: 3rem;
-  margin: 10px 0;
-`;
-const Title1 = styled.h1`
-  font-size: 2rem;
-  margin: 10px 0;
+const Title = styled.h2`
+  font-size: 18px;
+  font-weight: bold;
+  @media (min-width: 768px) {
+    font-size: 26px;
+  }
 `;
 
 const Para = styled.p`
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+  font-size: 15px;
+  color: #5e5c5c;
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const LinkStyled = styled(Link)`
-  display: inline-block;
   text-decoration: none;
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: 1px solid #994e59;
-  background-color: #ffb6c1;
-  color: rgb(0, 0, 0);
-  border-radius: 5px;
-  transition: 1s;
-  /* width: 400px; */
-  /* width: 700px; */
-
-  &:hover {
-    border-color: rgb(0, 213, 255);
-    text-decoration: none;
-  }
-`;
-
-const NoticeSection = styled.div`
-  z-index: -1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   color: white;
-  padding: 20px;
-  background-color: #000000;
-
-  img {
-    max-width: 80%;
-    height: auto;
-    left: 0;
-    top: 20px;
-    animation: infinite-rotate 10s linear infinite;
-  }
-
-  @keyframes infinite-rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  background-color: #00e6e6;
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: inline-block;
+  margin-top: 20px;
+  @media (min-width: 768px) {
+    padding: 15px 30px;
+    font-size: 20px;
   }
 `;
 
-const OrgView = styled.div`
-  /* display: flex; */
-  /* width: 400px; */
+const Title1 = styled.h2`
+  font-size: 20px;
+  font-weight: bold;
+  @media (min-width: 768px) {
+    font-size: 30px;
+  }
+`;
+
+const Heading1 = styled.h1`
+  font-size: 22px;
+  font-weight: bold;
+  color: #00e6e6;
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
+`;
+
+const Strong = styled.strong`
+  font-size: 22px;
+  @media (min-width: 768px) {
+    font-size: 35px;
+  }
+`;
+
+const NoticeSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 20px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 `;
 
 const NoticeRight = styled.div`
-  z-index: 1;
-  flex: 1 1 50%;
-  padding: 20px;
-  box-sizing: border-box;
+  max-width: 500px;
+  img {
+    width: 100%;
+    height: auto;
+  }
 `;
+
 const NoticeLeft = styled.div`
-  flex: 1 1 50%;
-  padding: 20px;
-  box-sizing: border-box;
+  max-width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  @media (min-width: 768px) {
+    text-align: left;
+    margin-top: 0;
+    margin-left: 20px;
+  }
 `;
+
 const NoticeHeading = styled.h2`
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  @media (min-width: 768px) {
+    font-size: 26px;
+  }
 `;
 
 const NoticePara = styled.p`
-  font-size: 1.1rem;
-  /* color: #555; */
-`;
-
-const ItemSection = styled.div`
-  /* width: 100%; */
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  font-size: 15px;
+  color: #5e5c5c;
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const SectionHeading = styled.h2`
-  font-size: 2em;
-  align-items: center;
   text-align: center;
-  border-bottom: 1px solid blue;
-  padding-bottom: 9px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #00e6e6;
+  @media (min-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
-const RecentEvents = styled.div`
-  margin-top: 30px;
-  /* height: 400px; */
-`;
-
-const EventCardContainer = styled.div`
+const OurPartnar = styled.section`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  position: relative;
-  margin: 20px;
-`;
-
-const EventLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
-
-const OurPartnar = styled.div`
-  background: #0d2d39;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  text-align: center;
+  background-color: #f8f8f8;
 `;
 
 const PartnerHeading = styled.h2`
-  color: white;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #00e6e6;
+  @media (min-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
 const CollabPara = styled.p`
-  color: white;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 30px;
-  transition: 0.5s;
-`;
-
-const OrganiseContainer = styled.div`
-  /* display: grid; */
-  /* display: flex;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px; */
-  /* width: 900px; */
+  font-size: 15px;
+  color: #5e5c5c;
+  margin-top: 10px;
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const OrgSec = styled.div`
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 20px;
+  padding: 30px;
 `;
 
 const LinkOrg = styled(Link)`
@@ -477,95 +490,16 @@ const LinkOrg = styled(Link)`
   color: inherit;
 `;
 
-const ContactSection = styled.div`
-  padding: 50px;
-  background-color: #f9f7e7;
-  color: #000000;
-`;
-
-const ContactFlexBox = styled.div`
-  display: flex;
-  gap: 30px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ContactUsContainer = styled.div`
-  box-shadow: 3px solid black;
-  flex: 1;
-  margin-right: 20px;
-  background-color: #315b84;
-  color: white;
-`;
-
-const ContactForm = styled.form`
-  /* display: block; */
-  padding: 10px;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  padding: 10px 5px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
+const OrgView = styled.div`
   width: 100%;
-  box-sizing: border-box;
-`;
-
-const Textarea = styled.textarea`
-  padding: 10px 5px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const SubmitButton = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #060303;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #ff69b4;
-  }
-`;
-
-const TextContact = styled.div`
-  flex: 1;
-  margin-left: 20px;
-`;
-
-const ContactPara = styled.p`
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-`;
-
-const ContactDetails = styled.div`
-  margin-top: 20px;
-`;
-
-const ContactInfo = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 5px;
 `;
 
 const Footer = styled.footer`
-  padding: 20px;
-  background-color: #333;
-  color: #fff;
   text-align: center;
+  padding: 20px;
+  background-color: #f8f8f8;
+  p {
+    font-size: 14px;
+    color: #5e5c5c;
+  }
 `;
-
-// export default HomePage;

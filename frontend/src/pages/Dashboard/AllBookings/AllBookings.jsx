@@ -9,9 +9,9 @@ import {
   Button,
 } from "./Allbooking.styles";
 import "./Popform.css";
-import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+
 export const AllBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -19,70 +19,27 @@ export const AllBookings = () => {
   const currentuser = localStorage.getItem("User");
   const [organiseId, setOrganiseId] = useState("");
 
-  // useEffect(() => {
-  //   // fetch(`http://localhost:5001/booking`)
-  //   //   .then((response) => response.json())
-  //   //   .then((data) => setBookings(data));
-  //    async function getOrg() {
-  //     const response = await fetch(
-  //       `http://localhost:5001/organise/myorg/${currentuser}`,
-  //       {
-  //         method: "GET",
-  //         headers: { "Content-Type": "application/json" },
-  //       }
-  //     );
-  //     if (!response.ok) {
-  //       const message = `An error occurred: ${response.statusText}`;
-  //       console.error(message);
-  //       return;
-  //     }
-  //     const myOrg = await response.json();
-  //     console.log(myOrg)
-  //     setOrg(myOrg);
-  //     const orgId = myOrg._id;
-  //     console.log(orgId)
-  //     setOrganiseId(orgId);
-  //   }
-  //   getOrg();
-  //   async function getbooking(orgId) {
-  //     fetch(`http://localhost:5001/booking/allbooking/${orgId}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setBookings(data));
-  //   }
-
-  //   getbooking()
-  //   return;
-  // }, []);
   useEffect(() => {
     const getOrg = async () => {
-      const response = await fetch(
-        `http://localhost:5001/organise/myorg/${currentuser}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
+      try {
+        const response = await fetch(
+          `http://localhost:5001/organise/myorg/${currentuser}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      );
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
+        const myOrg = await response.json();
+        setOrg(myOrg);
+        const orgId = myOrg._id;
+        setOrganiseId(orgId);
+      } catch (error) {
+        console.error("Error fetching organization:", error);
       }
-      const myOrg = await response.json();
-      setOrg(myOrg);
-      const orgId = myOrg._id;
-      setOrganiseId(orgId);
     };
-
-    // const getBooking = async (orgId) => {
-    //   const response = await fetch(`http://localhost:5001/booking/allbooking/${orgId}`);
-    //   if (!response.ok) {
-    //     const message = `An error occurred: ${response.statusText}`;
-    //     console.error(message);
-    //     return;
-    //   }
-    //   const data = await response.json();
-    //   setBookings(data);
-    // };
 
     const fetchData = async () => {
       await getOrg();
@@ -93,16 +50,18 @@ export const AllBookings = () => {
 
   useEffect(() => {
     const getBooking = async (orgId) => {
-      const response = await fetch(
-        `http://localhost:5001/booking/allbooking/${orgId}`
-      );
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        console.error(message);
-        return;
+      try {
+        const response = await fetch(
+          `http://localhost:5001/booking/allbooking/${orgId}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setBookings(data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
       }
-      const data = await response.json();
-      setBookings(data);
     };
 
     if (organiseId) {
@@ -121,40 +80,35 @@ export const AllBookings = () => {
     (booking) => booking.Status === "Rejected"
   ).length;
 
-  const [Status, setStatus] = useState(
-    (bookings.status = "pending"
-      ? "Pending"
-      : bookings.status === "rejected"
-      ? "Rejected"
-      : "Accepted")
-  );
-  const [price, setPrice] = useState(bookings.price);
-  const [capacity, setCapacity] = useState(bookings.capacity);
-  const [paymentstatus, setPaymentstatus] = useState(
-    bookings.Status === "pending"
-      ? "Pending"
-      : bookings.Status === "unpaid"
-      ? "Unpaid"
-      : "Paid"
-  );
+  const [status, setStatus] = useState("");
+  const [price, setPrice] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [paymentstatus, setPaymentstatus] = useState("");
   const [selectedBookingId, setSelectedBookingId] = useState("");
 
-  const togglePopup = (id, currentStatus, currentPrice, currentCapacity) => {
+  const togglePopup = (
+    id,
+    currentStatus,
+    currentPrice,
+    currentCapacity,
+    currentPaymentStatus
+  ) => {
     setSelectedBookingId(id);
     setStatus(currentStatus);
     setPrice(currentPrice);
     setCapacity(currentCapacity);
+    setPaymentstatus(currentPaymentStatus);
     setShowPopup(!showPopup);
-    console.log(id);
   };
-  const toogleoff = () => {
+
+  const toggleOff = () => {
     setShowPopup(false);
   };
 
-  const handlesubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      Status: Status,
+      Status: status,
       price: price,
       capacity: capacity,
       paymentstatus: paymentstatus,
@@ -171,13 +125,13 @@ export const AllBookings = () => {
         }
       );
       if (!response.ok) {
-        console.log("wrong id");
+        throw new Error(`HTTP error! Status: ${response.status}`);
       } else {
         const updatedBookings = bookings.map((booking) =>
-          booking.id === selectedBookingId
+          booking._id === selectedBookingId
             ? {
                 ...booking,
-                Status: Status,
+                Status: status,
                 price: price,
                 capacity: capacity,
                 paymentstatus: paymentstatus,
@@ -187,9 +141,8 @@ export const AllBookings = () => {
         setBookings(updatedBookings);
       }
       setShowPopup(false);
-      window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error("Error updating booking:", error);
     }
   };
 
@@ -204,33 +157,22 @@ export const AllBookings = () => {
         <Card bgColor="#dc3545">
           {bookingRequests}
           <br />
-          Bookings Request
-          {/* <Link to="">
-            <Button>view details</Button>
-          </Link> */}
+          Booking Requests
         </Card>
         <Card bgColor="#17a2b8">
           {bookinghistory}
           <br />
           Booking History
-          {/* <Link to="">
-            <Button>view details</Button>
-          </Link> */}
         </Card>
         <Card bgColor="#ffc107">
           {rejectbooking}
           <br />
           Rejected Bookings
-          {/* <Link to="">
-            <Button>view details</Button>
-          </Link> */}
         </Card>
       </CardContainer>
-      {/* <Title>Accepted Bookings:</Title> */}
       <Table>
         <thead>
           <tr>
-            {/* <th>Event ID</th> */}
             <th>User Name</th>
             <th>Booking Date</th>
             <th>Event Name</th>
@@ -250,8 +192,7 @@ export const AllBookings = () => {
         </thead>
         <tbody>
           {bookings.map((booking) => (
-            <tr key={booking.id}>
-              {/* <td>{booking.eventId}</td> */}
+            <tr key={booking._id}>
               <td>{booking.name}</td>
               <td>{booking.bookingDate}</td>
               <td>{booking.eventname}</td>
@@ -265,25 +206,16 @@ export const AllBookings = () => {
               <td>{booking.email}</td>
               <td>{booking.price}</td>
               <td>
-                <Status success={booking.Status}>
-                  {booking.Status === "Pending"
-                    ? "Pending"
-                    : booking.Status === "Rejected"
-                    ? "Rejected"
-                    : "Accepted"}
+                <Status success={booking.Status === "Accepted"}>
+                  {booking.Status}
                 </Status>
               </td>
               <td>
-                <Status success={booking.paymentstatus}>
-                  {booking.paymentstatus === "Pending"
-                    ? "Pending"
-                    : booking.paymentstatus === "Unpaid"
-                    ? "Unpaid"
-                    : "Paid"}
+                <Status success={booking.paymentstatus === "Paid"}>
+                  {booking.paymentstatus}
                 </Status>
               </td>
               <td>
-                {" "}
                 <button
                   onClick={() =>
                     togglePopup(
@@ -296,66 +228,64 @@ export const AllBookings = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faPen} className="snav-icon" />
-                </button>{" "}
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
       {showPopup && (
-        <>
-          <div className="form-popup">
-            <form onSubmit={handlesubmit}>
-              <label htmlFor="price">Add Amount</label>
-              <input
-                className="priceinput"
-                type="number"
-                placeholder="Add Total Amount"
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-              <br />
-              <label htmlFor="price">Update Capacity</label>
-              <input
-                className="priceinput"
-                type="text"
-                placeholder="Add capacity"
-                onChange={(e) => setCapacity(e.target.value)}
-                value={capacity}
-              />
-              <br />
-              <label htmlFor="Status"> Update Status</label>
-              <select
-                className="selectst"
-                id="status"
-                value={Status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="Pending">Pending</option>
-                <option value="Accepted">Accepted</option>
-                <option value="Rejected">Rejected</option>
-              </select>
-              <label htmlFor="Status"> Payment Status</label>
-              <select
-                className="selectst"
-                id="status"
-                value={paymentstatus}
-                onChange={(e) => setPaymentstatus(e.target.value)}
-              >
-                <option value="Pending">Pending</option>
-                <option value="Unpaid">Unpaid</option>
-                <option value="Paid">Paid</option>
-              </select>
-              <div className="button-section">
-                <button>Update</button>
-                <button onClick={toogleoff}>Cancel</button>
-              </div>
-            </form>
-          </div>
-        </>
+        <div className="form-popup">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="price">Add Amount</label>
+            <input
+              className="priceinput"
+              type="number"
+              placeholder="Add Total Amount"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+            <br />
+            <label htmlFor="capacity">Update Capacity</label>
+            <input
+              className="priceinput"
+              type="text"
+              placeholder="Add Capacity"
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
+            />
+            <br />
+            <label htmlFor="status">Update Status</label>
+            <select
+              className="selectst"
+              id="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="Pending">Pending</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            <label htmlFor="paymentstatus">Payment Status</label>
+            <select
+              className="selectst"
+              id="paymentstatus"
+              value={paymentstatus}
+              onChange={(e) => setPaymentstatus(e.target.value)}
+            >
+              <option value="Pending">Pending</option>
+              <option value="Unpaid">Unpaid</option>
+              <option value="Paid">Paid</option>
+            </select>
+            <div className="button-section">
+              <button type="submit">Update</button>
+              <button type="button" onClick={toggleOff}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       )}
     </DashboardContainer>
   );
 };
-
-// export default Dashboard;

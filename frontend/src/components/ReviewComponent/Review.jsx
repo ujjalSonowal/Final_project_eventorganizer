@@ -94,7 +94,7 @@ export const Review = ({ eventId }) => {
       {reviews.length > 0 ? (
         reviews.map((review) => (
           <div key={review._id} className="review-container">
-            <h3>{review.userId.name}</h3>
+            {/* <h3>{review.userId.name}</h3> */}
             <p>
               <StarRating rating={review.rating} />
             </p>

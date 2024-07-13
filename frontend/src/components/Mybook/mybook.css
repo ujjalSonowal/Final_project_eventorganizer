@@ -1,195 +1,203 @@
 .booking-card {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 16px auto;
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 16px auto;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* margin-left: 70px;
+    margin-right: 60px; */
+  }
 }
 
 .booking-card h2 {
-    margin: 14px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: rgb(166, 36, 202);
+  margin: 14px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(166, 36, 202);
 }
 
 .booking-card p {
-    margin: 4px 0;
-    color: black;
+  margin: 4px 0;
+  color: black;
 }
-
 
 /* Flexbox container for better layout on larger screens */
 
 .booking-card .booking-details {
-    display: inline-block;
-    /* display: flex; */
-    /* flex-direction: column;
+  display: inline-block;
+  /* display: flex; */
+  /* flex-direction: column;
     justify-content: center;
     align-items: center; */
-    flex-wrap: wrap;
-    margin-top: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .booking-card .booking-details p {
-    flex: 1 1 100%;
+  flex: 1 1 100%;
 }
 
 .organiser-details-card {
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
     display: flex;
-    justify-content: center;
+    /* width: 100%; */
+  }
 }
 
 .organizer-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .organizer-details h4 {
-    text-align: center;
+  text-align: center;
 }
 
 .organise-details-view {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .organise-details-view p {
-    font-size: 17px;
-    font-weight: bold;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 .viewmorebtn {
-    display: flex;
-    justify-content: center;
-    margin: 17px;
+  display: flex;
+  justify-content: center;
+  margin: 17px;
 }
 
 .viewmorebtn button {
-    border: none;
-    background: none;
-    font-size: 17px;
-    color: #009dff;
-    transition: 1s;
+  border: none;
+  background: none;
+  font-size: 17px;
+  color: #009dff;
+  transition: 1s;
 }
 
 .viewmorebtn button:hover {
-    color: #000000;
+  color: #000000;
 }
 
 .all-details-view {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 500px;
-    text-align: left;
-    position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+  text-align: left;
+  position: relative;
 }
 
 .popup-content p {
-    color: black;
-    margin: 10px;
-    font-weight: bold;
+  color: black;
+  margin: 10px;
+  font-weight: bold;
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    color: #000000;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000000;
 }
-
 
 /* Responsive adjustments */
 
-@media (min-width: 600px) {
-    .booking-card {
-        padding: 24px;
-    }
-    .booking-card .booking-details p {
-        flex: 1 1 50%;
-        /* Display two items per row */
-    }
-}
+/* @media (min-width: 600px) {
+  .booking-card {
+    padding: 24px;
+  }
+  .booking-card .booking-details p {
+    flex: 1 1 50%;
+  }
+} */
 
 @media (min-width: 900px) {
-    .booking-card .booking-details p {
-        flex: 1 1 33%;
-        /* Display three items per row */
-    }
+  .booking-card .booking-details p {
+    flex: 1 1 33%;
+    /* Display three items per row */
+  }
 }
 
 .btn-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 50px;
-    margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  margin: 10px;
 }
 
 .cancel-btn {
-    text-decoration: none;
-    border: 1px solid green;
-    padding: 10px;
-    transition: 2s;
+  text-decoration: none;
+  border: 1px solid green;
+  padding: 10px;
+  transition: 2s;
 }
 
 .cancel-btn:hover {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .update-btn {
-    text-decoration: none;
-    border: 1px solid rgb(0, 130, 251);
-    padding: 8px;
-    color: blue;
-    transition: 3s;
+  text-decoration: none;
+  border: 1px solid rgb(0, 130, 251);
+  padding: 8px;
+  color: blue;
+  transition: 3s;
 }
 
 .update-btn:hover {
-    background: #d0b6dc;
-    text-decoration: none;
+  background: #d0b6dc;
+  text-decoration: none;
 }
 
 .cancelupdate {
-    padding: 8px;
-    background: #ff6f36ec;
-    color: white;
-    border: none;
+  padding: 8px;
+  background: #ff6f36ec;
+  color: white;
+  border: none;
 }
 
 .btn-update-section {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    margin: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 10px;
 }
 
 .dateinput {
-    border: 1px solid rgb(201, 201, 201);
-    margin: 7px;
-    padding: 6px;
-    border-radius: 6px;
+  border: 1px solid rgb(201, 201, 201);
+  margin: 7px;
+  padding: 6px;
+  border-radius: 6px;
 }
