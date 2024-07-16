@@ -58,6 +58,4 @@ router.get("/event/review/:eventId", getEventWithReviews);
 // Route to get filtered events based on price and rating
 router.get("/filter", getFilteredEvents);
 
-router.get("/search", searchEvents);
-
 module.exports = router;

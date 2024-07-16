@@ -44,6 +44,7 @@ app.use("/booking", bookingrouter);
 app.use("/file", imageRouter);
 app.use("/review", reviewRouter);
 app.use("/notification", Notification);
+app.use("/filter", require("./routes/filterRoutes"));
 
 // app.use("/images", imageRouter);
 
@@ -64,5 +65,5 @@ mongoose
     });
   })
   .catch((error) => {
-    console.log(error);
+    console.log("error");
   });

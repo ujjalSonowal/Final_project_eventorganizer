@@ -23,4 +23,6 @@ const organisermodel = new schema(
   { timestamps: true }
 );
 
+organisermodel.index({ name: "text", location: "text" });
+
 module.exports = mongoose.model("organise", organisermodel);

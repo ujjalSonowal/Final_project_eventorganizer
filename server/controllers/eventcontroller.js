@@ -247,22 +247,17 @@ const getFilteredEvents = async (req, res) => {
 };
 
 const searchEvents = async (req, res) => {
-  const { name, location } = req.query;
-
+  console.log(req);
+  return res.json({
+    param: "hello",
+  });
   try {
-    let query = {};
-
-    // If name parameter is present, add it to the query
-    if (name) {
-      query.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
-    }
-
-    // If location parameter is present, add it to the query
-    if (location) {
-      query.location = { $regex: new RegExp(location, "i") }; // Case-insensitive search
-    }
+    let query = {
+      name: { $regex: new RegExp(param, "i") },
+    };
 
     const events = await Event.find(query);
+    console.log(query);
 
     // Check if events array is empty
     if (events.length === 0) {

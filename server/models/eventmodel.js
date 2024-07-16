@@ -44,6 +44,6 @@ const eventmodel = new schema(
   },
   { timestamps: true }
 );
-// eventSchema.index({ price: 1 });
-// eventSchema.index({ rating: 1 });
+
+eventmodel.index({ name: "text" });
 module.exports = mongoose.model("events", eventmodel);
