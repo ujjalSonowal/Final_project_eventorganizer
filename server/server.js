@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+require("dotenv").config();
 
 // const uploadMiddleware = require("./middleware/MulterMiddleware");
 
@@ -48,13 +49,9 @@ app.use("/filter", require("./routes/filterRoutes"));
 
 // app.use("/images", imageRouter);
 
-// const url =
-//   "mongodb+srv://135ujjalsonowal:9JonUyI7QfXWqyLl@eventorganising.08cgxvg.mongodb.net/?retryWrites=true&w=majority";
+const url = process.env.URL;
 
-// const url =
-//   "mongodb+srv://nitulsonowal8133:nitul12345@events.6io85z4.mongodb.net/?retryWrites=true&w=majority";
-const url =
-  "mongodb+srv://UjjwalSonowalDB:UjjwalSonowal43db@eventorganizer.f7b1oz4.mongodb.net/?retryWrites=true&w=majority&appName=EventOrganizer";
+// console.log("MongoDB URI:", url);
 
 // Connect to MongoDB ------------------------------
 mongoose
@@ -65,5 +62,5 @@ mongoose
     });
   })
   .catch((error) => {
-    console.log("error");
+    console.log(error);
   });

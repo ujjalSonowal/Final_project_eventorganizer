@@ -24,6 +24,7 @@ import { EventsOrganise } from "./pages/EventPages/EventsOrganise";
 import { AboutPage } from "./pages/Dashboard/AboutPage/index";
 import { Notification } from "./pages/Dashboard/Notification/index";
 import { RecentBooking } from "./pages/MyBooking/RecentBooking";
+import { Search } from "./components/Search/Search";
 
 const Allroutes = () => {
   return (
@@ -47,6 +48,7 @@ const Allroutes = () => {
       <Route path="/organise/events/:id" element={<EventsOrganise />} />
       <Route path="/recent-book/:eventId" element={<RecentBooking />} />
       <Route path="/notifications/:id" element={<Notification />} />
+      <Route path="/search" element={<Search />} />
     </Routes>
   );
 };

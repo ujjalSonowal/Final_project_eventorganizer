@@ -7,6 +7,7 @@ import { Search } from "../../components/Search/Search";
 export const Eventpage = () => {
   const [events, setEvents] = useState(null);
   const [organizers, setOrganizers] = useState({});
+  const [ratingFilter, setRatingFilter] = useState(null);
 
   useEffect(() => {
     async function getEventRecords() {
@@ -49,23 +50,42 @@ export const Eventpage = () => {
     };
   }, []);
 
+  const handleRatingFilterChange = (event) => {
+    setRatingFilter(event.target.value);
+  };
+
+  const filteredEvents = events
+    ? events.filter((event) => {
+        if (!ratingFilter) return true;
+        return event.rating >= ratingFilter;
+      })
+    : [];
+
   return (
-    <>
-      <div className="container">
-        <div className="evetns-items">
-          <h2 id="h1">Events</h2>
-          <div className="events">
-            {events &&
-              events.map((event) => (
-                <Events
-                  key={event._id}
-                  event={event}
-                  organizer={organizers[event.organiseId]}
-                />
-              ))}
-          </div>
+    <div className="container">
+      <div className="events-items">
+        <h2 id="h1">Events</h2>
+        <div className="filter">
+          <label htmlFor="ratingFilter">Filter by Rating:</label>
+          <select id="ratingFilter" onChange={handleRatingFilterChange}>
+            <option value="">All</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars & Up</option>
+            <option value="3">3 Stars & Up</option>
+            <option value="2">2 Stars & Up</option>
+            <option value="1">1 Star & Up</option>
+          </select>
+        </div>
+        <div className="events">
+          {filteredEvents.map((event) => (
+            <Events
+              key={event._id}
+              event={event}
+              organizer={organizers[event.organiseId]}
+            />
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };

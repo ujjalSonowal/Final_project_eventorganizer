@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./navbar.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../../assets/logo1.png";
 import { Sidenav } from "../Sidenav/Sidenav";
@@ -12,76 +11,10 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const [usertype, setUserType] = useState("");
   const [currentuser, setCurrentUser] = useState("");
-
-  const [notifications, setNotifications] = useState([]);
-  const [org, setOrg] = useState("");
-  const currentuserid = localStorage.getItem("User");
-  const [organiseId, setOrganiseId] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
-
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("profile")
   );
-
   const [searchQuery, setSearchQuery] = useState("");
-  // const history = useHistory();
-  const [searchVisible, setSearchVisible] = useState(false);
-
-  useEffect(() => {
-    const getOrg = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5001/organise/myorg/${currentuserid}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        if (!response.ok) {
-          console.error(`An error occurred: ${response.statusText}`);
-          return;
-        }
-        const myOrg = await response.json();
-        setOrg(myOrg);
-        const orgId = myOrg._id;
-        setOrganiseId(orgId);
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
-    getOrg();
-  }, [currentuserid]);
-
-  useEffect(() => {
-    const getNotifications = async (orgId) => {
-      try {
-        const response = await fetch(
-          `http://localhost:5001/notification/organise/${orgId}`
-        );
-        if (!response.ok) {
-          console.error(`An error occurred: ${response.statusText}`);
-          return;
-        }
-        const data = await response.json();
-        setNotifications(data);
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
-    if (organiseId) {
-      getNotifications(organiseId);
-    }
-  }, [organiseId]);
-
-  const handleIconClick = () => {
-    setShowPopup(!showPopup);
-  };
-
-  const handleNotificationClick = (eventId) => {
-    navigate(`/recent-book/${eventId}`);
-  };
 
   useEffect(() => {
     const userType = localStorage.getItem("userType");
@@ -90,26 +23,23 @@ export const Navbar = () => {
     setCurrentUser(currentUser);
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("profile");
     localStorage.removeItem("userType");
     localStorage.removeItem("User");
     navigate("/");
     window.location.reload();
-  };
-
-  const handleSearch = async () => {
-    if (searchQuery.trim() !== "") {
-      // history.push(`/search?query=${searchQuery}`);
-    }
-  };
-
-  const executeSearch = () => {
-    navigate(`/search?query=${searchQuery}`);
-  };
-
-  const toggleSearch = () => {
-    setSearchVisible(!searchVisible);
   };
 
   return (
@@ -154,6 +84,20 @@ export const Navbar = () => {
             </li>
           </ul>
           <div className="nav-actions">
+            {isAuthenticated && (
+              <form className="search-form" onSubmit={handleSearchSubmit}>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                <button type="submit" className="search-button">
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </form>
+            )}
             {isAuthenticated ? (
               <div className="profile">
                 <Link to={`/profile/${currentuser}`}>
@@ -169,24 +113,9 @@ export const Navbar = () => {
                 </li>
               </ul>
             )}
-            {/* {isAuthenticated && <Sidenav />} */}
           </div>
         </nav>
       </div>
-      {/* {showPopup && (
-        <div className="notification-popup">
-          {notifications.map((notification) => (
-            <div key={notification._id} className="notification-items">
-              <p
-                className="notification-messages"
-                onClick={() => handleNotificationClick(notification.eventId)}
-              >
-                {notification.message}
-              </p>
-            </div>
-          ))}
-        </div>
-      )} */}
       <div className="sidnav">{isAuthenticated && <Sidenav />}</div>
     </>
   );

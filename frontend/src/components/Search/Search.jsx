@@ -1,40 +1,48 @@
+// src/components/SearchResults/SearchResults.js
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Events } from "../Events/Events";
 
 export const Search = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    setSearchTerm(e.target.value);
-  };
-
-  // Fetch search results on search term change (optional: debounce for frequent updates)
   useEffect(() => {
-    const fetchResults = async () => {
-      const response = await fetch(
-        `http://localhost:5001/events/search?${searchTerm}`
-      );
-      const data = await response.json();
-      setSearchResults(data);
+    const searchQuery = new URLSearchParams(location.search).get("query");
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/filter/search?query=${searchQuery}`
+        );
+        const data = await response.json();
+        setSearchResults(data.events);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
     };
 
-    if (searchTerm) {
-      fetchResults();
-    } else {
-      setSearchResults([]); // Clear results when search term is empty
+    if (searchQuery) {
+      fetchSearchResults();
     }
-  }, [searchTerm]);
+  }, [location.search]);
 
   return (
-    <form onSubmit={handleSearch}>
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearch}
-        placeholder="Search by name, location, or organizer"
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div>
+      <h2>Search Results</h2>
+      {searchResults.length > 0 ? (
+        <ul>
+          {searchResults.map((event) => (
+            <li key={event._id}>
+              {/* <h3>{event.name}</h3>
+              <p>{event.description}</p>
+              <p>Organized by: {event.organiseId}</p> */}
+              <Events event={event} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No results found.</p>
+      )}
+    </div>
   );
 };
